@@ -79,17 +79,65 @@ const base = import.meta.env.BASE_URL;
       <span data-zh class="hidden">内部 — Whitespace 数据中心团队</span>
     </footer>
 
+    <div
+      id="internal-warning"
+      class="fixed inset-0 z-[100] bg-black/60 items-center justify-center p-4 hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="iw-title"
+    >
+      <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl">
+        <h2 id="iw-title" class="text-lg font-semibold mb-3">
+          <span data-en>Internal Use Only</span>
+          <span data-zh class="hidden">仅限内部使用</span>
+        </h2>
+        <p class="text-sm text-slate-700 mb-4 leading-relaxed">
+          <span data-en>
+            Whitespace is restricted to the internal data center planning team.
+            Do not share, redistribute, screenshot for external audiences, or
+            quote content beyond the team without permission.
+          </span>
+          <span data-zh class="hidden">
+            Whitespace 仅限数据中心规划团队内部使用。未经许可，请勿对外分享、转发、
+            截图给团队外人员或引用内容。
+          </span>
+        </p>
+        <button
+          id="iw-ack"
+          class="w-full px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800 text-sm font-medium transition"
+        >
+          <span data-en>I understand</span>
+          <span data-zh class="hidden">我已知悉</span>
+        </button>
+      </div>
+    </div>
+
     <script>
       // Bilingual toggle: flips data-lang on <html>; CSS hides/shows based on it.
-      const KEY = 'ws-lang';
+      const LANG_KEY = 'ws-lang';
       const html = document.documentElement;
-      const saved = localStorage.getItem(KEY);
+      const saved = localStorage.getItem(LANG_KEY);
       if (saved === 'zh' || saved === 'en') html.dataset.lang = saved;
 
       document.getElementById('lang-toggle')?.addEventListener('click', () => {
         const next = html.dataset.lang === 'en' ? 'zh' : 'en';
         html.dataset.lang = next;
-        localStorage.setItem(KEY, next);
+        localStorage.setItem(LANG_KEY, next);
+      });
+
+      // Internal-use modal — shown once per device, dismissed on ack.
+      const ACK_KEY = 'ws-internal-ack';
+      const modal = document.getElementById('internal-warning');
+      if (modal && !localStorage.getItem(ACK_KEY)) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+      document.getElementById('iw-ack')?.addEventListener('click', () => {
+        localStorage.setItem(ACK_KEY, '1');
+        modal?.classList.add('hidden');
+        modal?.classList.remove('flex');
+        document.body.style.overflow = '';
       });
     </script>
 
