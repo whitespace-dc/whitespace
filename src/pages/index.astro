@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CATEGORIES } from '../data/categories';
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL;
+const allPosts = await getCollection('news');
+const posts = allPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+function categoryLabel(slug: string) {
+  return CATEGORIES.find((c) => c.slug === slug);
+}
+
+const today = new Date().toISOString().slice(0, 10);
+---
+
+<BaseLayout title="Whitespace — DC Intel">
+  <section class="mb-10">
+    <div class="flex items-baseline justify-between mb-2">
+      <h1 class="text-2xl font-bold tracking-tight">
+        <span data-en>Latest</span>
+        <span data-zh class="hidden">最新</span>
+      </h1>
+      <span class="text-sm text-slate-500 tabular-nums">{today}</span>
+    </div>
+    <p class="text-slate-600 text-sm">
+      <span data-en>
+        Curated data center intelligence — compute, networking, power, cooling and beyond.
+      </span>
+      <span data-zh class="hidden">
+        精选数据中心情报 — 算力、网络、电力、冷却及其他。
+      </span>
+    </p>
+  </section>
+
+  <section class="space-y-4 mb-12">
+    {
+      posts.length === 0 ? (
+        <p class="text-slate-500 text-sm italic">
+          <span data-en>No posts yet.</span>
+          <span data-zh class="hidden">暂无内容。</span>
+        </p>
+      ) : (
+        posts.map((post) => {
+          const cat = categoryLabel(post.data.category);
+          const dateStr = post.data.date.toISOString().slice(0, 10);
+          return (
+            <article class="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-400 transition">
+              <header class="flex items-center gap-3 text-xs text-slate-500 mb-2">
+                <span class="px-2 py-0.5 bg-slate-100 rounded font-medium text-slate-700">
+                  <span data-en>{cat?.en ?? post.data.category}</span>
+                  <span data-zh class="hidden">{cat?.zh ?? post.data.category}</span>
+                </span>
+                <span class="tabular-nums">{dateStr}</span>
+                <span title={post.data.trust.reasoning}>
+                  <span data-en>Trust {post.data.trust.score}/5</span>
+                  <span data-zh class="hidden">可信 {post.data.trust.score}/5</span>
+                </span>
+              </header>
+              <h2 class="text-lg font-semibold mb-2 leading-snug">
+                <a href={`${base}/news/${post.id}`} class="hover:text-slate-700">
+                  <span data-en>{post.data.title_en}</span>
+                  <span data-zh class="hidden">{post.data.title_zh}</span>
+                </a>
+              </h2>
+              <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                <span data-en>{post.data.summary_en}</span>
+                <span data-zh class="hidden">{post.data.summary_zh}</span>
+              </p>
+            </article>
+          );
+        })
+      )
+    }
+  </section>
+</BaseLayout>

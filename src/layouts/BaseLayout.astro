@@ -1,0 +1,105 @@
+---
+import '../styles/global.css';
+import { CATEGORIES } from '../data/categories';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Whitespace' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en" data-lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen">
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+          <a href={base} class="flex items-baseline gap-2 hover:opacity-80 transition">
+            <span class="text-lg font-bold tracking-tight">Whitespace</span>
+            <span class="text-xs text-slate-500" data-en>DC Intel</span>
+            <span class="text-xs text-slate-500 hidden" data-zh>数据中心情报</span>
+          </a>
+          <div class="flex items-center gap-3">
+            <input
+              type="search"
+              id="search"
+              placeholder="Search…"
+              data-en
+              class="hidden sm:block px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-400 w-48"
+            />
+            <input
+              type="search"
+              id="search-zh"
+              placeholder="搜索…"
+              data-zh
+              class="hidden px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-400 w-48"
+            />
+            <button
+              id="lang-toggle"
+              class="px-3 py-1.5 text-xs font-medium border border-slate-300 rounded-md hover:bg-slate-100 transition"
+              aria-label="Toggle language"
+            >
+              <span data-en>中文</span>
+              <span data-zh class="hidden">EN</span>
+            </button>
+          </div>
+        </div>
+        <nav class="overflow-x-auto -mx-4 px-4 pb-2">
+          <ul class="flex gap-1 text-sm whitespace-nowrap">
+            {CATEGORIES.map((cat) => (
+              <li>
+                <a
+                  href={`${base}/category/${cat.slug}`}
+                  class="px-3 py-1.5 rounded-md hover:bg-slate-100 text-slate-700 hover:text-slate-900 transition inline-block"
+                >
+                  <span data-en>{cat.en}</span>
+                  <span data-zh class="hidden">{cat.zh}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-slate-200 mt-16 py-8 text-center text-xs text-slate-500">
+      <span data-en>Internal — Whitespace DC team</span>
+      <span data-zh class="hidden">内部 — Whitespace 数据中心团队</span>
+    </footer>
+
+    <script>
+      // Bilingual toggle: flips data-lang on <html>; CSS hides/shows based on it.
+      const KEY = 'ws-lang';
+      const html = document.documentElement;
+      const saved = localStorage.getItem(KEY);
+      if (saved === 'zh' || saved === 'en') html.dataset.lang = saved;
+
+      document.getElementById('lang-toggle')?.addEventListener('click', () => {
+        const next = html.dataset.lang === 'en' ? 'zh' : 'en';
+        html.dataset.lang = next;
+        localStorage.setItem(KEY, next);
+      });
+    </script>
+
+    <style is:global>
+      html[data-lang='en'] [data-zh] {
+        display: none !important;
+      }
+      html[data-lang='zh'] [data-en] {
+        display: none !important;
+      }
+    </style>
+  </body>
+</html>
