@@ -23,12 +23,12 @@ const dateStr = post.data.date.toISOString().slice(0, 10);
       <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-3">
         <span class="px-2 py-0.5 bg-slate-100 rounded font-medium text-slate-700">
           <span data-en>{cat?.en ?? post.data.category}</span>
-          <span data-zh class="hidden">{cat?.zh ?? post.data.category}</span>
+          <span data-zh>{cat?.zh ?? post.data.category}</span>
         </span>
         <span class="tabular-nums">{dateStr}</span>
         <span>
           <span data-en>Trust {post.data.trust.score}/5</span>
-          <span data-zh class="hidden">可信 {post.data.trust.score}/5</span>
+          <span data-zh>可信 {post.data.trust.score}/5</span>
         </span>
         {post.data.vendor.length > 0 && (
           <span class="text-slate-400">
@@ -38,21 +38,21 @@ const dateStr = post.data.date.toISOString().slice(0, 10);
       </div>
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
         <span data-en>{post.data.title_en}</span>
-        <span data-zh class="hidden">{post.data.title_zh}</span>
+        <span data-zh>{post.data.title_zh}</span>
       </h1>
     </header>
 
     <div class="prose prose-slate max-w-none text-base leading-relaxed">
       <p class="whitespace-pre-line">
         <span data-en>{post.data.summary_en}</span>
-        <span data-zh class="hidden">{post.data.summary_zh}</span>
+        <span data-zh>{post.data.summary_zh}</span>
       </p>
     </div>
 
     <footer class="mt-8 pt-4 border-t border-slate-100">
       <h2 class="text-sm font-semibold text-slate-700 mb-2">
         <span data-en>Sources</span>
-        <span data-zh class="hidden">来源</span>
+        <span data-zh>来源</span>
       </h2>
       <ul class="space-y-1.5 text-sm">
         {post.data.sources.map((src) => (
@@ -80,7 +80,7 @@ const dateStr = post.data.date.toISOString().slice(0, 10);
   <div class="mt-6">
     <a href={import.meta.env.BASE_URL} class="text-sm text-slate-600 hover:text-slate-900">
       <span data-en>← Back to latest</span>
-      <span data-zh class="hidden">← 返回最新</span>
+      <span data-zh>← 返回最新</span>
     </a>
   </div>
 </BaseLayout>
