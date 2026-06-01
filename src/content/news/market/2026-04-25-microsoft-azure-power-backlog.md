@@ -17,7 +17,7 @@ summary_zh: |
   容量問題。微軟以站內發電試點、表後購電合約以及加速許可合作（主要在
   德州、維吉尼亞州與北歐地區）回應此挑戰。
 date: 2026-04-25
-category: industry
+category: market
 region: [global, US]
 vendor: [Microsoft]
 trust:

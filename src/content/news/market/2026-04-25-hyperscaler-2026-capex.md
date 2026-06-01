@@ -15,7 +15,7 @@ summary_zh: |
   於財報後集體賣出三家公司，關注此波支出的投報率疑慮。然而超大規模業者
   訂單積壓增速持續超越資本支出 — 顯示需求仍處於供不應求狀態。
 date: 2026-04-25
-category: industry
+category: market
 region: [global]
 vendor: [Microsoft, Amazon, Google]
 trust:

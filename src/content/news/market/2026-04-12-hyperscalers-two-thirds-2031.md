@@ -16,7 +16,7 @@ summary_zh: |
   結構成本優勢所驅動。代管業者仍持有企業與邊緣部署的長尾市場，但在高密度
   AI 區塊的市佔將下降。
 date: 2026-04-12
-category: industry
+category: market
 region: [global]
 vendor: []
 trust:
