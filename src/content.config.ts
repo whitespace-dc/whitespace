@@ -8,6 +8,11 @@ const news = defineCollection({
     title_zh: z.string(),
     summary_en: z.string(),
     summary_zh: z.string(),
+    // Full long-form article body per language (markdown). Optional so the
+    // summary-only seed posts still validate; the article template renders the
+    // body when present and falls back to the summary when absent.
+    body_en: z.string().optional(),
+    body_zh: z.string().optional(),
     date: z.coerce.date(),
     category: z.enum([
       'compute',
