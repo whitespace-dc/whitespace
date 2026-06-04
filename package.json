@@ -11,6 +11,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "@tailwindcss/typography": "0.5.19",
     "astro": "6.1.8",
     "markdown-it": "14.2.0",
     "pagefind": "1.5.2",
