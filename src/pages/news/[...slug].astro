@@ -15,7 +15,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const { post } = Astro.props;
 const cat = CATEGORIES.find((c) => c.slug === post.data.category);
-const dateStr = post.data.date.toISOString().slice(0, 10);
+// Two dates: when Whitespace curated/published, and when the original source
+// published. Showing both stops a days-old story from reading as breaking news.
+const curatedStr = post.data.date.toISOString().slice(0, 10);
+const sourceStr = post.data.source_published
+  ? post.data.source_published.toISOString().slice(0, 10)
+  : null;
 
 // Full long-form body when the agent supplied one; otherwise the summary-only
 // seed posts fall back to the summary paragraph below.
@@ -31,7 +36,16 @@ const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : nu
           <span data-en>{cat?.en ?? post.data.category}</span>
           <span data-zh>{cat?.zh ?? post.data.category}</span>
         </span>
-        <span class="tabular-nums">{dateStr}</span>
+        <span class="tabular-nums" title="When Whitespace published this">
+          <span data-en>Curated {curatedStr}</span>
+          <span data-zh>整理 {curatedStr}</span>
+        </span>
+        {sourceStr && (
+          <span class="tabular-nums text-slate-400" title="When the original source published">
+            <span data-en>· Source {sourceStr}</span>
+            <span data-zh>· 原文 {sourceStr}</span>
+          </span>
+        )}
         <span>
           <span data-en>Trust {post.data.trust.score}/5</span>
           <span data-zh>可信 {post.data.trust.score}/5</span>
@@ -74,7 +88,7 @@ const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : nu
               {src.title}
             </a>
             <span class="text-xs text-slate-400 ml-2">
-              ({src.type === 'primary' ? 'primary' : 'corroborating'} · trust {src.trust}/5)
+              ({src.type === 'primary' ? 'primary' : 'corroborating'} · trust {src.trust}/5{src.published_at ? ` · ${src.published_at.toISOString().slice(0, 10)}` : ''})
             </span>
           </li>
         ))}

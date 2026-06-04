@@ -14,6 +14,9 @@ const news = defineCollection({
     body_en: z.string().optional(),
     body_zh: z.string().optional(),
     date: z.coerce.date(),
+    // When the ORIGINAL source published (primary source). Optional: seed posts
+    // and pre-2026-06-04 agent articles don't carry it.
+    source_published: z.coerce.date().optional(),
     category: z.enum([
       'compute',
       'networking',
@@ -41,6 +44,8 @@ const news = defineCollection({
           title: z.string(),
           trust: z.number().int().min(1).max(5),
           type: z.enum(['primary', 'corroborating']),
+          // The source's own original publish date. Optional.
+          published_at: z.coerce.date().optional(),
         }),
       )
       .min(1),
