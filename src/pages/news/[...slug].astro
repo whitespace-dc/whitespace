@@ -15,6 +15,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const { post } = Astro.props;
 const cat = CATEGORIES.find((c) => c.slug === post.data.category);
+const secondaryCats = (post.data.secondary_categories ?? [])
+  .map((slug) => CATEGORIES.find((c) => c.slug === slug))
+  .filter((c) => c != null);
 // Two dates: when Whitespace curated/published, and when the original source
 // published. Showing both stops a days-old story from reading as breaking news.
 const curatedStr = post.data.date.toISOString().slice(0, 10);
@@ -36,6 +39,12 @@ const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : nu
           <span data-en>{cat?.en ?? post.data.category}</span>
           <span data-zh>{cat?.zh ?? post.data.category}</span>
         </span>
+        {secondaryCats.map((sc) => (
+          <span class="px-2 py-0.5 bg-slate-50 rounded text-slate-500 border border-slate-200">
+            <span data-en>{sc.en}</span>
+            <span data-zh>{sc.zh}</span>
+          </span>
+        ))}
         <span class="tabular-nums" title="When Whitespace published this">
           <span data-en>Curated {curatedStr}</span>
           <span data-zh>整理 {curatedStr}</span>

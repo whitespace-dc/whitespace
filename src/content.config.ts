@@ -1,6 +1,21 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+const categorySlug = z.enum([
+  'compute',
+  'networking',
+  'power',
+  'cooling',
+  'mep',
+  'site-selection',
+  'modular',
+  'racks',
+  'software-ops',
+  'market',
+  'regulatory',
+  'standards',
+]);
+
 const news = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
   schema: z.object({
@@ -17,20 +32,9 @@ const news = defineCollection({
     // When the ORIGINAL source published (primary source). Optional: seed posts
     // and pre-2026-06-04 agent articles don't carry it.
     source_published: z.coerce.date().optional(),
-    category: z.enum([
-      'compute',
-      'networking',
-      'power',
-      'cooling',
-      'mep',
-      'site-selection',
-      'modular',
-      'racks',
-      'software-ops',
-      'market',
-      'regulatory',
-      'standards',
-    ]),
+    category: categorySlug,
+    // Additional topics the story spans (display + discovery only). Optional.
+    secondary_categories: z.array(categorySlug).default([]),
     region: z.array(z.string()).default([]),
     vendor: z.array(z.string()).default([]),
     trust: z.object({
