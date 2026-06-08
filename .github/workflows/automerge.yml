@@ -1,0 +1,60 @@
+name: Auto-merge agent article PRs
+
+# Agent article PRs (head branch agent/*) are build-checked and then squash-merged
+# automatically, so new articles publish without manual review. Human PRs (any
+# other branch prefix) are never touched — both jobs skip.
+#
+# Safety model:
+#   - The agent-side W6 output-injection scan already gated content BEFORE the PR
+#     was opened, so this is the SITE-INTEGRITY gate, not the content gate.
+#   - `verify` must pass (same `npm run build` as deploy); a failing build leaves
+#     the PR OPEN for manual review — merge never runs.
+#   - pull_request (not _target): fork PRs get a read-only token, so an outside
+#     PR cannot self-merge even if it spoofs an agent/ branch name.
+#   - Gated on the agent/* branch prefix.
+#
+# Follow-ups (not blocking): restrict to PRs that only touch src/content/**;
+# debounce the per-PR deploy dispatch when many PRs merge in one run.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: automerge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    if: startsWith(github.head_ref, 'agent/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - name: Build Astro site (merge gate)
+        run: npm run build
+
+  merge:
+    needs: verify
+    if: startsWith(github.head_ref, 'agent/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Squash-merge the agent PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --squash --delete-branch
+      - name: Trigger Pages deploy
+        # A GITHUB_TOKEN merge does NOT fire the push-triggered deploy workflow
+        # (loop guard), so dispatch it explicitly against the freshly-merged main.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yml --repo ${{ github.repository }} --ref main
