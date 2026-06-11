@@ -81,8 +81,8 @@ body_zh: |
   IREN表示，將在推動取得法規核准及達成專案推進所需條件的同時，啟動前期工程與採購作業。隨著園區朝向2028年目標通電時程穩步推進，南澳洲的政策環境預計將持續發揮關鍵影響力。
 date: "2026-06-09T18:35:29.976Z"
 source_published: "2026-06-08T22:45:00.000Z"
-category: "site-selection"
-secondary_categories: ["market"]
+category: "market"
+secondary_categories: []
 region: []
 vendor: []
 trust:

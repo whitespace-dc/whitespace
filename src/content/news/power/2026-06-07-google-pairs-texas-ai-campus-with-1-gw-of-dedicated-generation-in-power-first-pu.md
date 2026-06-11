@@ -64,7 +64,7 @@ body_zh: |
 date: "2026-06-06T18:14:18.028Z"
 source_published: "2026-06-05T17:33:10.000Z"
 category: "power"
-secondary_categories: ["site-selection"]
+secondary_categories: ["market"]
 region: []
 vendor: []
 trust:

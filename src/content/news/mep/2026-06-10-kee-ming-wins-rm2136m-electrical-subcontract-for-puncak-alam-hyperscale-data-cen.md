@@ -44,7 +44,7 @@ body_zh: |
 date: "2026-06-09T18:29:45.614Z"
 source_published: "2026-06-09T11:03:20.000Z"
 category: "mep"
-secondary_categories: ["site-selection"]
+secondary_categories: ["market"]
 region: []
 vendor: []
 trust:

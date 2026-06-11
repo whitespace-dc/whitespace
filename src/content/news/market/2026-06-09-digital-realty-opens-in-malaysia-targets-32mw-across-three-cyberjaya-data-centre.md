@@ -74,7 +74,7 @@ body_zh: |
 date: "2026-06-08T18:47:22.766Z"
 source_published: "2026-06-08T06:48:12.000Z"
 category: "market"
-secondary_categories: ["site-selection"]
+secondary_categories: []
 region: []
 vendor: []
 trust:

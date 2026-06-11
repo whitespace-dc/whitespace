@@ -73,8 +73,8 @@ body_zh: |
   對單一園區承諾1.45GW電力，為印尼資料中心電力採購樹立了全新標竿，也充分說明隨著超大規模與AI基礎設施需求在東南亞持續擴大，業界向電力公司爭取的供電協議規模已今非昔比。CGK園區三棟建築的建設進程預計於2027年第二季全數完成。
 date: "2026-06-08T18:39:27.344Z"
 source_published: "2026-06-08T17:06:14.000Z"
-category: "site-selection"
-secondary_categories: ["power", "market"]
+category: "market"
+secondary_categories: ["power"]
 region: []
 vendor: []
 trust:

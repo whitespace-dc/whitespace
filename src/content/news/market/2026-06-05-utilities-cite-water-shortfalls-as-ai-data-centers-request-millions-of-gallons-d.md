@@ -93,7 +93,7 @@ body_zh: |
   德州2027年州水資源計畫草案尚未將AI相關資料中心需求列為獨立的規劃項目，然而隨著專案規模持續擴大，高密度GPU部署對「歷史最嚴峻乾旱」規劃假設帶來的衝擊也愈發沉重，這個規劃缺口勢必亟待補足。
 date: "2026-06-04T18:17:04.742Z"
 source_published: "2026-05-29T13:00:00.000Z"
-category: "site-selection"
+category: "market"
 secondary_categories: ["cooling"]
 region: []
 vendor: []

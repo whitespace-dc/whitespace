@@ -73,8 +73,8 @@ body_zh: |
   目前建設工程仍在持續推進，這座設施預計將如期於2027年第二季正式投入營運。
 date: "2026-06-09T18:32:56.376Z"
 source_published: "2026-06-09T16:30:00.000Z"
-category: "site-selection"
-secondary_categories: ["market"]
+category: "market"
+secondary_categories: []
 region: []
 vendor: []
 trust:

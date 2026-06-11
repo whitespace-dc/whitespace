@@ -49,7 +49,7 @@ body_zh: |
   目前有跡可循的下一個開發里程碑，是CyrusOne Bosque County園區首棟建築預計於2026年第四季完工啟用。
 date: "2026-06-08T18:33:38.712Z"
 source_published: "2026-06-08T16:20:25.000Z"
-category: "site-selection"
+category: "market"
 secondary_categories: ["power"]
 region: []
 vendor: []

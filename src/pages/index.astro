@@ -53,6 +53,15 @@ const today = new Date().toISOString().slice(0, 10);
                   <span data-en>{cat?.en ?? post.data.category}</span>
                   <span data-zh>{cat?.zh ?? post.data.category}</span>
                 </span>
+                {(post.data.secondary_categories ?? []).map((sc) => {
+                  const s = categoryLabel(sc);
+                  return (
+                    <span class="px-2 py-0.5 bg-slate-50 rounded text-slate-500 border border-slate-200">
+                      <span data-en>{s?.en ?? sc}</span>
+                      <span data-zh>{s?.zh ?? sc}</span>
+                    </span>
+                  );
+                })}
                 <span class="tabular-nums">{dateStr}</span>
                 <span title={post.data.trust.reasoning}>
                   <span data-en>Trust {post.data.trust.score}/5</span>
