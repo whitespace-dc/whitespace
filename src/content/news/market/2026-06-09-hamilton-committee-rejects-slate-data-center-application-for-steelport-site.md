@@ -49,7 +49,7 @@ body_zh: |
   CBC漢密爾頓詢問Slate是否計畫就委員會決定向安大略省提出上訴，截至發稿前，該公司尚未作出回應。
 date: "2026-06-08T18:36:40.657Z"
 source_published: "2026-06-08T16:50:27.000Z"
-category: "site-selection"
+category: "market"
 secondary_categories: []
 region: []
 vendor: []

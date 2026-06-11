@@ -101,7 +101,7 @@ body_zh: |
   都市土地稀缺、地方政府審查、人才競爭，以及投機性開發商進場等多重壓力相互疊加，正將建築品質從可選項目轉變為越來越多新開發案的必要條件。以推論為導向的運算容量預計向更密集、更顯眼的都市地點轉移，預料將進一步強化這股壓力，讓設施坐落於設計標準——以及公眾期望——最高的地方。
 date: "2026-06-11"
 source_published: "2026-06-10T09:00:00.000Z"
-category: "site-selection"
+category: "market"
 secondary_categories: []
 region: []
 vendor: []

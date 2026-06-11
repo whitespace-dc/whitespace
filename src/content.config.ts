@@ -1,19 +1,17 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// 8-category model (whitespace-agent decisions/2026-06-10-category-taxonomy-and-ranking.md).
+// Merged from the old 12: racks→compute, modular→mep, site-selection→market, standards→regulatory.
 const categorySlug = z.enum([
   'compute',
   'networking',
   'power',
   'cooling',
   'mep',
-  'site-selection',
-  'modular',
-  'racks',
   'software-ops',
   'market',
   'regulatory',
-  'standards',
 ]);
 
 const news = defineCollection({

@@ -81,7 +81,7 @@ body_zh: |
   該框架可透過 ASHRAE 技術資源網頁取得。
 date: "2026-06-11"
 source_published: "2026-06-10T15:51:06.000Z"
-category: "standards"
+category: "regulatory"
 secondary_categories: ["compute", "power"]
 region: []
 vendor: []

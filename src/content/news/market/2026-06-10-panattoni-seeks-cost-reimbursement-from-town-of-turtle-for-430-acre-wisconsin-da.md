@@ -57,8 +57,8 @@ body_zh: |
   龜鎮鎮委員會於6月9日召開的會議，是這份費用償還協議能否推進的下一個關鍵決策節點。
 date: "2026-06-09T18:31:22.205Z"
 source_published: "2026-06-09T17:26:11.000Z"
-category: "site-selection"
-secondary_categories: ["market"]
+category: "market"
+secondary_categories: []
 region: []
 vendor: []
 trust:

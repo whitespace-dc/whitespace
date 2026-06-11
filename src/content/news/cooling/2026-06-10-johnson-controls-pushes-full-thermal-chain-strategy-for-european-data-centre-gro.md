@@ -90,7 +90,7 @@ body_zh: |
 date: "2026-06-09T18:28:58.406Z"
 source_published: "2026-06-09T10:58:45.000Z"
 category: "cooling"
-secondary_categories: ["modular"]
+secondary_categories: ["mep"]
 region: []
 vendor: []
 trust:

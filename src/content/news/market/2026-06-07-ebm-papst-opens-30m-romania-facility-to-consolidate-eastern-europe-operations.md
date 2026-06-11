@@ -41,8 +41,8 @@ body_zh: |
   占地一千兩百平方公尺、專注於風扇設計與測試的研發中心，是整座設施最具前瞻性的核心元素，顯示針對歐洲市場的新產品研發工作，將以奧拉迪亞廠區作為主要錨點。
 date: "2026-06-06T18:15:21.193Z"
 source_published: "2026-06-06T14:55:04.000Z"
-category: "site-selection"
-secondary_categories: ["market"]
+category: "market"
+secondary_categories: []
 region: []
 vendor: []
 trust:

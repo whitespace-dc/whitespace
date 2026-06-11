@@ -75,8 +75,8 @@ body_zh: |
   吉寶預計安山設施將於2030年正式投入營運。
 date: "2026-06-11"
 source_published: "2026-06-10T05:50:03.000Z"
-category: "site-selection"
-secondary_categories: ["market"]
+category: "market"
+secondary_categories: []
 region: []
 vendor: []
 trust:

@@ -47,7 +47,7 @@ body_zh: |
   資通部的總體規劃與BCDA在新克拉克城推動的產業園區，是菲律賓AI基礎建設雄心的兩大主要既定推進載體。隨著以法規為主題的政策會議預定本月召開，產業園區的動土典禮也鎖定在兩年內啟動，兩條軌道預計將在近期同步向前推進。
 date: "2026-06-07T18:37:34.076Z"
 source_published: "2026-06-04T14:04:15.000Z"
-category: "site-selection"
+category: "market"
 secondary_categories: ["regulatory"]
 region: []
 vendor: []
