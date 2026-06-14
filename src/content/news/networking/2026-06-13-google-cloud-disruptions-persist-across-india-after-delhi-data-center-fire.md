@@ -47,7 +47,7 @@ date: "2026-06-13"
 source_published: "2026-06-12T07:05:00.000Z"
 category: "networking"
 secondary_categories: ["software-ops"]
-region: []
+region: ["India"]
 vendor: []
 trust:
   score: 3

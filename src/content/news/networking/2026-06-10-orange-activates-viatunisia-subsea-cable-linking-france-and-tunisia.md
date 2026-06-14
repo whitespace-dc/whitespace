@@ -59,7 +59,7 @@ date: "2026-06-09T18:18:08.744Z"
 source_published: "2026-06-09T05:06:08.000Z"
 category: "networking"
 secondary_categories: ["market"]
-region: []
+region: ["France"]
 vendor: []
 trust:
   score: 3

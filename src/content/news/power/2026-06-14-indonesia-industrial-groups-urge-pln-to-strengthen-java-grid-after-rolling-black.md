@@ -67,7 +67,7 @@ date: "2026-06-14"
 source_published: "2026-06-12T07:44:14.000Z"
 category: "power"
 secondary_categories: ["regulatory"]
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

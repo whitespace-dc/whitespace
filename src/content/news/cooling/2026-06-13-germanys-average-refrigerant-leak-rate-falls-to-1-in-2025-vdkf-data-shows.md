@@ -61,7 +61,7 @@ date: "2026-06-13"
 source_published: "2026-06-12T13:20:07.000Z"
 category: "cooling"
 secondary_categories: []
-region: []
+region: ["Germany"]
 vendor: []
 trust:
   score: 3

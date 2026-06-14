@@ -41,7 +41,7 @@ date: "2026-06-12"
 source_published: "2026-06-10T16:00:00.000Z"
 category: "networking"
 secondary_categories: ["market"]
-region: []
+region: ["Malaysia"]
 vendor: []
 trust:
   score: 3

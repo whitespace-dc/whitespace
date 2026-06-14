@@ -13,7 +13,7 @@ summary_zh: |
   Nscale 成為 2026 年首批部署夥伴。
 date: 2026-04-28
 category: compute
-region: [global, US]
+region: ["global", "United States"]
 vendor: [NVIDIA]
 trust:
   score: 5

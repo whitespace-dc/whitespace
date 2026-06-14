@@ -75,7 +75,7 @@ date: "2026-06-08T18:52:45.833Z"
 source_published: "2026-06-08T08:33:00.000Z"
 category: "regulatory"
 secondary_categories: ["market"]
-region: []
+region: ["France", "Germany"]
 vendor: []
 trust:
   score: 3

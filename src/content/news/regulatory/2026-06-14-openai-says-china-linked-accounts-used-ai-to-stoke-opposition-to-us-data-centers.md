@@ -43,7 +43,7 @@ date: "2026-06-14"
 source_published: "2026-06-11T05:24:13.000Z"
 category: "regulatory"
 secondary_categories: ["market"]
-region: []
+region: ["China", "United States"]
 vendor: []
 trust:
   score: 3

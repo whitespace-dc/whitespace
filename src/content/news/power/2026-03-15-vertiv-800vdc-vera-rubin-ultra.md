@@ -17,7 +17,7 @@ summary_zh: |
   都至關重要的 AI 機架。
 date: 2026-03-15
 category: power
-region: [global, US]
+region: ["global", "United States"]
 vendor: [Vertiv, NVIDIA]
 trust:
   score: 5

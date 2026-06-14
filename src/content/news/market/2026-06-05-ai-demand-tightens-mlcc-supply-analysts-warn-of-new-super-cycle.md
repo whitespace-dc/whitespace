@@ -45,7 +45,7 @@ date: "2026-06-04T18:19:21.630Z"
 source_published: "2026-06-04T03:55:49.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["Japan", "Korea", "Taiwan"]
 vendor: []
 trust:
   score: 3

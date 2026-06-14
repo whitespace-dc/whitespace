@@ -15,7 +15,7 @@ summary_zh: |
   是 Schneider 與 Vertiv 共同握有約 40–42% 資料中心 UPS 市佔的關鍵貢獻者。
 date: 2024-12-10
 category: power
-region: [global]
+region: ["global"]
 vendor: [Schneider Electric]
 trust:
   score: 5

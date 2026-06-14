@@ -61,7 +61,7 @@ date: "2026-06-13"
 source_published: "2026-06-11T19:00:00.000Z"
 category: "market"
 secondary_categories: ["networking"]
-region: []
+region: ["Malaysia", "Singapore", "Taiwan", "United States", "Vietnam"]
 vendor: []
 trust:
   score: 3

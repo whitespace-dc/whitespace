@@ -43,7 +43,7 @@ date: "2026-06-04T18:20:32.968Z"
 source_published: "2026-06-02T00:00:00.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

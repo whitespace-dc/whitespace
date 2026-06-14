@@ -103,7 +103,7 @@ date: "2026-06-14"
 source_published: "2026-06-12T09:56:01.000Z"
 category: "networking"
 secondary_categories: ["market"]
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

@@ -47,7 +47,7 @@ date: "2026-06-08T18:40:38.247Z"
 source_published: "2026-06-07T16:00:00.000Z"
 category: "mep"
 secondary_categories: ["power"]
-region: []
+region: ["China"]
 vendor: []
 trust:
   score: 3

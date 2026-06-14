@@ -16,7 +16,7 @@ summary_zh: |
   負載熱瞬態的營運不確定性，冷媒流量應設計為機架尖峰熱負載的 120% 以上。
 date: 2026-02-10
 category: cooling
-region: [global]
+region: ["global"]
 vendor: [Schneider Electric]
 trust:
   score: 4

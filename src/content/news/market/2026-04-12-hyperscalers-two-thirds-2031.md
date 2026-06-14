@@ -17,7 +17,7 @@ summary_zh: |
   AI 區塊的市佔將下降。
 date: 2026-04-12
 category: market
-region: [global]
+region: ["global"]
 vendor: []
 trust:
   score: 4

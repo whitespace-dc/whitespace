@@ -49,7 +49,7 @@ date: "2026-06-12"
 source_published: "2026-06-11T13:52:47.000Z"
 category: "regulatory"
 secondary_categories: []
-region: []
+region: ["China"]
 vendor: []
 trust:
   score: 3

@@ -53,7 +53,7 @@ date: "2026-06-08T18:19:20.762Z"
 source_published: "2026-06-05T00:00:00.000Z"
 category: "networking"
 secondary_categories: []
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

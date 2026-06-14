@@ -55,7 +55,7 @@ date: "2026-06-08T18:43:39.547Z"
 source_published: "2026-06-08T01:36:20.000Z"
 category: "market"
 secondary_categories: ["compute"]
-region: []
+region: ["Korea"]
 vendor: []
 trust:
   score: 3
