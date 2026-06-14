@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { CATEGORIES } from '../data/categories';
+import Bi from '../components/Bi.astro';
 
 interface Props {
   title?: string;
@@ -8,6 +9,11 @@ interface Props {
 
 const { title = 'Whitespace' } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const path = Astro.url.pathname.replace(/\/$/, '');
+const homeHref = base.replace(/\/$/, '');
+const isHome = path === homeHref;
+const catHref = (slug: string) => `${homeHref}/category/${slug}`;
+const isActiveCat = (slug: string) => path === catHref(slug);
 ---
 
 <!doctype html>
@@ -16,149 +22,137 @@ const base = import.meta.env.BASE_URL;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#4f46e5" />
     <title>{title}</title>
   </head>
   <body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:z-[60] focus:top-2 focus:left-2 focus:bg-white focus:px-3 focus:py-2 focus:rounded focus:shadow"
+    >
+      <Bi en="Skip to content" zh="跳至內容" />
+    </a>
+
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
       <div class="max-w-6xl mx-auto px-4">
         <div class="flex items-center justify-between h-14">
           <a href={base} class="flex items-baseline gap-2 hover:opacity-80 transition">
             <span class="inline-block w-2.5 h-2.5 rounded-sm bg-indigo-600 translate-y-px"></span>
             <span class="text-lg font-bold tracking-tight">Whitespace</span>
-            <span class="text-xs text-slate-500" data-en>DC Intel</span>
-            <span class="text-xs text-slate-500" data-zh>資料中心情報</span>
+            <span class="text-xs text-slate-500" data-en lang="en">DC Intel</span>
+            <span class="text-xs text-slate-500" data-zh lang="zh-Hant">資料中心情報</span>
           </a>
-          <div class="flex items-center gap-3">
-            <input
-              type="search"
-              id="search"
-              placeholder="Search…"
-              data-en
-              class="hidden sm:block px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-400 w-48"
-            />
-            <input
-              type="search"
-              id="search-zh"
-              placeholder="搜尋…"
-              data-zh
-              class="hidden sm:block px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-400 w-48"
-            />
-            <button
-              id="lang-toggle"
-              class="px-3 py-1.5 text-xs font-medium border border-slate-300 rounded-md hover:bg-slate-100 transition"
-              aria-label="Toggle language"
-            >
-              <span data-en>中文</span>
-              <span data-zh>EN</span>
-            </button>
-          </div>
+          <button
+            id="lang-toggle"
+            class="px-3 py-1.5 text-xs font-medium border border-slate-300 rounded-md hover:bg-slate-100 transition min-h-[36px]"
+            aria-label="Toggle language"
+          >
+            <span data-en lang="en">中文</span>
+            <span data-zh lang="zh-Hant">EN</span>
+          </button>
         </div>
-        <nav class="overflow-x-auto -mx-4 px-4 pb-2">
-          <ul class="flex gap-1 text-sm whitespace-nowrap">
+        <nav aria-label="Categories" class="overflow-x-auto -mx-4 px-4 pb-2">
+          <ul class="flex gap-2 text-sm whitespace-nowrap">
             <li>
               <a
                 href={base}
-                class="px-3 py-1.5 rounded-md font-medium text-slate-900 hover:bg-slate-100 transition inline-flex items-center gap-1.5"
+                aria-current={isHome ? 'page' : undefined}
+                class:list={[
+                  'px-3 py-1.5 rounded-md font-medium transition inline-flex items-center gap-1.5 min-h-[40px]',
+                  isHome ? 'bg-slate-100 text-slate-900' : 'text-slate-900 hover:bg-slate-100',
+                ]}
               >
                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
-                <span data-en>Home</span>
-                <span data-zh>首頁</span>
+                <Bi en="Home" zh="首頁" />
               </a>
             </li>
-            <li>
-              <a
-                href={`${base}/region`}
-                class="px-3 py-1.5 rounded-md font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition inline-block"
-              >
-                <span data-en>Regions</span>
-                <span data-zh>地區</span>
-              </a>
-            </li>
-            <li aria-hidden="true" class="self-center text-slate-300 px-1">/</li>
-            {CATEGORIES.map((cat) => (
-              <li>
-                <a
-                  href={`${base}/category/${cat.slug}`}
-                  class="px-3 py-1.5 rounded-md hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition inline-block"
-                >
-                  <span data-en>{cat.en}</span>
-                  <span data-zh>{cat.zh}</span>
-                </a>
-              </li>
-            ))}
+            <li aria-hidden="true" class="self-center text-slate-200 select-none">|</li>
+            {
+              CATEGORIES.map((cat) => (
+                <li>
+                  <a
+                    href={catHref(cat.slug)}
+                    aria-current={isActiveCat(cat.slug) ? 'page' : undefined}
+                    class:list={[
+                      'px-3 py-1.5 rounded-md transition inline-flex items-center min-h-[40px]',
+                      isActiveCat(cat.slug)
+                        ? 'bg-slate-900 text-white'
+                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                    ]}
+                  >
+                    <Bi en={cat.en} zh={cat.zh} />
+                  </a>
+                </li>
+              ))
+            }
           </ul>
         </nav>
       </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-8">
+    <main id="main" class="max-w-6xl mx-auto px-4 py-8">
       <slot />
     </main>
 
     <footer class="border-t border-slate-200 mt-16 py-8 text-center text-xs text-slate-500">
-      <span data-en>Internal — Whitespace DC team</span>
-      <span data-zh>內部 — Whitespace 資料中心團隊</span>
+      <Bi en="Internal — Whitespace DC team" zh="內部 — Whitespace 資料中心團隊" />
     </footer>
 
-    <div
+    <dialog
       id="internal-warning"
-      class="fixed inset-0 z-[100] bg-black/60 items-center justify-center p-4 hidden"
-      role="dialog"
-      aria-modal="true"
+      class="m-auto w-[calc(100%-2rem)] max-w-md rounded-lg p-0 shadow-2xl backdrop:bg-black/60"
       aria-labelledby="iw-title"
     >
-      <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl">
-        <h2 id="iw-title" class="text-lg font-semibold mb-3">
-          <span data-en>Internal Use Only</span>
-          <span data-zh>僅限內部使用</span>
+      <div class="p-6">
+        <h2 id="iw-title" class="text-lg font-semibold mb-3 flex items-center gap-2">
+          <span class="inline-block w-2.5 h-2.5 rounded-sm bg-indigo-600"></span>
+          <Bi en="Internal Use Only" zh="僅限內部使用" />
         </h2>
         <p class="text-sm text-slate-700 mb-4 leading-relaxed">
-          <span data-en>
-            Whitespace is restricted to the internal data center planning team.
-            Do not share, redistribute, screenshot for external audiences, or
-            quote content beyond the team without permission.
+          <span data-en lang="en">
+            Whitespace is restricted to the internal data center planning team. Do not share,
+            redistribute, screenshot for external audiences, or quote content beyond the team
+            without permission.
           </span>
-          <span data-zh>
-            Whitespace 僅限資料中心規劃團隊內部使用。未經許可，請勿對外分享、轉發、
-            截圖給團隊外人員或引用內容。
+          <span data-zh lang="zh-Hant">
+            Whitespace 僅限資料中心規劃團隊內部使用。未經許可，請勿對外分享、轉發、截圖給團隊外人員或引用內容。
           </span>
         </p>
         <button
           id="iw-ack"
-          class="w-full px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800 text-sm font-medium transition"
+          class="w-full px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800 text-sm font-medium transition min-h-[44px]"
         >
-          <span data-en>I understand</span>
-          <span data-zh>我已知悉</span>
+          <Bi en="I understand" zh="我已知悉" />
         </button>
       </div>
-    </div>
+    </dialog>
 
     <script>
-      // Bilingual toggle: flips data-lang on <html>; CSS hides/shows based on it.
+      // Bilingual toggle: flips data-lang AND html.lang (so screen readers pick the right
+      // voice for the whole page — the previous version never updated html.lang).
       const LANG_KEY = 'ws-lang';
       const html = document.documentElement;
+      const applyLang = (next: string) => {
+        html.dataset.lang = next;
+        html.lang = next === 'zh' ? 'zh-Hant' : 'en';
+      };
       const saved = localStorage.getItem(LANG_KEY);
-      if (saved === 'zh' || saved === 'en') html.dataset.lang = saved;
+      if (saved === 'zh' || saved === 'en') applyLang(saved);
 
       document.getElementById('lang-toggle')?.addEventListener('click', () => {
         const next = html.dataset.lang === 'en' ? 'zh' : 'en';
-        html.dataset.lang = next;
+        applyLang(next);
         localStorage.setItem(LANG_KEY, next);
       });
 
-      // Internal-use modal — shown once per device, dismissed on ack.
+      // Internal-use notice — native <dialog> gives focus-trap, Esc, and inert backdrop
+      // for free (the old hand-rolled modal had none). Shown once per device.
       const ACK_KEY = 'ws-internal-ack';
-      const modal = document.getElementById('internal-warning');
-      if (modal && !localStorage.getItem(ACK_KEY)) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      }
+      const modal = document.getElementById('internal-warning') as HTMLDialogElement | null;
+      if (modal && !localStorage.getItem(ACK_KEY)) modal.showModal();
       document.getElementById('iw-ack')?.addEventListener('click', () => {
         localStorage.setItem(ACK_KEY, '1');
-        modal?.classList.add('hidden');
-        modal?.classList.remove('flex');
-        document.body.style.overflow = '';
+        modal?.close();
       });
     </script>
 

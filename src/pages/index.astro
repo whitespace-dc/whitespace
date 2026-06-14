@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { CATEGORIES } from '../data/categories';
+import Bi from '../components/Bi.astro';
+import Dateline from '../components/Dateline.astro';
+import TrustBadge from '../components/TrustBadge.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import RegionLens from '../components/RegionLens.astro';
 import { getCollection } from 'astro:content';
 
 const base = import.meta.env.BASE_URL;
@@ -9,15 +14,12 @@ const allPosts = await getCollection('news');
 const FEATURED_COUNT = 5;
 const RECENCY_WINDOW_DAYS = 10;
 
-// The "Latest" feed (and the featured tie-break) is plain chronological.
 const byDateDesc = (a: typeof allPosts[number], b: typeof allPosts[number]) =>
   b.data.date.valueOf() - a.data.date.valueOf();
 const chronological = [...allPosts].sort(byDateDesc);
 
-// "Top Stories" = the most SIGNIFICANT recent stories, not merely the newest. Pure
-// recency let a thin single-source item lead; significance = editorial trust +
-// multi-source corroboration (the synthesis pipeline's own signal that a story is real
-// and big), gated to a recency window so the hero stays current. Tie-break by date.
+// "Top Stories" = most SIGNIFICANT recent (trust + multi-source corroboration), gated to a
+// recency window, NOT merely newest. Tie-break by date.
 const cutoff = Date.now() - RECENCY_WINDOW_DAYS * 86_400_000;
 const importance = (p: typeof allPosts[number]) =>
   (p.data.trust?.score ?? 0) + Math.min((p.data.sources?.length ?? 1) - 1, 3);
@@ -25,71 +27,64 @@ const ranked = chronological
   .filter((p) => p.data.date.valueOf() >= cutoff)
   .sort((a, b) => importance(b) - importance(a) || byDateDesc(a, b));
 
-// Take the top N by importance; if the window is quiet, fill from the freshest overall.
 const featured = ranked.slice(0, FEATURED_COUNT);
 const have = new Set(featured);
 for (const p of chronological) {
   if (featured.length >= FEATURED_COUNT) break;
   if (!have.has(p)) { featured.push(p); have.add(p); }
 }
-const rest = chronological.filter((p) => !have.has(p));
+const featuredIds = new Set(featured.map((p) => p.id));
+// Default view hides the featured rows in Latest (they lead the hero), so the count
+// reflects what's actually visible below, not the full corpus.
+const latestVisible = chronological.length - featuredIds.size;
 
-function categoryLabel(slug: string) {
-  return CATEGORIES.find((c) => c.slug === slug);
-}
-function isoDate(d: Date) {
-  return d.toISOString().slice(0, 10);
-}
-
+const categoryLabel = (slug: string) => CATEGORIES.find((c) => c.slug === slug);
+const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 const today = new Date().toISOString().slice(0, 10);
 ---
 
 <BaseLayout title="Whitespace — DC Intel">
+  <div class="flex items-center justify-end mb-6">
+    <RegionLens posts={allPosts} />
+  </div>
+
   {
     featured.length > 0 && (
-      <section class="mb-12">
+      <section id="top-stories" class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
-          <h1 class="text-xl font-bold tracking-tight flex items-center gap-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-indigo-600" />
-            <span data-en>Top Stories</span>
-            <span data-zh>今日要聞</span>
-          </h1>
+          <h2 class="eyebrow flex items-center gap-2">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-indigo-600" />
+            <Bi en="Top Stories · most significant" zh="今日要聞 · 最具份量" />
+          </h2>
           <span class="text-sm text-slate-500 tabular-nums">{today}</span>
         </div>
 
-        {/* Lead story */}
         {featured[0] && (() => {
           const post = featured[0];
           const cat = categoryLabel(post.data.category);
           return (
             <a
               href={`${base}/news/${post.id}`}
-              class="group block bg-white border border-slate-200 rounded-xl p-6 mb-4 hover:border-indigo-300 hover:shadow-md transition"
+              class="group block bg-white border border-slate-200 rounded-xl p-6 sm:p-8 mb-4 hover:border-indigo-300 hover:shadow-md transition"
             >
-              <header class="flex flex-wrap items-center gap-2 text-xs mb-3">
+              <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-3">
+                <Dateline region={post.data.region ?? []} />
                 <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-                  <span data-en>{cat?.en ?? post.data.category}</span>
-                  <span data-zh>{cat?.zh ?? post.data.category}</span>
+                  <Bi en={cat?.en ?? post.data.category} zh={cat?.zh ?? post.data.category} />
                 </span>
                 <span class="tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
-                <span class="text-slate-400" title={post.data.trust.reasoning}>
-                  <span data-en>Trust {post.data.trust.score}/5</span>
-                  <span data-zh>可信 {post.data.trust.score}/5</span>
-                </span>
+                <TrustBadge score={post.data.trust.score} reasoning={post.data.trust.reasoning} />
               </header>
-              <h2 class="text-2xl font-bold leading-tight mb-2 group-hover:text-indigo-700 transition">
-                <span data-en>{post.data.title_en}</span>
-                <span data-zh>{post.data.title_zh}</span>
-              </h2>
+              <h3 class="text-2xl sm:text-3xl font-bold leading-tight mb-2 group-hover:text-indigo-700 transition">
+                <Bi en={post.data.title_en} zh={post.data.title_zh} />
+              </h3>
               <p class="text-slate-700 leading-relaxed line-clamp-3">
-                <span data-en>{post.data.summary_en}</span>
-                <span data-zh>{post.data.summary_zh}</span>
+                <Bi en={post.data.summary_en} zh={post.data.summary_zh} />
               </p>
             </a>
           );
         })()}
 
-        {/* Secondary stories (the rest of the featured set) */}
         {featured.length > 1 && (
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {featured.slice(1).map((post) => {
@@ -99,20 +94,18 @@ const today = new Date().toISOString().slice(0, 10);
                   href={`${base}/news/${post.id}`}
                   class="group block bg-white border border-slate-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-md transition"
                 >
-                  <header class="flex flex-wrap items-center gap-2 text-xs mb-2">
+                  <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
+                    <Dateline region={post.data.region ?? []} />
                     <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-                      <span data-en>{cat?.en ?? post.data.category}</span>
-                      <span data-zh>{cat?.zh ?? post.data.category}</span>
+                      <Bi en={cat?.en ?? post.data.category} zh={cat?.zh ?? post.data.category} />
                     </span>
                     <span class="tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
                   </header>
                   <h3 class="text-lg font-semibold leading-snug mb-1 group-hover:text-indigo-700 transition">
-                    <span data-en>{post.data.title_en}</span>
-                    <span data-zh>{post.data.title_zh}</span>
+                    <Bi en={post.data.title_en} zh={post.data.title_zh} />
                   </h3>
                   <p class="text-sm text-slate-600 leading-relaxed line-clamp-2">
-                    <span data-en>{post.data.summary_en}</span>
-                    <span data-zh>{post.data.summary_zh}</span>
+                    <Bi en={post.data.summary_en} zh={post.data.summary_zh} />
                   </p>
                 </a>
               );
@@ -125,62 +118,30 @@ const today = new Date().toISOString().slice(0, 10);
 
   <section>
     <div class="flex items-baseline justify-between mb-4 border-b border-slate-200 pb-2">
-      <h2 class="text-lg font-bold tracking-tight">
-        <span data-en>Latest</span>
-        <span data-zh>最新</span>
+      <h2 class="eyebrow">
+        <Bi en="Latest" zh="最新" />
       </h2>
       <span class="text-xs text-slate-400">
-        <span data-en>{rest.length} more</span>
-        <span data-zh>還有 {rest.length} 則</span>
+        <Bi en={`${latestVisible} stories`} zh={`${latestVisible} 則`} />
       </span>
     </div>
 
     {
       chronological.length === 0 ? (
         <p class="text-slate-500 text-sm italic">
-          <span data-en>No posts yet.</span>
-          <span data-zh>暫無內容。</span>
+          <Bi en="No posts yet." zh="暫無內容。" />
         </p>
       ) : (
-        <div class="space-y-3">
-          {rest.map((post) => {
-            const cat = categoryLabel(post.data.category);
-            return (
-              <article class="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-400 transition">
-                <header class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2">
-                  <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-                    <span data-en>{cat?.en ?? post.data.category}</span>
-                    <span data-zh>{cat?.zh ?? post.data.category}</span>
-                  </span>
-                  {(post.data.secondary_categories ?? []).map((sc) => {
-                    const s = categoryLabel(sc);
-                    return (
-                      <span class="px-2 py-0.5 bg-slate-50 rounded text-slate-500 border border-slate-200">
-                        <span data-en>{s?.en ?? sc}</span>
-                        <span data-zh>{s?.zh ?? sc}</span>
-                      </span>
-                    );
-                  })}
-                  <span class="tabular-nums">{isoDate(post.data.date)}</span>
-                  <span title={post.data.trust.reasoning}>
-                    <span data-en>Trust {post.data.trust.score}/5</span>
-                    <span data-zh>可信 {post.data.trust.score}/5</span>
-                  </span>
-                </header>
-                <h3 class="text-lg font-semibold mb-2 leading-snug">
-                  <a href={`${base}/news/${post.id}`} class="hover:text-indigo-700 transition">
-                    <span data-en>{post.data.title_en}</span>
-                    <span data-zh>{post.data.title_zh}</span>
-                  </a>
-                </h3>
-                <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line line-clamp-2">
-                  <span data-en>{post.data.summary_en}</span>
-                  <span data-zh>{post.data.summary_zh}</span>
-                </p>
-              </article>
-            );
-          })}
-        </div>
+        <>
+          <div class="space-y-3">
+            {chronological.map((post) => (
+              <ArticleCard post={post} base={base} featured={featuredIds.has(post.id)} />
+            ))}
+          </div>
+          <p id="region-empty" hidden class="text-slate-500 text-sm italic mt-4">
+            <Bi en="No stories for this place yet." zh="此地區暫無內容。" />
+          </p>
+        </>
       )
     }
   </section>

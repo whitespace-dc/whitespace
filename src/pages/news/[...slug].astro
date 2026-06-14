@@ -1,89 +1,94 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CATEGORIES } from '../../data/categories';
+import Bi from '../../components/Bi.astro';
+import Dateline from '../../components/Dateline.astro';
+import TrustBadge from '../../components/TrustBadge.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
 import { renderArticleBody } from '../../lib/markdown';
 import { getCollection } from 'astro:content';
-import type { GetStaticPaths } from 'astro';
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths = (async () => {
   const posts = await getCollection('news');
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
-};
+  const byDateDesc = (a: typeof posts[number], b: typeof posts[number]) =>
+    b.data.date.valueOf() - a.data.date.valueOf();
+  return posts.map((post) => {
+    // Related = same primary category, newest first, excluding self.
+    const related = posts
+      .filter((p) => p.id !== post.id && p.data.category === post.data.category)
+      .sort(byDateDesc)
+      .slice(0, 3);
+    return { params: { slug: post.id }, props: { post, related } };
+  });
+}) satisfies GetStaticPaths;
 
-const { post } = Astro.props;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { post, related } = Astro.props;
 const cat = CATEGORIES.find((c) => c.slug === post.data.category);
 const secondaryCats = (post.data.secondary_categories ?? [])
   .map((slug) => CATEGORIES.find((c) => c.slug === slug))
   .filter((c) => c != null);
-// Two dates: when Whitespace curated/published, and when the original source
-// published. Showing both stops a days-old story from reading as breaking news.
 const curatedStr = post.data.date.toISOString().slice(0, 10);
 const sourceStr = post.data.source_published
   ? post.data.source_published.toISOString().slice(0, 10)
   : null;
 
-// Full long-form body when the agent supplied one; otherwise the summary-only
-// seed posts fall back to the summary paragraph below.
 const bodyEnHtml = post.data.body_en ? renderArticleBody(post.data.body_en) : null;
 const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : null;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={post.data.title_en}>
   <article class="bg-white border border-slate-200 rounded-lg p-6 sm:p-8">
     <header class="mb-6 pb-4 border-b border-slate-100">
-      <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 mb-3">
-        <span class="px-2 py-0.5 bg-slate-100 rounded font-medium text-slate-700">
-          <span data-en>{cat?.en ?? post.data.category}</span>
-          <span data-zh>{cat?.zh ?? post.data.category}</span>
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 mb-3">
+        <Dateline region={post.data.region ?? []} />
+        <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+          <Bi en={cat?.en ?? post.data.category} zh={cat?.zh ?? post.data.category} />
         </span>
         {secondaryCats.map((sc) => (
           <span class="px-2 py-0.5 bg-slate-50 rounded text-slate-500 border border-slate-200">
-            <span data-en>{sc.en}</span>
-            <span data-zh>{sc.zh}</span>
+            <Bi en={sc.en} zh={sc.zh} />
           </span>
         ))}
         <span class="tabular-nums" title="When Whitespace published this">
-          <span data-en>Curated {curatedStr}</span>
-          <span data-zh>整理 {curatedStr}</span>
+          <Bi en={`Curated ${curatedStr}`} zh={`整理 ${curatedStr}`} />
         </span>
         {sourceStr && (
           <span class="tabular-nums text-slate-400" title="When the original source published">
-            <span data-en>· Source {sourceStr}</span>
-            <span data-zh>· 原文 {sourceStr}</span>
+            <Bi en={`· Source ${sourceStr}`} zh={`· 原文 ${sourceStr}`} />
           </span>
         )}
-        <span>
-          <span data-en>Trust {post.data.trust.score}/5</span>
-          <span data-zh>可信 {post.data.trust.score}/5</span>
-        </span>
         {post.data.vendor.length > 0 && (
-          <span class="text-slate-400">
-            {post.data.vendor.join(', ')}
-          </span>
+          <span class="text-slate-400">{post.data.vendor.join(', ')}</span>
         )}
       </div>
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
-        <span data-en>{post.data.title_en}</span>
-        <span data-zh>{post.data.title_zh}</span>
+        <Bi en={post.data.title_en} zh={post.data.title_zh} />
       </h1>
+
+      <div class="mt-4 flex items-start gap-2 text-sm bg-slate-50 border border-slate-200 rounded-lg p-3">
+        <TrustBadge score={post.data.trust.score} />
+        <p class="text-slate-600 leading-relaxed">
+          <span class="font-semibold text-slate-700"><Bi en="Why: " zh="評等理由：" /></span>
+          <span>{post.data.trust.reasoning}</span>
+        </p>
+      </div>
     </header>
 
-    <div class="prose prose-slate max-w-none text-base leading-relaxed">
+    <div class="prose prose-slate max-w-prose mx-auto text-base leading-relaxed">
       {bodyEnHtml
-        ? <div data-en set:html={bodyEnHtml} />
-        : <p data-en class="whitespace-pre-line">{post.data.summary_en}</p>}
+        ? <div data-en lang="en" set:html={bodyEnHtml} />
+        : <p data-en lang="en" class="whitespace-pre-line">{post.data.summary_en}</p>}
       {bodyZhHtml
-        ? <div data-zh set:html={bodyZhHtml} />
-        : <p data-zh class="whitespace-pre-line">{post.data.summary_zh}</p>}
+        ? <div data-zh lang="zh-Hant" set:html={bodyZhHtml} />
+        : <p data-zh lang="zh-Hant" class="whitespace-pre-line">{post.data.summary_zh}</p>}
     </div>
 
-    <footer class="mt-8 pt-4 border-t border-slate-100">
+    <footer class="mt-8 pt-4 border-t border-slate-100 max-w-prose mx-auto">
       <h2 class="text-sm font-semibold text-slate-700 mb-2">
-        <span data-en>Sources</span>
-        <span data-zh>來源</span>
+        <Bi en="Sources" zh="來源" />
       </h2>
       <ul class="space-y-1.5 text-sm">
         {post.data.sources.map((src) => (
@@ -95,6 +100,7 @@ const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : nu
               class="text-slate-700 hover:text-slate-900 underline decoration-slate-300 hover:decoration-slate-700"
             >
               {src.title}
+              <span class="sr-only"><Bi en="(opens in new tab)" zh="(在新分頁開啟)" /></span>
             </a>
             <span class="text-xs text-slate-400 ml-2">
               ({src.type === 'primary' ? 'primary' : 'corroborating'} · trust {src.trust}/5{src.published_at ? ` · ${src.published_at.toISOString().slice(0, 10)}` : ''})
@@ -102,16 +108,25 @@ const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : nu
           </li>
         ))}
       </ul>
-      <div class="mt-3 text-xs text-slate-500">
-        <span data-en>{post.data.trust.reasoning}</span>
-      </div>
     </footer>
   </article>
 
+  {
+    related.length > 0 && (
+      <section class="mt-10">
+        <h2 class="eyebrow mb-3">
+          <Bi en={`More in ${cat?.en ?? post.data.category}`} zh={`更多${cat?.zh ?? post.data.category}`} />
+        </h2>
+        <div class="space-y-3">
+          {related.map((p) => <ArticleCard post={p} base={base} />)}
+        </div>
+      </section>
+    )
+  }
+
   <div class="mt-6">
-    <a href={import.meta.env.BASE_URL} class="text-sm text-slate-600 hover:text-slate-900">
-      <span data-en>← Back to latest</span>
-      <span data-zh>← 返回最新</span>
+    <a href={base} class="text-sm text-slate-600 hover:text-slate-900">
+      <Bi en="← Back to home" zh="← 返回首頁" />
     </a>
   </div>
 </BaseLayout>

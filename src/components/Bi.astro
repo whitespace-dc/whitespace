@@ -1,0 +1,13 @@
+---
+// Bilingual text pair. Emits both EN + zh-Hant with correct `lang` attributes; the
+// global CSS hides the inactive language by [data-lang] on <html>. Centralizes the
+// data-en/data-zh + lang markup so it can't drift across pages (a11y: screen readers
+// get the right pronunciation per fragment).
+interface Props {
+  en: string;
+  zh: string;
+  class?: string;
+}
+const { en, zh, class: cls } = Astro.props;
+---
+<span data-en lang="en" class={cls}>{en}</span><span data-zh lang="zh-Hant" class={cls}>{zh}</span>

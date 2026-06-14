@@ -10,6 +10,10 @@ module.exports = {
         sans: [
           'system-ui',
           '-apple-system',
+          // Traditional Chinese first (team is Taiwan-context), Simplified as fallback.
+          'PingFang TC',
+          'Microsoft JhengHei',
+          'Noto Sans TC',
           'PingFang SC',
           'Microsoft YaHei',
           'sans-serif',
