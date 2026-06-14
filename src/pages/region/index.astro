@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { REGION_GROUPS, regionGroupsFor } from '../../data/regions';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('news');
+// Article count per group (cross-listed). Computed once so the index shows real coverage.
+const counts = new Map<string, number>();
+for (const p of allPosts) {
+  for (const slug of regionGroupsFor(p.data.region ?? [])) {
+    counts.set(slug, (counts.get(slug) ?? 0) + 1);
+  }
+}
+const taggedCount = allPosts.filter((p) => (p.data.region ?? []).length > 0).length;
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="Regions — Whitespace">
+  <section class="mb-8">
+    <a href={base} class="text-sm text-slate-500 hover:text-slate-700">
+      <span data-en>← Home</span>
+      <span data-zh>← 首頁</span>
+    </a>
+    <h1 class="text-2xl font-bold tracking-tight mt-2">
+      <span data-en>Regions</span>
+      <span data-zh>地區</span>
+    </h1>
+    <p class="text-sm text-slate-500 mt-1">
+      <span data-en>{taggedCount} region-tagged {taggedCount === 1 ? 'post' : 'posts'}</span>
+      <span data-zh>{taggedCount} 篇已標記地區</span>
+    </p>
+  </section>
+
+  <section class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+    {
+      REGION_GROUPS.map((group) => {
+        const n = counts.get(group.slug) ?? 0;
+        return (
+          <a
+            href={`${base}/region/${group.slug}`}
+            class={`flex items-center justify-between rounded-lg border p-4 hover:opacity-80 transition ${group.chip}`}
+          >
+            <span class="font-semibold">
+              <span data-en>{group.en}</span>
+              <span data-zh>{group.zh}</span>
+            </span>
+            <span class="text-sm tabular-nums opacity-70">{n}</span>
+          </a>
+        );
+      })
+    }
+  </section>
+</BaseLayout>
