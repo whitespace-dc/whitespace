@@ -5,3 +5,29 @@
 html {
   scroll-padding-top: 5rem;
 }
+
+@layer base {
+  /* Visible keyboard focus on every interactive surface (was relying on the UA default,
+     which the sticky scrolling nav clipped). Mouse clicks stay ring-free via :focus-visible. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid theme('colors.indigo.600');
+    outline-offset: 2px;
+    border-radius: 0.375rem;
+  }
+  /* Focused cards/links shouldn't hide under the sticky header when scrolled into view. */
+  a,
+  article {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer components {
+  /* Eyebrow: small uppercase section label — the editorial cue that replaces bold headings. */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-wider text-slate-400;
+  }
+}

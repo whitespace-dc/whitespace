@@ -1,0 +1,156 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { GEO_SECTIONS, regionGroup, regionGroupsFor } from '../data/regions';
+import Bi from './Bi.astro';
+
+// The region "lens": a single pill that opens a "Read by place" sheet (bottom sheet on
+// mobile, popover on desktop via native <dialog>). Picking a place filters the current
+// view's article cards client-side (by their data-region group slugs) and reflects state
+// in ?region=. NOT a chip row — region is a lens over whatever list you're reading, so
+// "Taiwan + power" = open Power, apply Taiwan. counts come from the page's own posts.
+interface Props {
+  posts: CollectionEntry<'news'>[];
+  initial?: string; // preselected group slug (region/[slug] deep-link entry)
+}
+const { posts } = Astro.props;
+const counts = new Map<string, number>();
+for (const p of posts) {
+  for (const s of regionGroupsFor(p.data.region ?? [])) counts.set(s, (counts.get(s) ?? 0) + 1);
+}
+---
+<div class="shrink-0">
+  <button
+    id="region-lens-trigger"
+    type="button"
+    aria-haspopup="dialog"
+    class="inline-flex items-center gap-1.5 min-h-[36px] px-3 py-1.5 text-sm rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition data-[active]:bg-indigo-600 data-[active]:text-white data-[active]:border-indigo-600"
+  >
+    <svg aria-hidden="true" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+    </svg>
+    <span id="region-lens-label"><Bi en="Anywhere" zh="所有地區" /></span>
+    <span aria-hidden="true" class="text-xs opacity-60">▾</span>
+  </button>
+</div>
+
+<dialog
+  id="region-lens-sheet"
+  aria-label="Read by place"
+  class="m-0 w-full max-w-none p-0 fixed inset-x-0 bottom-0 top-auto rounded-t-2xl bg-white shadow-2xl backdrop:bg-black/40 sm:inset-auto sm:right-4 sm:top-28 sm:w-80 sm:rounded-xl"
+>
+  <div class="p-4">
+    <header class="flex items-center justify-between mb-3">
+      <h2 class="text-sm font-bold tracking-tight">
+        <Bi en="Read by place" zh="依地區閱讀" />
+      </h2>
+      <button id="region-lens-close" type="button" class="text-slate-400 hover:text-slate-700 min-h-[44px] min-w-[44px] -mr-2" aria-label="Close">✕</button>
+    </header>
+
+    <button
+      data-region-pick=""
+      data-label-en="Anywhere"
+      data-label-zh="所有地區"
+      class="w-full text-left px-3 py-2 mb-3 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium min-h-[44px]"
+    >
+      <Bi en="All regions" zh="所有地區" />
+    </button>
+
+    {
+      GEO_SECTIONS.map((sec) => (
+        <section class="mb-3 last:mb-0">
+          <h3 class="eyebrow mb-1.5">
+            <Bi en={sec.label_en} zh={sec.label_zh} />
+          </h3>
+          <div class="grid grid-cols-2 gap-2">
+            {sec.slugs.map((slug) => {
+              const g = regionGroup(slug)!;
+              const n = counts.get(slug) ?? 0;
+              return (
+                <button
+                  data-region-pick={slug}
+                  data-label-en={g.en}
+                  data-label-zh={g.zh}
+                  disabled={n === 0}
+                  class={`flex items-center justify-between min-h-[44px] px-3 py-2 rounded-lg border text-sm font-medium transition hover:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed ${g.chip}`}
+                >
+                  <Bi en={g.en} zh={g.zh} />
+                  <span class="tabular-nums text-xs opacity-70">{n}</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</dialog>
+
+<script>
+  const sheet = document.getElementById('region-lens-sheet') as HTMLDialogElement | null;
+  const trigger = document.getElementById('region-lens-trigger');
+  const label = document.getElementById('region-lens-label');
+  const closeBtn = document.getElementById('region-lens-close');
+
+  if (sheet && trigger && label) {
+    const sheetEl = sheet;
+    const triggerEl = trigger;
+    const labelEl = label;
+    const articles = Array.from(document.querySelectorAll<HTMLElement>('[data-article]'));
+    const topStories = document.getElementById('top-stories');
+    const emptyMsg = document.getElementById('region-empty');
+    const picks = Array.from(sheetEl.querySelectorAll<HTMLButtonElement>('[data-region-pick]'));
+    const defaultLabel = labelEl.innerHTML;
+
+    function setLabel(pick: HTMLButtonElement | null) {
+      if (!pick || !pick.dataset.regionPick) {
+        labelEl.innerHTML = defaultLabel;
+        triggerEl.removeAttribute('data-active');
+      } else {
+        const en = pick.dataset.labelEn ?? '';
+        const zh = pick.dataset.labelZh ?? '';
+        labelEl.innerHTML = `<span data-en lang="en">${en}</span><span data-zh lang="zh-Hant">${zh}</span>`;
+        triggerEl.setAttribute('data-active', '');
+      }
+    }
+
+    function apply(slug: string, pick: HTMLButtonElement | null) {
+      let shown = 0;
+      for (const a of articles) {
+        const groups = (a.dataset.region ?? '').split(' ').filter(Boolean);
+        const match = !slug || groups.includes(slug);
+        // Featured cards live in the Latest list only to be revealed when a place is
+        // active (the hero shows them otherwise) — keep them hidden in the unfiltered view.
+        const featuredHiddenInDefault = a.hasAttribute('data-featured') && !slug;
+        const visible = match && !featuredHiddenInDefault;
+        a.hidden = !visible;
+        if (visible) shown++;
+      }
+      if (topStories) topStories.style.display = slug ? 'none' : '';
+      if (emptyMsg) emptyMsg.hidden = shown !== 0;
+      setLabel(pick);
+      const url = new URL(location.href);
+      if (slug) url.searchParams.set('region', slug);
+      else url.searchParams.delete('region');
+      history.replaceState(null, '', url);
+    }
+
+    triggerEl.addEventListener('click', () => sheetEl.showModal());
+    closeBtn?.addEventListener('click', () => sheetEl.close());
+    // Click on the backdrop (the dialog element itself, outside its content) closes it.
+    sheetEl.addEventListener('click', (e) => {
+      if (e.target === sheetEl) sheetEl.close();
+    });
+    for (const p of picks) {
+      p.addEventListener('click', () => {
+        apply(p.dataset.regionPick ?? '', p);
+        sheetEl.close();
+      });
+    }
+
+    const initial = new URL(location.href).searchParams.get('region');
+    if (initial) {
+      const p = picks.find((x) => x.dataset.regionPick === initial);
+      if (p && !p.disabled) apply(initial, p);
+    }
+  }
+</script>

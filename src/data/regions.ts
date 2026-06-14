@@ -60,3 +60,26 @@ export function regionGroupsFor(tokens: string[]): string[] {
 // Whether a token is a recognized country (vs a pseudo-token like "global"). Used to keep
 // card labels country-scale — pseudo-tokens still route to a group but never show on the UI.
 export const isNamedCountry = (t: string): boolean => TOKEN_TO_GROUP.has(t.trim().toLowerCase());
+
+const GROUP_BY_SLUG = new Map(REGION_GROUPS.map((g) => [g.slug, g]));
+export const regionGroup = (slug: string): RegionGroup | undefined => GROUP_BY_SLUG.get(slug);
+
+// Geographic sections for the "Read by place" lens sheet — grouped by proximity to Tantyo's
+// market, not a flat list. Order = reading priority. Drives RegionLens.astro.
+export interface GeoSection {
+  label_en: string;
+  label_zh: string;
+  slugs: string[];
+}
+export const GEO_SECTIONS: GeoSection[] = [
+  { label_en: 'Your market', label_zh: '主要市場', slugs: ['sea', 'taiwan'] },
+  { label_en: 'East Asia', label_zh: '東亞', slugs: ['japan', 'china'] },
+  { label_en: 'Rest of world', label_zh: '其他地區', slugs: ['america', 'europe', 'others'] },
+];
+
+// Country-scale dateline labels for a card: named countries only (pseudo-tokens like
+// "global" dropped), capped at 2 + "+N" so the dateline stays a glance, never a list.
+export function dateline(tokens: string[]): { shown: string[]; extra: number } {
+  const countries = tokens.filter(isNamedCountry);
+  return { shown: countries.slice(0, 2), extra: Math.max(0, countries.length - 2) };
+}

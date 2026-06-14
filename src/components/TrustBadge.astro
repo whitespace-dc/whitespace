@@ -1,0 +1,24 @@
+---
+import Bi from './Bi.astro';
+
+// Trust is the product's differentiator (the synthesis pipeline's own confidence signal),
+// so it gets a real badge — colour-mapped by score — not plain grey text like a timestamp.
+// Class strings are full literals per branch (JIT keeps them; never interpolate colours).
+interface Props {
+  score: number;
+  reasoning?: string;
+}
+const { score, reasoning } = Astro.props;
+const cls =
+  score >= 4
+    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+    : score === 3
+      ? 'bg-amber-50 text-amber-700 border-amber-200'
+      : 'bg-slate-100 text-slate-500 border-slate-200';
+---
+<span
+  class={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[11px] font-semibold ${cls}`}
+  title={reasoning}
+>
+  <Bi en={`Trust ${score}/5`} zh={`可信 ${score}/5`} />
+</span>
