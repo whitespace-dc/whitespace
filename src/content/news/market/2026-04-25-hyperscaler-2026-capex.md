@@ -16,7 +16,7 @@ summary_zh: |
   訂單積壓增速持續超越資本支出 — 顯示需求仍處於供不應求狀態。
 date: 2026-04-25
 category: market
-region: [global]
+region: ["global"]
 vendor: [Microsoft, Amazon, Google]
 trust:
   score: 5

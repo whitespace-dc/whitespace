@@ -59,7 +59,7 @@ date: "2026-06-09T18:44:02.465Z"
 source_published: "2026-06-09T05:32:59.000Z"
 category: "market"
 secondary_categories: ["compute"]
-region: []
+region: ["Malaysia", "Singapore"]
 vendor: []
 trust:
   score: 3

@@ -57,7 +57,7 @@ date: "2026-06-12"
 source_published: "2026-06-11T14:00:42.000Z"
 category: "networking"
 secondary_categories: ["market"]
-region: []
+region: ["Portugal", "Spain", "United States"]
 vendor: []
 trust:
   score: 3

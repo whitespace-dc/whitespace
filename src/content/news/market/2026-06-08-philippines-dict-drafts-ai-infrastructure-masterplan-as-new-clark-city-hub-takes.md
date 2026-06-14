@@ -49,7 +49,7 @@ date: "2026-06-07T18:37:34.076Z"
 source_published: "2026-06-04T14:04:15.000Z"
 category: "market"
 secondary_categories: ["regulatory"]
-region: []
+region: ["Philippines"]
 vendor: []
 trust:
   score: 3

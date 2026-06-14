@@ -47,7 +47,7 @@ date: "2026-06-09T18:41:56.428Z"
 source_published: "2026-06-03T03:01:27.000Z"
 category: "market"
 secondary_categories: ["power"]
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

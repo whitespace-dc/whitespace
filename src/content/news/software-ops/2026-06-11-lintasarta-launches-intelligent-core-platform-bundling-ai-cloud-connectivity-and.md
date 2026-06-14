@@ -75,7 +75,7 @@ date: "2026-06-11"
 source_published: "2026-06-10T05:30:00.000Z"
 category: "software-ops"
 secondary_categories: ["compute"]
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

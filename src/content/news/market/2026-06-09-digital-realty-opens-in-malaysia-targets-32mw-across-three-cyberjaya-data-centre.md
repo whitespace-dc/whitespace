@@ -75,7 +75,7 @@ date: "2026-06-08T18:47:22.766Z"
 source_published: "2026-06-08T06:48:12.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["Indonesia", "Malaysia", "Singapore"]
 vendor: []
 trust:
   score: 3

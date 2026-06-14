@@ -47,7 +47,7 @@ date: "2026-06-08T18:31:54.508Z"
 source_published: "2026-06-08T00:15:01.000Z"
 category: "cooling"
 secondary_categories: ["compute"]
-region: []
+region: ["Taiwan", "Vietnam"]
 vendor: []
 trust:
   score: 3

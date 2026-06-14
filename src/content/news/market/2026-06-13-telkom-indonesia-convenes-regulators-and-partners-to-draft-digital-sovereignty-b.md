@@ -71,7 +71,7 @@ date: "2026-06-13"
 source_published: "2026-06-07T12:51:13.000Z"
 category: "market"
 secondary_categories: ["regulatory"]
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

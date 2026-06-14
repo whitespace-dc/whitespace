@@ -83,7 +83,7 @@ date: "2026-06-13"
 source_published: "2026-06-12T12:50:59.000Z"
 category: "compute"
 secondary_categories: ["market"]
-region: []
+region: ["China"]
 vendor: []
 trust:
   score: 3

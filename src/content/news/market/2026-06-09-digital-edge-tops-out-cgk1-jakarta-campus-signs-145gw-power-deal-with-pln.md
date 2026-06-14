@@ -75,7 +75,7 @@ date: "2026-06-08T18:39:27.344Z"
 source_published: "2026-06-08T17:06:14.000Z"
 category: "market"
 secondary_categories: ["power"]
-region: []
+region: ["China", "India", "Indonesia", "Japan", "Singapore"]
 vendor: []
 trust:
   score: 3

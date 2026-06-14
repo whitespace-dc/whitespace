@@ -91,7 +91,7 @@ date: "2026-06-09T18:26:38.734Z"
 source_published: "2026-06-09T09:00:00.000Z"
 category: "power"
 secondary_categories: []
-region: []
+region: ["Netherlands"]
 vendor: []
 trust:
   score: 3

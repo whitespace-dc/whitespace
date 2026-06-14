@@ -47,7 +47,7 @@ date: "2026-06-12"
 source_published: "2026-06-11T09:35:11.000Z"
 category: "market"
 secondary_categories: ["mep"]
-region: []
+region: ["China", "Indonesia"]
 vendor: []
 trust:
   score: 2

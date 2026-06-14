@@ -59,7 +59,7 @@ date: "2026-06-08T18:42:16.949Z"
 source_published: "2026-06-07T22:00:00.000Z"
 category: "software-ops"
 secondary_categories: []
-region: []
+region: ["Japan"]
 vendor: []
 trust:
   score: 3

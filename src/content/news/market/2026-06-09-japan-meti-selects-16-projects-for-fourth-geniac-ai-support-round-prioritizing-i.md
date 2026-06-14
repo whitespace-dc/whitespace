@@ -43,7 +43,7 @@ date: "2026-06-08T18:48:59.834Z"
 source_published: "2026-06-08T08:00:00.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["Japan"]
 vendor: []
 trust:
   score: 3

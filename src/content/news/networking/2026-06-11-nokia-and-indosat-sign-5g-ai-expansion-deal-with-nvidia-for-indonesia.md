@@ -71,7 +71,7 @@ date: "2026-06-11"
 source_published: "2026-06-09T09:33:52.000Z"
 category: "networking"
 secondary_categories: ["compute"]
-region: []
+region: ["Indonesia"]
 vendor: []
 trust:
   score: 3

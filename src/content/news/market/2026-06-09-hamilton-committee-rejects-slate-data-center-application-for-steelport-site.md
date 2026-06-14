@@ -51,7 +51,7 @@ date: "2026-06-08T18:36:40.657Z"
 source_published: "2026-06-08T16:50:27.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["Canada"]
 vendor: []
 trust:
   score: 3

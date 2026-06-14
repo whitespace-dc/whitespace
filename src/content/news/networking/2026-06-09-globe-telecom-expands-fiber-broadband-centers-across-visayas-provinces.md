@@ -55,7 +55,7 @@ date: "2026-06-08T18:20:31.625Z"
 source_published: "2026-06-07T16:04:33.000Z"
 category: "networking"
 secondary_categories: []
-region: []
+region: ["Philippines"]
 vendor: []
 trust:
   score: 3

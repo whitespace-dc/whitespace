@@ -143,7 +143,7 @@ body_zh: |
   如Murphy所言，那道牆正在移動。取而代之的是什麼，如今已成為整個產業最大的工程命題。
 date: "2026-06-03T15:29:56.764Z"
 category: "networking"
-region: []
+region: ["Taiwan"]
 vendor: []
 trust:
   score: 3

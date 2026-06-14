@@ -67,7 +67,7 @@ date: "2026-06-09T18:15:28.626Z"
 source_published: "2026-06-08T13:21:00.000Z"
 category: "compute"
 secondary_categories: ["market"]
-region: []
+region: ["Taiwan"]
 vendor: []
 trust:
   score: 3

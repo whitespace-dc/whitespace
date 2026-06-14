@@ -71,7 +71,7 @@ date: "2026-06-13"
 source_published: "2026-06-08T19:00:00.000Z"
 category: "mep"
 secondary_categories: ["power", "cooling"]
-region: []
+region: ["Taiwan"]
 vendor: []
 trust:
   score: 3

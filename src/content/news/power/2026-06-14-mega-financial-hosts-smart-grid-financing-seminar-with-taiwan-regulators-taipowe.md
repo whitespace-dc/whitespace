@@ -59,7 +59,7 @@ date: "2026-06-14"
 source_published: "2026-06-11T08:53:47.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: []
+region: ["Taiwan"]
 vendor: []
 trust:
   score: 3

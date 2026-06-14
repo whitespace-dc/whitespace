@@ -23,7 +23,7 @@ date: "2026-06-14"
 source_published: "2026-06-13T01:00:59.000Z"
 category: "networking"
 secondary_categories: []
-region: []
+region: ["Taiwan"]
 vendor: []
 trust:
   score: 3

@@ -53,7 +53,7 @@ date: "2026-06-08T18:29:32.489Z"
 source_published: "2026-06-08T10:47:47.000Z"
 category: "cooling"
 secondary_categories: []
-region: []
+region: ["Japan"]
 vendor: []
 trust:
   score: 3
