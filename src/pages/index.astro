@@ -5,37 +5,119 @@ import { getCollection } from 'astro:content';
 
 const base = import.meta.env.BASE_URL;
 const allPosts = await getCollection('news');
-const posts = allPosts.sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+
+// Date desc, then trust desc — the freshest, most-trusted stories surface first.
+const posts = allPosts.sort((a, b) => {
+  const byDate = b.data.date.valueOf() - a.data.date.valueOf();
+  if (byDate !== 0) return byDate;
+  return (b.data.trust?.score ?? 0) - (a.data.trust?.score ?? 0);
+});
+
+// "3 main news of the day" — the top of the ranked set. Lead is the first.
+const featured = posts.slice(0, 3);
+const rest = posts.slice(3);
 
 function categoryLabel(slug: string) {
   return CATEGORIES.find((c) => c.slug === slug);
+}
+function isoDate(d: Date) {
+  return d.toISOString().slice(0, 10);
 }
 
 const today = new Date().toISOString().slice(0, 10);
 ---
 
 <BaseLayout title="Whitespace — DC Intel">
-  <section class="mb-10">
-    <div class="flex items-baseline justify-between mb-2">
-      <h1 class="text-2xl font-bold tracking-tight">
+  {
+    featured.length > 0 && (
+      <section class="mb-12">
+        <div class="flex items-baseline justify-between mb-4">
+          <h1 class="text-xl font-bold tracking-tight flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-indigo-600" />
+            <span data-en>Top Stories</span>
+            <span data-zh>今日要聞</span>
+          </h1>
+          <span class="text-sm text-slate-500 tabular-nums">{today}</span>
+        </div>
+
+        {/* Lead story */}
+        {featured[0] && (() => {
+          const post = featured[0];
+          const cat = categoryLabel(post.data.category);
+          return (
+            <a
+              href={`${base}/news/${post.id}`}
+              class="group block bg-white border border-slate-200 rounded-xl p-6 mb-4 hover:border-indigo-300 hover:shadow-md transition"
+            >
+              <header class="flex flex-wrap items-center gap-2 text-xs mb-3">
+                <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+                  <span data-en>{cat?.en ?? post.data.category}</span>
+                  <span data-zh>{cat?.zh ?? post.data.category}</span>
+                </span>
+                <span class="tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
+                <span class="text-slate-400" title={post.data.trust.reasoning}>
+                  <span data-en>Trust {post.data.trust.score}/5</span>
+                  <span data-zh>可信 {post.data.trust.score}/5</span>
+                </span>
+              </header>
+              <h2 class="text-2xl font-bold leading-tight mb-2 group-hover:text-indigo-700 transition">
+                <span data-en>{post.data.title_en}</span>
+                <span data-zh>{post.data.title_zh}</span>
+              </h2>
+              <p class="text-slate-700 leading-relaxed line-clamp-3">
+                <span data-en>{post.data.summary_en}</span>
+                <span data-zh>{post.data.summary_zh}</span>
+              </p>
+            </a>
+          );
+        })()}
+
+        {/* Secondary two */}
+        {featured.length > 1 && (
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {featured.slice(1).map((post) => {
+              const cat = categoryLabel(post.data.category);
+              return (
+                <a
+                  href={`${base}/news/${post.id}`}
+                  class="group block bg-white border border-slate-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-md transition"
+                >
+                  <header class="flex flex-wrap items-center gap-2 text-xs mb-2">
+                    <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+                      <span data-en>{cat?.en ?? post.data.category}</span>
+                      <span data-zh>{cat?.zh ?? post.data.category}</span>
+                    </span>
+                    <span class="tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
+                  </header>
+                  <h3 class="text-lg font-semibold leading-snug mb-1 group-hover:text-indigo-700 transition">
+                    <span data-en>{post.data.title_en}</span>
+                    <span data-zh>{post.data.title_zh}</span>
+                  </h3>
+                  <p class="text-sm text-slate-600 leading-relaxed line-clamp-2">
+                    <span data-en>{post.data.summary_en}</span>
+                    <span data-zh>{post.data.summary_zh}</span>
+                  </p>
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    )
+  }
+
+  <section>
+    <div class="flex items-baseline justify-between mb-4 border-b border-slate-200 pb-2">
+      <h2 class="text-lg font-bold tracking-tight">
         <span data-en>Latest</span>
         <span data-zh>最新</span>
-      </h1>
-      <span class="text-sm text-slate-500 tabular-nums">{today}</span>
+      </h2>
+      <span class="text-xs text-slate-400">
+        <span data-en>{rest.length} more</span>
+        <span data-zh>還有 {rest.length} 則</span>
+      </span>
     </div>
-    <p class="text-slate-600 text-sm">
-      <span data-en>
-        Curated data center intelligence — compute, networking, power, cooling and beyond.
-      </span>
-      <span data-zh>
-        精選資料中心情報 — 算力、網路、電力、冷卻及其他。
-      </span>
-    </p>
-  </section>
 
-  <section class="space-y-4 mb-12">
     {
       posts.length === 0 ? (
         <p class="text-slate-500 text-sm italic">
@@ -43,44 +125,45 @@ const today = new Date().toISOString().slice(0, 10);
           <span data-zh>暫無內容。</span>
         </p>
       ) : (
-        posts.map((post) => {
-          const cat = categoryLabel(post.data.category);
-          const dateStr = post.data.date.toISOString().slice(0, 10);
-          return (
-            <article class="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-400 transition">
-              <header class="flex items-center gap-3 text-xs text-slate-500 mb-2">
-                <span class="px-2 py-0.5 bg-slate-100 rounded font-medium text-slate-700">
-                  <span data-en>{cat?.en ?? post.data.category}</span>
-                  <span data-zh>{cat?.zh ?? post.data.category}</span>
-                </span>
-                {(post.data.secondary_categories ?? []).map((sc) => {
-                  const s = categoryLabel(sc);
-                  return (
-                    <span class="px-2 py-0.5 bg-slate-50 rounded text-slate-500 border border-slate-200">
-                      <span data-en>{s?.en ?? sc}</span>
-                      <span data-zh>{s?.zh ?? sc}</span>
-                    </span>
-                  );
-                })}
-                <span class="tabular-nums">{dateStr}</span>
-                <span title={post.data.trust.reasoning}>
-                  <span data-en>Trust {post.data.trust.score}/5</span>
-                  <span data-zh>可信 {post.data.trust.score}/5</span>
-                </span>
-              </header>
-              <h2 class="text-lg font-semibold mb-2 leading-snug">
-                <a href={`${base}/news/${post.id}`} class="hover:text-slate-700">
-                  <span data-en>{post.data.title_en}</span>
-                  <span data-zh>{post.data.title_zh}</span>
-                </a>
-              </h2>
-              <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
-                <span data-en>{post.data.summary_en}</span>
-                <span data-zh>{post.data.summary_zh}</span>
-              </p>
-            </article>
-          );
-        })
+        <div class="space-y-3">
+          {rest.map((post) => {
+            const cat = categoryLabel(post.data.category);
+            return (
+              <article class="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-400 transition">
+                <header class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2">
+                  <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
+                    <span data-en>{cat?.en ?? post.data.category}</span>
+                    <span data-zh>{cat?.zh ?? post.data.category}</span>
+                  </span>
+                  {(post.data.secondary_categories ?? []).map((sc) => {
+                    const s = categoryLabel(sc);
+                    return (
+                      <span class="px-2 py-0.5 bg-slate-50 rounded text-slate-500 border border-slate-200">
+                        <span data-en>{s?.en ?? sc}</span>
+                        <span data-zh>{s?.zh ?? sc}</span>
+                      </span>
+                    );
+                  })}
+                  <span class="tabular-nums">{isoDate(post.data.date)}</span>
+                  <span title={post.data.trust.reasoning}>
+                    <span data-en>Trust {post.data.trust.score}/5</span>
+                    <span data-zh>可信 {post.data.trust.score}/5</span>
+                  </span>
+                </header>
+                <h3 class="text-lg font-semibold mb-2 leading-snug">
+                  <a href={`${base}/news/${post.id}`} class="hover:text-indigo-700 transition">
+                    <span data-en>{post.data.title_en}</span>
+                    <span data-zh>{post.data.title_zh}</span>
+                  </a>
+                </h3>
+                <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line line-clamp-2">
+                  <span data-en>{post.data.summary_en}</span>
+                  <span data-zh>{post.data.summary_zh}</span>
+                </p>
+              </article>
+            );
+          })}
+        </div>
       )
     }
   </section>
