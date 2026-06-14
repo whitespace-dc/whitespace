@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { REGION_GROUPS, regionGroupsFor, isNamedCountry } from '../../data/regions';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return REGION_GROUPS.map((group) => ({
+    params: { slug: group.slug },
+    props: { group },
+  }));
+};
+
+const { group } = Astro.props;
+const allPosts = await getCollection('news');
+// An article appears under a group if any of its country-scale region[] tokens maps to it
+// (cross-listed, same model as secondary categories). Untagged articles appear nowhere.
+const posts = allPosts
+  .filter((p) => regionGroupsFor(p.data.region ?? []).includes(group.slug))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title={`${group.en} — Whitespace`}>
+  <section class="mb-8">
+    <a href={`${base}/region`} class="text-sm text-slate-500 hover:text-slate-700">
+      <span data-en>← All regions</span>
+      <span data-zh>← 所有地區</span>
+    </a>
+    <h1 class="text-2xl font-bold tracking-tight mt-2">
+      <span data-en>{group.en}</span>
+      <span data-zh>{group.zh}</span>
+    </h1>
+    <p class="text-sm text-slate-500 mt-1">
+      <span data-en>{posts.length} {posts.length === 1 ? 'post' : 'posts'}</span>
+      <span data-zh>{posts.length} 篇</span>
+    </p>
+  </section>
+
+  <section class="space-y-4">
+    {
+      posts.length === 0 ? (
+        <p class="text-slate-500 text-sm italic">
+          <span data-en>No posts for this region yet.</span>
+          <span data-zh>此地區暫無內容。</span>
+        </p>
+      ) : (
+        posts.map((post) => {
+          const dateStr = post.data.date.toISOString().slice(0, 10);
+          // Country-scale labels only — drop pseudo-tokens like "global".
+          const countries = post.data.region.filter(isNamedCountry);
+          return (
+            <article class="bg-white border border-slate-200 rounded-lg p-5 hover:border-slate-400 transition">
+              <header class="flex items-center gap-3 text-xs text-slate-500 mb-2">
+                <span class="tabular-nums">{dateStr}</span>
+                <span title={post.data.trust.reasoning}>
+                  <span data-en>Trust {post.data.trust.score}/5</span>
+                  <span data-zh>可信 {post.data.trust.score}/5</span>
+                </span>
+                {countries.length > 0 && (
+                  <span class="text-slate-400">{countries.join(', ')}</span>
+                )}
+              </header>
+              <h2 class="text-lg font-semibold mb-2 leading-snug">
+                <a href={`${base}/news/${post.id}`} class="hover:text-slate-700">
+                  <span data-en>{post.data.title_en}</span>
+                  <span data-zh>{post.data.title_zh}</span>
+                </a>
+              </h2>
+              <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                <span data-en>{post.data.summary_en}</span>
+                <span data-zh>{post.data.summary_zh}</span>
+              </p>
+            </article>
+          );
+        })
+      )
+    }
+  </section>
+</BaseLayout>

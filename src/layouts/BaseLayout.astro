@@ -65,6 +65,15 @@ const base = import.meta.env.BASE_URL;
                 <span data-zh>首頁</span>
               </a>
             </li>
+            <li>
+              <a
+                href={`${base}/region`}
+                class="px-3 py-1.5 rounded-md font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition inline-block"
+              >
+                <span data-en>Regions</span>
+                <span data-zh>地區</span>
+              </a>
+            </li>
             <li aria-hidden="true" class="self-center text-slate-300 px-1">/</li>
             {CATEGORIES.map((cat) => (
               <li>
