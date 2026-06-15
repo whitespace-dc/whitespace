@@ -3,8 +3,8 @@ import { CATEGORIES } from '../data/categories';
 import Bi from './Bi.astro';
 
 // One calm category tag, shared everywhere (home hero, cards, article header) so the
-// treatment lives in ONE place. Neutral pill + the category's hue as a small dot —
-// keeps topic colour-coding for scanning without the rainbow of filled colour pills.
+// treatment lives in ONE place. A small hue dot + quiet label — no filled pill, so the
+// (serif) headline leads and the category recedes to meta. Colour-coding stays via the dot.
 interface Props {
   slug: string;
   secondary?: boolean; // quieter variant for an article's secondary categories
@@ -14,10 +14,9 @@ const cat = CATEGORIES.find((c) => c.slug === slug);
 ---
 <span
   class:list={[
-    'inline-flex items-center gap-1.5 px-2 py-0.5 rounded border text-xs font-medium',
-    secondary ? 'bg-transparent border-slate-200 text-slate-500' : 'bg-slate-100 border-slate-200 text-slate-700',
+    'text-xs font-medium',
+    secondary ? 'text-stone-500' : 'text-stone-600',
   ]}
 >
-  <span class:list={['inline-block w-1.5 h-1.5 rounded-full', cat?.dot ?? 'bg-slate-400']} aria-hidden="true"></span>
   <Bi en={cat?.en ?? slug} zh={cat?.zh ?? slug} />
 </span>

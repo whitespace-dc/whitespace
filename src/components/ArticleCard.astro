@@ -2,12 +2,12 @@
 import type { CollectionEntry } from 'astro:content';
 import { regionGroupsFor } from '../data/regions';
 import Bi from './Bi.astro';
-import Dateline from './Dateline.astro';
 import CategoryTag from './CategoryTag.astro';
 
 // The list/feed card, shared by home (Latest), category, and region pages so the design
 // lives in ONE place. Carries data-category + data-region (group slugs) so the Region
-// Lens can filter it client-side. Meta row order: dateline · category · date · trust.
+// Lens can filter it client-side (the region label itself is not shown — region only
+// matters for a few categories, so it stays out of the feed). Meta row: category · date.
 interface Props {
   post: CollectionEntry<'news'>;
   base: string;
@@ -15,8 +15,11 @@ interface Props {
   // list (no duplicate), but data-featured lets the Region Lens reveal it when filtering
   // (so a featured story that matches the place isn't lost when the hero is hidden).
   featured?: boolean;
+  // The home Latest feed groups by date under sticky dividers, so the per-card date is
+  // redundant there — pass showDate={false}. Other surfaces keep it.
+  showDate?: boolean;
 }
-const { post, base, featured = false } = Astro.props;
+const { post, base, featured = false, showDate = true } = Astro.props;
 const d = post.data;
 const regionSlugs = regionGroupsFor(d.region ?? []).join(' ');
 const dateStr = d.date.toISOString().slice(0, 10);
@@ -27,19 +30,18 @@ const dateStr = d.date.toISOString().slice(0, 10);
   data-region={regionSlugs}
   data-featured={featured ? '' : undefined}
   hidden={featured}
-  class="bg-white border border-slate-200 rounded-lg p-4 sm:p-5 hover:border-slate-400 transition"
+  class="bg-white border border-stone-200 rounded-lg p-4 sm:p-5 hover:border-stone-400 transition"
 >
-  <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
-    <Dateline region={d.region ?? []} />
-    <CategoryTag slug={d.category} />
-    <span class="font-mono tabular-nums text-slate-500">{dateStr}</span>
-  </header>
-  <h3 class="text-lg font-semibold leading-snug mb-1">
-    <a href={`${base}/news/${post.id}`} class="hover:text-indigo-700 transition">
+  <h3 class="font-serif text-lg font-semibold leading-snug mb-1">
+    <a href={`${base}/news/${post.id}`} class="hover:text-accent transition">
       <Bi en={d.title_en} zh={d.title_zh} />
     </a>
   </h3>
-  <p class="text-sm text-slate-600 leading-relaxed line-clamp-2">
+  <p class="text-sm text-stone-600 leading-relaxed line-clamp-2">
     <Bi en={d.summary_en} zh={d.summary_zh} />
   </p>
+  <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-3">
+    <CategoryTag slug={d.category} />
+    {showDate && <span class="font-mono tabular-nums text-stone-500">{dateStr}</span>}
+  </footer>
 </article>

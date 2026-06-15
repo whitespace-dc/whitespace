@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Bi from '../components/Bi.astro';
-import Dateline from '../components/Dateline.astro';
 import CategoryTag from '../components/CategoryTag.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import RegionLens from '../components/RegionLens.astro';
@@ -12,6 +11,7 @@ const allPosts = await getCollection('news');
 
 const FEATURED_COUNT = 5;
 const RECENCY_WINDOW_DAYS = 10;
+const LATEST_VISIBLE_CAP = 24; // home "Latest" shows this many; "Load more" reveals the rest
 
 const byDateDesc = (a: typeof allPosts[number], b: typeof allPosts[number]) =>
   b.data.date.valueOf() - a.data.date.valueOf();
@@ -33,17 +33,37 @@ for (const p of chronological) {
   if (!have.has(p)) { featured.push(p); have.add(p); }
 }
 const featuredIds = new Set(featured.map((p) => p.id));
-// Default view hides the featured rows in Latest (they lead the hero), so the count
-// reflects what's actually visible below, not the full corpus.
-const latestVisible = chronological.length - featuredIds.size;
 
 const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 const today = new Date().toISOString().slice(0, 10);
+
+// Group the Latest feed by calendar date (newest first) so the home feed gets sticky date
+// dividers instead of a flat list + a "Latest" header. Per-card dates are dropped (the
+// divider carries the date).
+const dateGroups: { date: string; posts: typeof chronological }[] = [];
+for (const post of chronological) {
+  const ds = isoDate(post.data.date);
+  const last = dateGroups[dateGroups.length - 1];
+  if (last && last.date === ds) last.posts.push(post);
+  else dateGroups.push({ date: ds, posts: [post] });
+}
 ---
 
 <BaseLayout title="Whitespace — DC Intel">
   <div class="flex items-center justify-between gap-3 mb-6">
-    <div id="search" class="w-full max-w-xs sm:max-w-sm"></div>
+    {/* Pagefind replaces this in built/preview/prod; the placeholder keeps the layout intact
+        in `astro dev` (where the bundle doesn't exist) and is cleared before init in prod. */}
+    <div id="search" class="w-full max-w-xs sm:max-w-sm">
+      <div
+        class="flex items-center gap-2 px-3 h-9 rounded-lg border border-stone-300 bg-white text-stone-500 text-sm"
+        data-search-placeholder
+      >
+        <svg aria-hidden="true" class="w-4 h-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="9" r="6" /><path d="m17 17-3.5-3.5" stroke-linecap="round" />
+        </svg>
+        <Bi en="Search" zh="搜尋" />
+      </div>
+    </div>
     <RegionLens posts={allPosts} />
   </div>
 
@@ -52,10 +72,10 @@ const today = new Date().toISOString().slice(0, 10);
       <section id="top-stories" class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <h2 class="eyebrow flex items-center gap-2">
-            <span class="inline-block w-1.5 h-1.5 rounded-full bg-indigo-600" />
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-accent" />
             <Bi en="Top Stories · most significant" zh="今日要聞 · 最具份量" />
           </h2>
-          <span class="text-sm text-slate-500 tabular-nums">{today}</span>
+          <span class="text-sm text-stone-600 tabular-nums">{today}</span>
         </div>
 
         {featured[0] && (() => {
@@ -63,19 +83,18 @@ const today = new Date().toISOString().slice(0, 10);
           return (
             <a
               href={`${base}/news/${post.id}`}
-              class="group block bg-white border border-slate-200 rounded-xl p-6 sm:p-8 mb-4 hover:border-indigo-300 hover:shadow-md transition"
+              class="group block bg-white border border-stone-200 rounded-xl p-6 sm:p-8 mb-4 hover:border-stone-300 hover:shadow-md transition"
             >
-              <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-3">
-                <Dateline region={post.data.region ?? []} />
-                <CategoryTag slug={post.data.category} />
-                <span class="font-mono tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
-              </header>
-              <h3 class="text-2xl sm:text-3xl font-bold leading-tight mb-2 group-hover:text-indigo-700 transition">
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold leading-tight mb-2 group-hover:text-accent transition">
                 <Bi en={post.data.title_en} zh={post.data.title_zh} />
               </h3>
-              <p class="text-slate-700 leading-relaxed line-clamp-3">
+              <p class="text-stone-700 leading-relaxed line-clamp-3">
                 <Bi en={post.data.summary_en} zh={post.data.summary_zh} />
               </p>
+              <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-4">
+                <CategoryTag slug={post.data.category} />
+                <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
+              </footer>
             </a>
           );
         })()}
@@ -86,19 +105,18 @@ const today = new Date().toISOString().slice(0, 10);
               return (
                 <a
                   href={`${base}/news/${post.id}`}
-                  class="group block bg-white border border-slate-200 rounded-xl p-5 hover:border-indigo-300 hover:shadow-md transition"
+                  class="group block bg-white border border-stone-200 rounded-xl p-5 hover:border-stone-300 hover:shadow-md transition"
                 >
-                  <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
-                    <Dateline region={post.data.region ?? []} />
-                    <CategoryTag slug={post.data.category} />
-                    <span class="font-mono tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
-                  </header>
-                  <h3 class="text-lg font-semibold leading-snug mb-1 group-hover:text-indigo-700 transition">
+                  <h3 class="font-serif text-lg font-semibold leading-snug mb-1 group-hover:text-accent transition">
                     <Bi en={post.data.title_en} zh={post.data.title_zh} />
                   </h3>
-                  <p class="text-sm text-slate-600 leading-relaxed line-clamp-2">
+                  <p class="text-sm text-stone-600 leading-relaxed line-clamp-2">
                     <Bi en={post.data.summary_en} zh={post.data.summary_zh} />
                   </p>
+                  <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-3">
+                    <CategoryTag slug={post.data.category} />
+                    <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
+                  </footer>
                 </a>
               );
             })}
@@ -109,30 +127,42 @@ const today = new Date().toISOString().slice(0, 10);
   }
 
   <section>
-    <div class="flex items-baseline justify-between mb-4 border-b border-slate-200 pb-2">
-      <h2 class="eyebrow">
-        <Bi en="Latest" zh="最新" />
-      </h2>
-      <span class="text-xs text-slate-400">
-        <Bi en={`${latestVisible} stories`} zh={`${latestVisible} 則`} />
-      </span>
-    </div>
-
     {
       chronological.length === 0 ? (
-        <p class="text-slate-500 text-sm italic">
+        <p class="text-stone-500 text-sm italic">
           <Bi en="No posts yet." zh="暫無內容。" />
         </p>
       ) : (
         <>
-          <div class="space-y-3">
-            {chronological.map((post) => (
-              <ArticleCard post={post} base={base} featured={featuredIds.has(post.id)} />
+          <div data-latest-list>
+            {dateGroups.map((g) => (
+              <div data-date-group class="mb-3">
+                <div
+                  data-date-divider
+                  class="sticky top-[6.75rem] z-20 -mx-1 mb-3 px-1 py-1.5 bg-[#faf7f0]/90 backdrop-blur border-b border-stone-200"
+                >
+                  <span class="eyebrow">{g.date}</span>
+                </div>
+                <div class="space-y-3">
+                  {g.posts.map((post) => (
+                    <ArticleCard post={post} base={base} featured={featuredIds.has(post.id)} showDate={false} />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-          <p id="region-empty" hidden class="text-slate-500 text-sm italic mt-4">
+          <p id="region-empty" hidden class="text-stone-500 text-sm italic mt-4">
             <Bi en="No stories for this place yet." zh="此地區暫無內容。" />
           </p>
+          <div id="load-more-wrap" class="mt-6 text-center" hidden>
+            <button
+              id="load-more"
+              type="button"
+              class="font-mono text-xs uppercase tracking-wider text-stone-600 border border-stone-300 rounded-full px-5 py-2 hover:bg-white hover:border-stone-400 transition min-h-[44px]"
+            >
+              <Bi en="Load more" zh="載入更多" />
+            </button>
+          </div>
         </>
       )
     }
@@ -147,6 +177,8 @@ const today = new Date().toISOString().slice(0, 10);
     window.addEventListener('DOMContentLoaded', () => {
       if (!window.PagefindUI) return; // dev mode: bundle not built
       const b = base.replace(/\/$/, '');
+      const searchEl = document.getElementById('search');
+      if (searchEl) searchEl.innerHTML = ''; // drop the dev placeholder before Pagefind builds
       new window.PagefindUI({
         element: '#search',
         bundlePath: `${b}/pagefind/`,
@@ -165,10 +197,73 @@ const today = new Date().toISOString().slice(0, 10);
     });
   </script>
 
+  {/* Load-more fold: every article stays in the DOM (so Region Lens + search see the full
+      corpus); we only cap how many are visible by default. Bypassed when a region filter is
+      active (the lens then owns visibility). */}
+  <script define:vars={{ cap: LATEST_VISIBLE_CAP }}>
+    (() => {
+      const list = document.querySelector('[data-latest-list]');
+      const wrap = document.getElementById('load-more-wrap');
+      const btn = document.getElementById('load-more');
+      const trigger = document.getElementById('region-lens-trigger');
+      if (!list || !wrap || !btn) return;
+      const cards = Array.from(list.querySelectorAll('[data-article]'));
+      const STEP = cap;
+      let shownCap = cap;
+
+      function apply() {
+        const regionActive = !!(trigger && trigger.hasAttribute('data-active'));
+        let shown = 0;
+        let beyond = 0;
+        for (const a of cards) {
+          a.classList.remove('fold-hidden');
+          if (regionActive) continue; // region filter active: the lens owns visibility
+          if (a.hasAttribute('data-featured')) continue; // featured already hidden by default
+          shown++;
+          if (shown > shownCap) { a.classList.add('fold-hidden'); beyond++; }
+        }
+        wrap.hidden = regionActive || beyond === 0;
+      }
+
+      btn.addEventListener('click', () => { shownCap += STEP; apply(); });
+      // Re-fold after a region pick (RegionLens updates hidden + trigger[data-active] first).
+      document.addEventListener('click', (e) => {
+        if (e.target.closest && e.target.closest('[data-region-pick]')) setTimeout(apply, 0);
+      });
+      // First fold waits for RegionLens's deferred script to apply any ?region= deep-link.
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
+      else apply();
+    })();
+  </script>
+
+  {/* Hide a date divider when its whole group is hidden — by the region filter or the
+      load-more fold. A MutationObserver reacts to any article visibility change, so it
+      stays correct no matter which mechanism changed it. */}
+  <script>
+    (() => {
+      const groups = Array.from(document.querySelectorAll('[data-date-group]'));
+      if (!groups.length) return;
+      const update = () => {
+        for (const g of groups) {
+          const anyVisible = Array.from(g.querySelectorAll('[data-article]')).some(
+            (a) => !(a as HTMLElement).hidden && !a.classList.contains('fold-hidden'),
+          );
+          (g as HTMLElement).hidden = !anyVisible;
+        }
+      };
+      const obs = new MutationObserver(update);
+      for (const a of document.querySelectorAll('[data-article]')) {
+        obs.observe(a, { attributes: true, attributeFilter: ['hidden', 'class', 'style'] });
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', update);
+      else update();
+    })();
+  </script>
+
   <style is:global>
     #search {
-      --pagefind-ui-primary: #4f46e5;
-      --pagefind-ui-text: #0f172a;
+      --pagefind-ui-primary: #1e3a5f;
+      --pagefind-ui-text: #1c1917;
       --pagefind-ui-font: inherit;
       --pagefind-ui-border-radius: 0.5rem;
     }
