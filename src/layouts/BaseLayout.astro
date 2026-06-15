@@ -71,18 +71,22 @@ const isActiveCat = (slug: string) => path === catHref(slug);
       <div class="max-w-6xl mx-auto px-4 relative z-10">
         <div class="flex items-center justify-between h-14">
           <a href={base} class="flex items-baseline gap-2 hover:opacity-80 transition" aria-label="Whitespace — DC Intel, home">
+            {/* Mark = an empty outlined square: literally "white space". Also the egg trigger. */}
             <svg
               data-egg-trigger
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
+              width="15"
+              height="15"
+              viewBox="0 0 16 16"
               aria-hidden="true"
-              class="shrink-0 translate-y-px"
+              class="shrink-0 translate-y-[2px]"
             >
-              <rect x="2.5" y="2.5" width="15" height="15" rx="4.5" fill="#1e3a5f" />
-              <rect x="9.5" y="9.5" width="5.5" height="5.5" rx="1.8" fill="#b08d57" />
+              <rect x="2" y="2" width="12" height="12" rx="3" fill="none" stroke="#1e3a5f" stroke-width="1.75" />
             </svg>
-            <span class="text-lg font-bold tracking-tight">Whitespace</span>
+            {/* Wordmark IS the logo: serif nameplate, the weight fading from "White" into
+                "space" so the word visually empties out — the concept, in the type itself. */}
+            <span class="font-serif text-xl tracking-tight leading-none">
+              <span class="font-bold text-stone-900">White</span><span class="font-normal text-stone-500">space</span>
+            </span>
             <span class="font-mono text-[11px] uppercase tracking-wider text-stone-500" data-en lang="en">DC Intel</span>
             <span class="text-xs text-stone-500" data-zh lang="zh-Hant">資料中心情報</span>
           </a>
