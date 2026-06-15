@@ -40,7 +40,7 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={post.data.title_en}>
-  <article class="bg-white border border-slate-200 rounded-lg p-6 sm:p-8">
+  <article class="bg-white border border-slate-200 rounded-lg p-6 sm:p-8" data-pagefind-meta={`title:${post.data.title_en}`}>
     <header class="mb-6 pb-4 border-b border-slate-100">
       <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 mb-3">
         <Dateline region={post.data.region ?? []} />
@@ -79,8 +79,8 @@ const base = import.meta.env.BASE_URL;
 
     <div class="prose prose-slate max-w-prose mx-auto text-base leading-relaxed">
       {bodyEnHtml
-        ? <div data-en lang="en" set:html={bodyEnHtml} />
-        : <p data-en lang="en" class="whitespace-pre-line">{post.data.summary_en}</p>}
+        ? <div data-en lang="en" data-pagefind-body set:html={bodyEnHtml} />
+        : <p data-en lang="en" data-pagefind-body class="whitespace-pre-line">{post.data.summary_en}</p>}
       {bodyZhHtml
         ? <div data-zh lang="zh-Hant" set:html={bodyZhHtml} />
         : <p data-zh lang="zh-Hant" class="whitespace-pre-line">{post.data.summary_zh}</p>}
