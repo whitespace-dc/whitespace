@@ -15,8 +15,11 @@ interface Props {
   // list (no duplicate), but data-featured lets the Region Lens reveal it when filtering
   // (so a featured story that matches the place isn't lost when the hero is hidden).
   featured?: boolean;
+  // The home Latest feed groups by date under sticky dividers, so the per-card date is
+  // redundant there — pass showDate={false}. Other surfaces keep it.
+  showDate?: boolean;
 }
-const { post, base, featured = false } = Astro.props;
+const { post, base, featured = false, showDate = true } = Astro.props;
 const d = post.data;
 const regionSlugs = regionGroupsFor(d.region ?? []).join(' ');
 const dateStr = d.date.toISOString().slice(0, 10);
@@ -39,6 +42,6 @@ const dateStr = d.date.toISOString().slice(0, 10);
   </p>
   <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-3">
     <CategoryTag slug={d.category} />
-    <span class="font-mono tabular-nums text-stone-500">{dateStr}</span>
+    {showDate && <span class="font-mono tabular-nums text-stone-500">{dateStr}</span>}
   </footer>
 </article>

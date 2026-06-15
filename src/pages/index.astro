@@ -33,12 +33,20 @@ for (const p of chronological) {
   if (!have.has(p)) { featured.push(p); have.add(p); }
 }
 const featuredIds = new Set(featured.map((p) => p.id));
-// Default view hides the featured rows in Latest (they lead the hero), so the count
-// reflects what's actually visible below, not the full corpus.
-const latestVisible = chronological.length - featuredIds.size;
 
 const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 const today = new Date().toISOString().slice(0, 10);
+
+// Group the Latest feed by calendar date (newest first) so the home feed gets sticky date
+// dividers instead of a flat list + a "Latest" header. Per-card dates are dropped (the
+// divider carries the date).
+const dateGroups: { date: string; posts: typeof chronological }[] = [];
+for (const post of chronological) {
+  const ds = isoDate(post.data.date);
+  const last = dateGroups[dateGroups.length - 1];
+  if (last && last.date === ds) last.posts.push(post);
+  else dateGroups.push({ date: ds, posts: [post] });
+}
 ---
 
 <BaseLayout title="Whitespace — DC Intel">
@@ -119,15 +127,6 @@ const today = new Date().toISOString().slice(0, 10);
   }
 
   <section>
-    <div class="flex items-baseline justify-between mb-4 border-b border-stone-200 pb-2">
-      <h2 class="eyebrow">
-        <Bi en="Latest" zh="最新" />
-      </h2>
-      <span class="font-mono text-xs text-stone-600 tabular-nums">
-        <span data-region-count data-total={latestVisible}>{latestVisible}</span> <Bi en="stories" zh="則" />
-      </span>
-    </div>
-
     {
       chronological.length === 0 ? (
         <p class="text-stone-500 text-sm italic">
@@ -135,9 +134,21 @@ const today = new Date().toISOString().slice(0, 10);
         </p>
       ) : (
         <>
-          <div class="space-y-3" data-latest-list>
-            {chronological.map((post) => (
-              <ArticleCard post={post} base={base} featured={featuredIds.has(post.id)} />
+          <div data-latest-list>
+            {dateGroups.map((g) => (
+              <div data-date-group class="mb-3">
+                <div
+                  data-date-divider
+                  class="sticky top-[6.75rem] z-20 -mx-1 mb-3 px-1 py-1.5 bg-[#faf7f0]/90 backdrop-blur border-b border-stone-200"
+                >
+                  <span class="eyebrow">{g.date}</span>
+                </div>
+                <div class="space-y-3">
+                  {g.posts.map((post) => (
+                    <ArticleCard post={post} base={base} featured={featuredIds.has(post.id)} showDate={false} />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
           <p id="region-empty" hidden class="text-stone-500 text-sm italic mt-4">
@@ -222,6 +233,30 @@ const today = new Date().toISOString().slice(0, 10);
       // First fold waits for RegionLens's deferred script to apply any ?region= deep-link.
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
       else apply();
+    })();
+  </script>
+
+  {/* Hide a date divider when its whole group is hidden — by the region filter or the
+      load-more fold. A MutationObserver reacts to any article visibility change, so it
+      stays correct no matter which mechanism changed it. */}
+  <script>
+    (() => {
+      const groups = Array.from(document.querySelectorAll('[data-date-group]'));
+      if (!groups.length) return;
+      const update = () => {
+        for (const g of groups) {
+          const anyVisible = Array.from(g.querySelectorAll('[data-article]')).some(
+            (a) => !(a as HTMLElement).hidden && !a.classList.contains('fold-hidden'),
+          );
+          (g as HTMLElement).hidden = !anyVisible;
+        }
+      };
+      const obs = new MutationObserver(update);
+      for (const a of document.querySelectorAll('[data-article]')) {
+        obs.observe(a, { attributes: true, attributeFilter: ['hidden', 'class', 'style'] });
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', update);
+      else update();
     })();
   </script>
 
