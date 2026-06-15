@@ -23,6 +23,31 @@ body {
   display: none;
 }
 
+/* Easter egg: batik (kawung) sweep across the masthead, triggered by 5 logo-mark clicks.
+   Idle at opacity 0; the .run class fades it in/out with a gentle horizontal drift. */
+.batik-overlay {
+  opacity: 0;
+}
+.batik-overlay.run {
+  animation: batikSweep 1.8s ease-in-out;
+}
+.batik-overlay.run svg {
+  animation: batikSlide 1.8s ease-in-out;
+}
+@keyframes batikSweep {
+  0%, 100% { opacity: 0; }
+  25%, 75% { opacity: 0.5; }
+}
+@keyframes batikSlide {
+  0% { transform: translateX(-12%); }
+  100% { transform: translateX(12%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .batik-overlay.run { animation: batikFade 1.6s ease; }
+  .batik-overlay.run svg { animation: none; }
+  @keyframes batikFade { 0%, 100% { opacity: 0; } 50% { opacity: 0.4; } }
+}
+
 @layer base {
   /* Visible keyboard focus on every interactive surface (was relying on the UA default,
      which the sticky scrolling nav clipped). Mouse clicks stay ring-free via :focus-visible. */

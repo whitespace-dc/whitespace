@@ -4,7 +4,6 @@ import { CATEGORIES } from '../../data/categories';
 import Bi from '../../components/Bi.astro';
 import Dateline from '../../components/Dateline.astro';
 import CategoryTag from '../../components/CategoryTag.astro';
-import TrustBadge from '../../components/TrustBadge.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { renderArticleBody } from '../../lib/markdown';
 import { getCollection } from 'astro:content';
@@ -32,6 +31,14 @@ const sourceStr = post.data.source_published
   ? post.data.source_published.toISOString().slice(0, 10)
   : null;
 
+// Sourcing signal (replaces the old "Trust X/5" badge): derived from the actual source
+// list and shown next to the Sources heading, so the sourcing speaks for itself.
+const sourceCount = post.data.sources.length;
+const sourcing =
+  sourceCount <= 1
+    ? { en: 'Single source', zh: '單一來源' }
+    : { en: `Corroborated · ${sourceCount} sources`, zh: `多方佐證 · ${sourceCount} 則` };
+
 const bodyEnHtml = post.data.body_en ? renderArticleBody(post.data.body_en) : null;
 const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : null;
 const base = import.meta.env.BASE_URL;
@@ -54,7 +61,6 @@ const base = import.meta.env.BASE_URL;
             <Bi en={`· Source ${sourceStr}`} zh={`· 原文 ${sourceStr}`} />
           </span>
         )}
-        <TrustBadge score={post.data.trust.score} reasoning={post.data.trust.reasoning} />
       </div>
       <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
         <Bi en={post.data.title_en} zh={post.data.title_zh} />
@@ -71,9 +77,14 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <footer class="mt-8 pt-4 border-t border-stone-100 max-w-prose">
-      <h2 class="text-sm font-semibold text-stone-700 mb-2">
-        <Bi en="Sources" zh="來源" />
-      </h2>
+      <div class="flex items-baseline justify-between gap-3 mb-2">
+        <h2 class="text-sm font-semibold text-stone-700">
+          <Bi en="Sources" zh="來源" />
+        </h2>
+        <span class="font-mono text-[11px] uppercase tracking-wider text-stone-500">
+          <Bi en={sourcing.en} zh={sourcing.zh} />
+        </span>
+      </div>
       <ul class="space-y-1.5 text-sm">
         {post.data.sources.map((src) => (
           <li>
