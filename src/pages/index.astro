@@ -1,9 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CATEGORIES } from '../data/categories';
 import Bi from '../components/Bi.astro';
 import Dateline from '../components/Dateline.astro';
-import TrustBadge from '../components/TrustBadge.astro';
+import CategoryTag from '../components/CategoryTag.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import RegionLens from '../components/RegionLens.astro';
 import { getCollection } from 'astro:content';
@@ -38,7 +37,6 @@ const featuredIds = new Set(featured.map((p) => p.id));
 // reflects what's actually visible below, not the full corpus.
 const latestVisible = chronological.length - featuredIds.size;
 
-const categoryLabel = (slug: string) => CATEGORIES.find((c) => c.slug === slug);
 const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 const today = new Date().toISOString().slice(0, 10);
 ---
@@ -62,7 +60,6 @@ const today = new Date().toISOString().slice(0, 10);
 
         {featured[0] && (() => {
           const post = featured[0];
-          const cat = categoryLabel(post.data.category);
           return (
             <a
               href={`${base}/news/${post.id}`}
@@ -70,11 +67,8 @@ const today = new Date().toISOString().slice(0, 10);
             >
               <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-3">
                 <Dateline region={post.data.region ?? []} />
-                <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-                  <Bi en={cat?.en ?? post.data.category} zh={cat?.zh ?? post.data.category} />
-                </span>
-                <span class="tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
-                <TrustBadge score={post.data.trust.score} reasoning={post.data.trust.reasoning} />
+                <CategoryTag slug={post.data.category} />
+                <span class="font-mono tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
               </header>
               <h3 class="text-2xl sm:text-3xl font-bold leading-tight mb-2 group-hover:text-indigo-700 transition">
                 <Bi en={post.data.title_en} zh={post.data.title_zh} />
@@ -89,7 +83,6 @@ const today = new Date().toISOString().slice(0, 10);
         {featured.length > 1 && (
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {featured.slice(1).map((post) => {
-              const cat = categoryLabel(post.data.category);
               return (
                 <a
                   href={`${base}/news/${post.id}`}
@@ -97,10 +90,8 @@ const today = new Date().toISOString().slice(0, 10);
                 >
                   <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
                     <Dateline region={post.data.region ?? []} />
-                    <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-                      <Bi en={cat?.en ?? post.data.category} zh={cat?.zh ?? post.data.category} />
-                    </span>
-                    <span class="tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
+                    <CategoryTag slug={post.data.category} />
+                    <span class="font-mono tabular-nums text-slate-500">{isoDate(post.data.date)}</span>
                   </header>
                   <h3 class="text-lg font-semibold leading-snug mb-1 group-hover:text-indigo-700 transition">
                     <Bi en={post.data.title_en} zh={post.data.title_zh} />

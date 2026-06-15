@@ -1,10 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { CATEGORIES } from '../data/categories';
 import { regionGroupsFor } from '../data/regions';
 import Bi from './Bi.astro';
 import Dateline from './Dateline.astro';
-import TrustBadge from './TrustBadge.astro';
+import CategoryTag from './CategoryTag.astro';
 
 // The list/feed card, shared by home (Latest), category, and region pages so the design
 // lives in ONE place. Carries data-category + data-region (group slugs) so the Region
@@ -19,7 +18,6 @@ interface Props {
 }
 const { post, base, featured = false } = Astro.props;
 const d = post.data;
-const cat = CATEGORIES.find((c) => c.slug === d.category);
 const regionSlugs = regionGroupsFor(d.region ?? []).join(' ');
 const dateStr = d.date.toISOString().slice(0, 10);
 ---
@@ -33,11 +31,8 @@ const dateStr = d.date.toISOString().slice(0, 10);
 >
   <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
     <Dateline region={d.region ?? []} />
-    <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-      <Bi en={cat?.en ?? d.category} zh={cat?.zh ?? d.category} />
-    </span>
-    <span class="tabular-nums text-slate-500">{dateStr}</span>
-    <TrustBadge score={d.trust.score} reasoning={d.trust.reasoning} />
+    <CategoryTag slug={d.category} />
+    <span class="font-mono tabular-nums text-slate-500">{dateStr}</span>
   </header>
   <h3 class="text-lg font-semibold leading-snug mb-1">
     <a href={`${base}/news/${post.id}`} class="hover:text-indigo-700 transition">
