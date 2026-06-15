@@ -7,14 +7,20 @@ html {
 }
 
 /* Ambient "data center" texture: a faint blueprint / rack grid behind the whole page.
-   Very low contrast so it reads as technical paper, not a loud pattern. Fixed so it
-   doesn't scroll with content. The white content cards sit cleanly on top. */
+   Warm-toned + very low contrast so it reads as technical paper on the cream base, not a
+   loud pattern. Fixed so it doesn't scroll with content. Content cards sit cleanly on top. */
 body {
   background-image:
-    linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgba(68, 64, 60, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(68, 64, 60, 0.025) 1px, transparent 1px);
   background-size: 28px 28px;
   background-attachment: fixed;
+}
+
+/* Load-more fold: the home "Latest" list keeps every article in the DOM (so the Region
+   Lens + search still see the full corpus) but visually caps the default view. */
+.fold-hidden {
+  display: none;
 }
 
 @layer base {
@@ -25,7 +31,7 @@ body {
   input:focus-visible,
   summary:focus-visible,
   [tabindex]:focus-visible {
-    outline: 2px solid theme('colors.indigo.600');
+    outline: 2px solid theme('colors.accent');
     outline-offset: 2px;
     border-radius: 0.375rem;
   }
@@ -40,6 +46,6 @@ body {
   /* Eyebrow: small uppercase section label — the editorial cue that replaces bold headings.
      Mono for a telemetry / system-readout feel (the "data center" voice). */
   .eyebrow {
-    @apply font-mono text-xs font-semibold uppercase tracking-wider text-slate-500;
+    @apply font-mono text-xs font-semibold uppercase tracking-wider text-stone-600;
   }
 }

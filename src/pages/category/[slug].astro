@@ -31,7 +31,7 @@ const base = import.meta.env.BASE_URL;
 
 <BaseLayout title={`${category.en} — Whitespace`}>
   <section class="mb-6">
-    <a href={base} class="text-sm text-slate-500 hover:text-slate-700">
+    <a href={base} class="text-sm text-stone-500 hover:text-stone-700">
       <Bi en="← Home" zh="← 首頁" />
     </a>
     <div class="flex items-start justify-between gap-4 mt-2">
@@ -39,7 +39,7 @@ const base = import.meta.env.BASE_URL;
         <h1 class="text-2xl font-bold tracking-tight">
           <Bi en={category.en} zh={category.zh} />
         </h1>
-        <p class="text-sm text-slate-500 mt-1">
+        <p class="text-sm text-stone-500 mt-1">
           <Bi en={`${posts.length} ${posts.length === 1 ? 'post' : 'posts'}`} zh={`${posts.length} 篇`} />
         </p>
       </div>
@@ -49,7 +49,7 @@ const base = import.meta.env.BASE_URL;
 
   {
     posts.length === 0 ? (
-      <p class="text-slate-500 text-sm italic">
+      <p class="text-stone-500 text-sm italic">
         <Bi en="No posts in this category yet." zh="此類別暫無內容。" />
       </p>
     ) : (
@@ -59,7 +59,7 @@ const base = import.meta.env.BASE_URL;
             <ArticleCard post={post} base={base} />
           ))}
         </div>
-        <p id="region-empty" hidden class="text-slate-500 text-sm italic mt-4">
+        <p id="region-empty" hidden class="text-stone-500 text-sm italic mt-4">
           <Bi en="No stories for this place in this category." zh="此地區於此類別暫無內容。" />
         </p>
       </>

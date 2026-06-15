@@ -12,10 +12,10 @@ interface Props {
 const { score, reasoning } = Astro.props;
 const tier =
   score >= 4
-    ? { en: 'Verified', zh: '已核實', check: true, cls: 'text-emerald-600' }
+    ? { en: 'Verified', zh: '已核實', check: true, cls: 'text-emerald-700' }
     : score === 3
-      ? { en: 'Corroborated', zh: '多方佐證', check: false, cls: 'text-slate-500' }
-      : { en: 'Single source', zh: '單一來源', check: false, cls: 'text-slate-500' };
+      ? { en: 'Corroborated', zh: '多方佐證', check: false, cls: 'text-stone-500' }
+      : { en: 'Single source', zh: '單一來源', check: false, cls: 'text-stone-500' };
 ---
 <span
   class:list={['inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider', tier.cls]}

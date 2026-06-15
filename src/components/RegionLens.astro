@@ -23,7 +23,7 @@ for (const p of posts) {
     id="region-lens-trigger"
     type="button"
     aria-haspopup="dialog"
-    class="inline-flex items-center gap-1.5 min-h-[36px] px-3 py-1.5 text-sm rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition data-[active]:bg-indigo-600 data-[active]:text-white data-[active]:border-indigo-600"
+    class="inline-flex items-center gap-1.5 min-h-[36px] px-3 py-1.5 text-sm rounded-full border border-stone-300 text-stone-700 hover:bg-stone-100 transition data-[active]:bg-accent data-[active]:text-white data-[active]:border-accent"
   >
     <svg aria-hidden="true" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
@@ -43,14 +43,14 @@ for (const p of posts) {
       <h2 class="text-sm font-bold tracking-tight">
         <Bi en="Read by place" zh="依地區閱讀" />
       </h2>
-      <button id="region-lens-close" type="button" class="text-slate-400 hover:text-slate-700 min-h-[44px] min-w-[44px] -mr-2" aria-label="Close">✕</button>
+      <button id="region-lens-close" type="button" class="text-stone-500 hover:text-stone-700 min-h-[44px] min-w-[44px] -mr-2" aria-label="Close">✕</button>
     </header>
 
     <button
       data-region-pick=""
       data-label-en="Anywhere"
       data-label-zh="所有地區"
-      class="w-full text-left px-3 py-2 mb-3 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium min-h-[44px]"
+      class="w-full text-left px-3 py-2 mb-3 rounded-lg border border-stone-200 hover:bg-stone-50 text-sm font-medium min-h-[44px]"
     >
       <Bi en="All regions" zh="所有地區" />
     </button>
@@ -64,13 +64,13 @@ for (const p of posts) {
             data-label-en={g.en}
             data-label-zh={g.zh}
             disabled={n === 0}
-            class="flex items-center justify-between gap-2 min-h-[44px] px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed"
+            class="flex items-center justify-between gap-2 min-h-[44px] px-3 py-2 rounded-lg border border-stone-200 bg-white text-sm font-medium text-stone-700 transition hover:bg-stone-50 hover:border-stone-300 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <span class="inline-flex items-center gap-2 min-w-0">
               <span class={`inline-block w-1.5 h-1.5 rounded-full shrink-0 ${g.dot}`} aria-hidden="true"></span>
               <span class="truncate"><Bi en={g.en} zh={g.zh} /></span>
             </span>
-            <span class="font-mono tabular-nums text-xs text-slate-500">{n}</span>
+            <span class="font-mono tabular-nums text-xs text-stone-500">{n}</span>
           </button>
         );
       })}

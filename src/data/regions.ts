@@ -40,7 +40,7 @@ export const REGION_GROUPS: RegionGroup[] = [
     ],
     dot: 'bg-violet-500',
   },
-  { slug: 'others', en: 'Others', zh: '其他', countries: [], dot: 'bg-slate-400' },
+  { slug: 'others', en: 'Others', zh: '其他', countries: [], dot: 'bg-stone-400' },
 ];
 
 // country token (lowercased) -> named group slug. Tokens absent here resolve to 'others'.
