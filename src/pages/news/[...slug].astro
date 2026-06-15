@@ -82,8 +82,8 @@ const base = import.meta.env.BASE_URL;
         ? <div data-en lang="en" data-pagefind-body set:html={bodyEnHtml} />
         : <p data-en lang="en" data-pagefind-body class="whitespace-pre-line">{post.data.summary_en}</p>}
       {bodyZhHtml
-        ? <div data-zh lang="zh-Hant" set:html={bodyZhHtml} />
-        : <p data-zh lang="zh-Hant" class="whitespace-pre-line">{post.data.summary_zh}</p>}
+        ? <div data-zh lang="zh-Hant" data-pagefind-body set:html={bodyZhHtml} />
+        : <p data-zh lang="zh-Hant" data-pagefind-body class="whitespace-pre-line">{post.data.summary_zh}</p>}
     </div>
 
     <footer class="mt-8 pt-4 border-t border-slate-100 max-w-prose mx-auto">
