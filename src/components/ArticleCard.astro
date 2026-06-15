@@ -29,10 +29,6 @@ const dateStr = d.date.toISOString().slice(0, 10);
   hidden={featured}
   class="bg-white border border-stone-200 rounded-lg p-4 sm:p-5 hover:border-stone-400 transition"
 >
-  <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
-    <CategoryTag slug={d.category} />
-    <span class="font-mono tabular-nums text-stone-500">{dateStr}</span>
-  </header>
   <h3 class="font-serif text-lg font-semibold leading-snug mb-1">
     <a href={`${base}/news/${post.id}`} class="hover:text-accent transition">
       <Bi en={d.title_en} zh={d.title_zh} />
@@ -41,4 +37,8 @@ const dateStr = d.date.toISOString().slice(0, 10);
   <p class="text-sm text-stone-600 leading-relaxed line-clamp-2">
     <Bi en={d.summary_en} zh={d.summary_zh} />
   </p>
+  <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-3">
+    <CategoryTag slug={d.category} />
+    <span class="font-mono tabular-nums text-stone-500">{dateStr}</span>
+  </footer>
 </article>

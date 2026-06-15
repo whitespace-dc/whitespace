@@ -77,16 +77,16 @@ const today = new Date().toISOString().slice(0, 10);
               href={`${base}/news/${post.id}`}
               class="group block bg-white border border-stone-200 rounded-xl p-6 sm:p-8 mb-4 hover:border-stone-300 hover:shadow-md transition"
             >
-              <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-3">
-                <CategoryTag slug={post.data.category} />
-                <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
-              </header>
               <h3 class="font-serif text-2xl sm:text-3xl font-bold leading-tight mb-2 group-hover:text-accent transition">
                 <Bi en={post.data.title_en} zh={post.data.title_zh} />
               </h3>
               <p class="text-stone-700 leading-relaxed line-clamp-3">
                 <Bi en={post.data.summary_en} zh={post.data.summary_zh} />
               </p>
+              <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-4">
+                <CategoryTag slug={post.data.category} />
+                <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
+              </footer>
             </a>
           );
         })()}
@@ -99,16 +99,16 @@ const today = new Date().toISOString().slice(0, 10);
                   href={`${base}/news/${post.id}`}
                   class="group block bg-white border border-stone-200 rounded-xl p-5 hover:border-stone-300 hover:shadow-md transition"
                 >
-                  <header class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mb-2">
-                    <CategoryTag slug={post.data.category} />
-                    <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
-                  </header>
                   <h3 class="font-serif text-lg font-semibold leading-snug mb-1 group-hover:text-accent transition">
                     <Bi en={post.data.title_en} zh={post.data.title_zh} />
                   </h3>
                   <p class="text-sm text-stone-600 leading-relaxed line-clamp-2">
                     <Bi en={post.data.summary_en} zh={post.data.summary_zh} />
                   </p>
+                  <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-3">
+                    <CategoryTag slug={post.data.category} />
+                    <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
+                  </footer>
                 </a>
               );
             })}
