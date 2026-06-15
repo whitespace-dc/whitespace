@@ -6,6 +6,17 @@ html {
   scroll-padding-top: 5rem;
 }
 
+/* Ambient "data center" texture: a faint blueprint / rack grid behind the whole page.
+   Very low contrast so it reads as technical paper, not a loud pattern. Fixed so it
+   doesn't scroll with content. The white content cards sit cleanly on top. */
+body {
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-attachment: fixed;
+}
+
 @layer base {
   /* Visible keyboard focus on every interactive surface (was relying on the UA default,
      which the sticky scrolling nav clipped). Mouse clicks stay ring-free via :focus-visible. */
@@ -26,8 +37,9 @@ html {
 }
 
 @layer components {
-  /* Eyebrow: small uppercase section label — the editorial cue that replaces bold headings. */
+  /* Eyebrow: small uppercase section label — the editorial cue that replaces bold headings.
+     Mono for a telemetry / system-readout feel (the "data center" voice). */
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-wider text-slate-400;
+    @apply font-mono text-xs font-semibold uppercase tracking-wider text-slate-500;
   }
 }

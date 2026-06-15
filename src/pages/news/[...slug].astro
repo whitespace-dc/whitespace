@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { CATEGORIES } from '../../data/categories';
 import Bi from '../../components/Bi.astro';
 import Dateline from '../../components/Dateline.astro';
+import CategoryTag from '../../components/CategoryTag.astro';
 import TrustBadge from '../../components/TrustBadge.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { renderArticleBody } from '../../lib/markdown';
@@ -26,9 +27,6 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { post, related } = Astro.props;
 const cat = CATEGORIES.find((c) => c.slug === post.data.category);
-const secondaryCats = (post.data.secondary_categories ?? [])
-  .map((slug) => CATEGORIES.find((c) => c.slug === slug))
-  .filter((c) => c != null);
 const curatedStr = post.data.date.toISOString().slice(0, 10);
 const sourceStr = post.data.source_published
   ? post.data.source_published.toISOString().slice(0, 10)
@@ -44,19 +42,15 @@ const base = import.meta.env.BASE_URL;
     <header class="mb-6 pb-4 border-b border-slate-100">
       <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 mb-3">
         <Dateline region={post.data.region ?? []} />
-        <span class={`px-2 py-0.5 rounded border font-medium ${cat?.chip ?? 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-          <Bi en={cat?.en ?? post.data.category} zh={cat?.zh ?? post.data.category} />
-        </span>
-        {secondaryCats.map((sc) => (
-          <span class="px-2 py-0.5 bg-slate-50 rounded text-slate-500 border border-slate-200">
-            <Bi en={sc.en} zh={sc.zh} />
-          </span>
+        <CategoryTag slug={post.data.category} />
+        {(post.data.secondary_categories ?? []).map((slug) => (
+          <CategoryTag slug={slug} secondary />
         ))}
-        <span class="tabular-nums" title="When Whitespace published this">
+        <span class="font-mono tabular-nums" title="When Whitespace published this">
           <Bi en={`Curated ${curatedStr}`} zh={`整理 ${curatedStr}`} />
         </span>
         {sourceStr && (
-          <span class="tabular-nums text-slate-400" title="When the original source published">
+          <span class="font-mono tabular-nums text-slate-500" title="When the original source published">
             <Bi en={`· Source ${sourceStr}`} zh={`· 原文 ${sourceStr}`} />
           </span>
         )}

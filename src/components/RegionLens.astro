@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { GEO_SECTIONS, regionGroup, regionGroupsFor } from '../data/regions';
+import { REGION_GROUPS, regionGroupsFor } from '../data/regions';
 import Bi from './Bi.astro';
 
 // The region "lens": a single pill that opens a "Read by place" sheet (bottom sheet on
@@ -55,33 +55,26 @@ for (const p of posts) {
       <Bi en="All regions" zh="所有地區" />
     </button>
 
-    {
-      GEO_SECTIONS.map((sec) => (
-        <section class="mb-3 last:mb-0">
-          <h3 class="eyebrow mb-1.5">
-            <Bi en={sec.label_en} zh={sec.label_zh} />
-          </h3>
-          <div class="grid grid-cols-2 gap-2">
-            {sec.slugs.map((slug) => {
-              const g = regionGroup(slug)!;
-              const n = counts.get(slug) ?? 0;
-              return (
-                <button
-                  data-region-pick={slug}
-                  data-label-en={g.en}
-                  data-label-zh={g.zh}
-                  disabled={n === 0}
-                  class={`flex items-center justify-between min-h-[44px] px-3 py-2 rounded-lg border text-sm font-medium transition hover:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed ${g.chip}`}
-                >
-                  <Bi en={g.en} zh={g.zh} />
-                  <span class="tabular-nums text-xs opacity-70">{n}</span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      ))
-    }
+    <div class="grid grid-cols-2 gap-2">
+      {REGION_GROUPS.map((g) => {
+        const n = counts.get(g.slug) ?? 0;
+        return (
+          <button
+            data-region-pick={g.slug}
+            data-label-en={g.en}
+            data-label-zh={g.zh}
+            disabled={n === 0}
+            class="flex items-center justify-between gap-2 min-h-[44px] px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <span class="inline-flex items-center gap-2 min-w-0">
+              <span class={`inline-block w-1.5 h-1.5 rounded-full shrink-0 ${g.dot}`} aria-hidden="true"></span>
+              <span class="truncate"><Bi en={g.en} zh={g.zh} /></span>
+            </span>
+            <span class="font-mono tabular-nums text-xs text-slate-500">{n}</span>
+          </button>
+        );
+      })}
+    </div>
   </div>
 </dialog>
 

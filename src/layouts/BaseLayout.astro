@@ -36,10 +36,13 @@ const isActiveCat = (slug: string) => path === catHref(slug);
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
       <div class="max-w-6xl mx-auto px-4">
         <div class="flex items-center justify-between h-14">
-          <a href={base} class="flex items-baseline gap-2 hover:opacity-80 transition">
-            <span class="inline-block w-2.5 h-2.5 rounded-sm bg-indigo-600 translate-y-px"></span>
+          <a href={base} class="flex items-baseline gap-2 hover:opacity-80 transition" aria-label="Whitespace — DC Intel, home">
+            <span
+              class="inline-block w-3 h-3 rounded-[3px] border-[1.5px] border-indigo-600 translate-y-px"
+              aria-hidden="true"
+            ></span>
             <span class="text-lg font-bold tracking-tight">Whitespace</span>
-            <span class="text-xs text-slate-500" data-en lang="en">DC Intel</span>
+            <span class="font-mono text-[11px] uppercase tracking-wider text-slate-500" data-en lang="en">DC Intel</span>
             <span class="text-xs text-slate-500" data-zh lang="zh-Hant">資料中心情報</span>
           </a>
           <button

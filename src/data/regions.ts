@@ -11,25 +11,25 @@ export interface RegionGroup {
   /** Country tokens (as they appear in region[]) that belong to this group. Empty for
    *  'others' — it is the catch-all for any token mapping to no named group. */
   countries: string[];
-  /** Tailwind chip classes (bg + text + border) as FULL strings so the JIT compiler
-   *  keeps them — never build class names by interpolation. cf. data/categories.ts. */
-  chip: string;
+  /** Tailwind dot colour — the group's hue as a small marker, not a filled pill. Full
+   *  string so the JIT compiler keeps it — never interpolate. cf. data/categories.ts. */
+  dot: string;
 }
 
 // HK grouped under China per Tantyo (2026-06-14). Korea/India/Australia/NZ/"global" and
-// any unmapped token fall to Others.
+// any unmapped token fall to Others. Order = reading priority (flat list, no geo sections).
 export const REGION_GROUPS: RegionGroup[] = [
-  { slug: 'taiwan', en: 'Taiwan', zh: '台灣', countries: ['Taiwan'], chip: 'bg-red-50 text-red-700 border-red-200' },
-  { slug: 'america', en: 'America', zh: '美洲', countries: ['United States', 'Canada', 'Brazil'], chip: 'bg-blue-50 text-blue-700 border-blue-200' },
-  { slug: 'japan', en: 'Japan', zh: '日本', countries: ['Japan'], chip: 'bg-pink-50 text-pink-700 border-pink-200' },
-  { slug: 'china', en: 'China', zh: '中國', countries: ['China', 'Hong Kong'], chip: 'bg-amber-50 text-amber-700 border-amber-200' },
   {
     slug: 'sea',
     en: 'South East Asia',
     zh: '東南亞',
     countries: ['Indonesia', 'Malaysia', 'Singapore', 'Thailand', 'Philippines', 'Vietnam'],
-    chip: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    dot: 'bg-emerald-500',
   },
+  { slug: 'taiwan', en: 'Taiwan', zh: '台灣', countries: ['Taiwan'], dot: 'bg-red-500' },
+  { slug: 'japan', en: 'Japan', zh: '日本', countries: ['Japan'], dot: 'bg-pink-500' },
+  { slug: 'china', en: 'China', zh: '中國', countries: ['China', 'Hong Kong'], dot: 'bg-amber-500' },
+  { slug: 'america', en: 'America', zh: '美洲', countries: ['United States', 'Canada', 'Brazil'], dot: 'bg-blue-500' },
   {
     slug: 'europe',
     en: 'Europe',
@@ -38,9 +38,9 @@ export const REGION_GROUPS: RegionGroup[] = [
       'United Kingdom', 'Ireland', 'Germany', 'France', 'Netherlands', 'Spain', 'Italy',
       'Sweden', 'Norway', 'Finland', 'Denmark', 'Poland', 'Switzerland', 'Belgium', 'Austria', 'Portugal',
     ],
-    chip: 'bg-violet-50 text-violet-700 border-violet-200',
+    dot: 'bg-violet-500',
   },
-  { slug: 'others', en: 'Others', zh: '其他', countries: [], chip: 'bg-slate-100 text-slate-700 border-slate-300' },
+  { slug: 'others', en: 'Others', zh: '其他', countries: [], dot: 'bg-slate-400' },
 ];
 
 // country token (lowercased) -> named group slug. Tokens absent here resolve to 'others'.
@@ -60,22 +60,6 @@ export function regionGroupsFor(tokens: string[]): string[] {
 // Whether a token is a recognized country (vs a pseudo-token like "global"). Used to keep
 // card labels country-scale — pseudo-tokens still route to a group but never show on the UI.
 export const isNamedCountry = (t: string): boolean => TOKEN_TO_GROUP.has(t.trim().toLowerCase());
-
-const GROUP_BY_SLUG = new Map(REGION_GROUPS.map((g) => [g.slug, g]));
-export const regionGroup = (slug: string): RegionGroup | undefined => GROUP_BY_SLUG.get(slug);
-
-// Geographic sections for the "Read by place" lens sheet — grouped by proximity to Tantyo's
-// market, not a flat list. Order = reading priority. Drives RegionLens.astro.
-export interface GeoSection {
-  label_en: string;
-  label_zh: string;
-  slugs: string[];
-}
-export const GEO_SECTIONS: GeoSection[] = [
-  { label_en: 'Your market', label_zh: '主要市場', slugs: ['sea', 'taiwan'] },
-  { label_en: 'East Asia', label_zh: '東亞', slugs: ['japan', 'china'] },
-  { label_en: 'Rest of world', label_zh: '其他地區', slugs: ['america', 'europe', 'others'] },
-];
 
 // Country-scale dateline labels for a card: named countries only (pseudo-tokens like
 // "global" dropped), capped at 2 + "+N" so the dateline stays a glance, never a list.
