@@ -124,7 +124,7 @@ const today = new Date().toISOString().slice(0, 10);
         <Bi en="Latest" zh="最新" />
       </h2>
       <span class="font-mono text-xs text-stone-600 tabular-nums">
-        <Bi en={`${latestVisible} stories`} zh={`${latestVisible} 則`} />
+        <span data-region-count data-total={latestVisible}>{latestVisible}</span> <Bi en="stories" zh="則" />
       </span>
     </div>
 

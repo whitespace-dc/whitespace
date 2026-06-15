@@ -40,7 +40,7 @@ const base = import.meta.env.BASE_URL;
           <Bi en={category.en} zh={category.zh} />
         </h1>
         <p class="text-sm text-stone-500 mt-1">
-          <Bi en={`${posts.length} ${posts.length === 1 ? 'post' : 'posts'}`} zh={`${posts.length} 篇`} />
+          <span data-region-count data-total={posts.length}>{posts.length}</span> <Bi en={posts.length === 1 ? 'post' : 'posts'} zh="篇" />
         </p>
       </div>
       <RegionLens posts={posts} />
