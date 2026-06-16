@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Whitespace — logo options</title>
+<style>
+  :root {
+    --cream: #faf7f0;
+    --navy: #1e3a5f;
+    --gold: #b08d57;
+    --ink: #1c1917;     /* stone-900 */
+    --mute: #78716c;    /* stone-500 */
+    --line: #e7e5e4;    /* stone-200 */
+    --serif: Georgia, Cambria, "Times New Roman", serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--serif);
+    background-image:
+      linear-gradient(to right, rgba(68,64,60,.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(68,64,60,.025) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
+  .page-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+  h1 { font-size: 30px; margin: 6px 0 4px; }
+  .lede { color: var(--mute); font-size: 15px; line-height: 1.6; max-width: 60ch; }
+  .concept { margin-top: 56px; border-top: 1px solid var(--line); padding-top: 28px; }
+  .tag { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  .concept h2 { font-size: 21px; margin: 6px 0 2px; }
+  .rationale { color: var(--mute); font-size: 14px; line-height: 1.65; max-width: 64ch; margin: 6px 0 20px; }
+
+  /* ---- the mock masthead (real nav scale) ---- */
+  .masthead {
+    background: rgba(255,255,255,.97);
+    border-top: 3px solid var(--gold);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .masthead .bar { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 18px; }
+  .masthead .nav { display: flex; gap: 16px; padding: 0 18px 10px; font-family: var(--serif); font-size: 13px; color: var(--mute); }
+  .masthead .nav .on { color: var(--ink); }
+  .toggle { font-size: 12px; border: 1px solid #d6d3d1; border-radius: 6px; padding: 6px 10px; color: var(--mute); font-family: var(--serif); }
+
+  .scales { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; padding: 8px 2px 4px; }
+  .scale-label { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); display:block; margin-bottom: 8px; }
+  .favicon { width: 44px; height: 44px; border-radius: 9px; background: var(--navy); display: grid; place-items: center; }
+
+  /* ---- shared brand bits ---- */
+  .lockup { display: inline-flex; align-items: baseline; gap: 9px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); align-self: center; }
+
+  /* Concept 1 — Negative Mark */
+  .c1-word { font-family: var(--serif); font-size: 21px; letter-spacing: -.01em; color: var(--ink); position: relative; }
+  .c1-word::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1.5px; background: var(--gold); }
+  .c1-big .c1-word { font-size: 52px; }
+
+  /* Concept 2 — The Gap (small-caps masthead) */
+  .c2 { font-family: var(--serif); font-variant: small-caps; letter-spacing: .22em; color: var(--ink); display: inline-flex; align-items: center; }
+  .c2 .rule { width: 1px; height: 1em; background: var(--gold); margin: 0 .5em; display: inline-block; }
+  .c2-mast { font-size: 18px; }
+  .c2-big { font-size: 40px; letter-spacing: .26em; }
+
+  /* Concept 3 — Intel Frame (crop marks) */
+  .c3 { position: relative; display: inline-block; padding: 7px 16px; }
+  .c3 .name { font-family: var(--serif); font-size: 21px; color: var(--ink); }
+  .c3-big .name { font-size: 50px; }
+  .c3 .corner { position: absolute; width: 9px; height: 9px; border: 1.5px solid var(--gold); }
+  .c3-big .corner { width: 16px; height: 16px; border-width: 2px; }
+  .c3 .tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+  .c3 .tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+  .c3 .bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+  .c3 .br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+  .note { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 18px; font-size: 13px; color: var(--mute); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="page-eyebrow">Whitespace · brand</p>
+  <h1>Three logo directions</h1>
+  <p class="lede">
+    Each lives the brief: independent DC intelligence, signal over hype, whitespace = the
+    negative space, old-money editorial. Same palette (navy <code>#1e3a5f</code>, gold
+    <code>#b08d57</code>, cream), system serif — no webfont. Shown at real masthead scale,
+    display scale, and favicon scale. Pick one (or a mix); I wire the winner into the live header.
+  </p>
+
+  <!-- ===================== CONCEPT 1 ===================== -->
+  <section class="concept">
+    <span class="tag">Option A</span>
+    <h2>Negative Mark</h2>
+    <p class="rationale">
+      The mark is the concept made literal: a solid navy field with a square of white space
+      <em>punched out</em> of it — the brand name, drawn. Wordmark is a single-weight serif
+      (no fading gimmick) sitting on a gold hairline, like a masthead rule. Quiet, printed, owned.
+    </p>
+
+    <div class="masthead">
+      <div class="bar">
+        <span class="lockup">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="4" fill="#1e3a5f"/>
+            <rect x="9" y="9" width="6" height="6" rx="1.5" fill="#faf7f0"/>
+          </svg>
+          <span class="c1-word">Whitespace</span>
+          <span class="kicker">DC Intel</span>
+        </span>
+        <span class="toggle">中文</span>
+      </div>
+      <div class="nav"><span class="on">Home</span><span>Compute</span><span>Cooling</span><span>Market</span><span>Regulatory</span></div>
+    </div>
+
+    <div class="scales">
+      <div class="c1-big"><span class="scale-label">Display</span>
+        <span class="lockup">
+          <svg width="52" height="52" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="4" fill="#1e3a5f"/>
+            <rect x="9" y="9" width="6" height="6" rx="1.5" fill="#faf7f0"/>
+          </svg>
+          <span class="c1-word">Whitespace</span>
+        </span>
+      </div>
+      <div><span class="scale-label">Favicon</span>
+        <div class="favicon">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="#b08d57" stroke-width="1.5"/>
+            <rect x="9" y="9" width="6" height="6" rx="1.5" fill="#faf7f0"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPT 2 ===================== -->
+  <section class="concept">
+    <span class="tag">Option B</span>
+    <h2>The Gap</h2>
+    <p class="rationale">
+      No icon — the name does the work. <strong>WHITE</strong> and <strong>SPACE</strong> are
+      set as letterspaced serif small-caps and pulled apart by a single gold hairline: the
+      whitespace is <em>in</em> the wordmark. Reads like a financial-paper masthead — the
+      authority of print, the restraint of old money.
+    </p>
+
+    <div class="masthead">
+      <div class="bar">
+        <span class="lockup">
+          <span class="c2 c2-mast">White<span class="rule"></span>Space</span>
+          <span class="kicker">DC Intel</span>
+        </span>
+        <span class="toggle">中文</span>
+      </div>
+      <div class="nav"><span class="on">Home</span><span>Compute</span><span>Cooling</span><span>Market</span><span>Regulatory</span></div>
+    </div>
+
+    <div class="scales">
+      <div><span class="scale-label">Display</span>
+        <span class="c2 c2-big">White<span class="rule"></span>Space</span>
+      </div>
+      <div><span class="scale-label">Favicon</span>
+        <div class="favicon">
+          <span style="font-family:var(--serif);font-variant:small-caps;color:#faf7f0;font-size:15px;letter-spacing:.04em;">W<span style="color:#b08d57;">·</span>S</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPT 3 ===================== -->
+  <section class="concept">
+    <span class="tag">Option C</span>
+    <h2>Intel Frame</h2>
+    <p class="rationale">
+      Serif wordmark inside thin gold corner crop-marks — the registration marks of print
+      production. It says we <em>frame the signal</em> out of the noise: curation, not a feed.
+      The brackets are the white space around the word. Editorial heritage = old money; the
+      crop-marks = the intel/curatorial promise.
+    </p>
+
+    <div class="masthead">
+      <div class="bar">
+        <span class="lockup">
+          <span class="c3">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <span class="name">Whitespace</span>
+          </span>
+          <span class="kicker">DC Intel</span>
+        </span>
+        <span class="toggle">中文</span>
+      </div>
+      <div class="nav"><span class="on">Home</span><span>Compute</span><span>Cooling</span><span>Market</span><span>Regulatory</span></div>
+    </div>
+
+    <div class="scales">
+      <div class="c3-big"><span class="scale-label">Display</span>
+        <span class="c3">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="name">Whitespace</span>
+        </span>
+      </div>
+      <div><span class="scale-label">Favicon</span>
+        <div class="favicon" style="position:relative;">
+          <span style="position:absolute;top:7px;left:7px;width:7px;height:7px;border:1.5px solid #b08d57;border-right:0;border-bottom:0;"></span>
+          <span style="position:absolute;bottom:7px;right:7px;width:7px;height:7px;border:1.5px solid #b08d57;border-left:0;border-top:0;"></span>
+          <span style="font-family:var(--serif);color:#faf7f0;font-size:20px;">W</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="note">
+    Approximations: this chooser uses Georgia to stand in for the system serif stack the site
+    resolves per-OS — the real masthead will render in your platform's serif. Say which option
+    (A / B / C), and any tweak, and I'll build it into <code>BaseLayout.astro</code> + the favicon.
+  </p>
+</div>
+</body>
+</html>

@@ -1,22 +1,24 @@
 ---
 import { CATEGORIES } from '../data/categories';
-import Bi from './Bi.astro';
 
 // One calm category tag, shared everywhere (home hero, cards, article header) so the
-// treatment lives in ONE place. A small hue dot + quiet label — no filled pill, so the
-// (serif) headline leads and the category recedes to meta. Colour-coding stays via the dot.
+// treatment lives in ONE place. Rendered as a micro-label so readers parse it as a
+// metadata TAG, not as a continuation of the serif summary prose. No filled pill, no dot
+// — the headline still leads; the category reads unmistakably as a label.
+//
+// EN uses the mono UPPERCASE "eyebrow" voice (same as dates/section labels). zh-Hant gets a
+// plain small treatment instead: mono has no CJK glyphs and letter-spacing/uppercase do not
+// read on CJK, so the label-ness comes from size + muted colour. Mirrors the masthead
+// kicker ("DC Intel" mono / "資料中心情報" plain) — see BaseLayout. Hence the spans are
+// emitted directly (not via <Bi>, which would force one shared class onto both languages).
 interface Props {
   slug: string;
   secondary?: boolean; // quieter variant for an article's secondary categories
 }
 const { slug, secondary = false } = Astro.props;
 const cat = CATEGORIES.find((c) => c.slug === slug);
+const en = cat?.en ?? slug;
+const zh = cat?.zh ?? slug;
+const tone = secondary ? 'text-stone-400' : 'text-stone-500';
 ---
-<span
-  class:list={[
-    'text-xs font-medium',
-    secondary ? 'text-stone-500' : 'text-stone-600',
-  ]}
->
-  <Bi en={cat?.en ?? slug} zh={cat?.zh ?? slug} />
-</span>
+<span data-en lang="en" class:list={['font-mono text-[11px] font-semibold uppercase tracking-wider', tone]}>{en}</span><span data-zh lang="zh-Hant" class:list={['text-xs font-medium', tone]}>{zh}</span>
