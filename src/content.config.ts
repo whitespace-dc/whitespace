@@ -35,6 +35,12 @@ const news = defineCollection({
     secondary_categories: z.array(categorySlug).default([]),
     region: z.array(z.string()).default([]),
     vendor: z.array(z.string()).default([]),
+    // Cross-run event-level dedup pointers (set by the agent). Each is a content id
+    // (`<category>/<date>-<slug>`). `updates` = this article continues an earlier story
+    // that is still live (the page links back to it). `supersedes` = this replaced an
+    // older, thinner article (kept as provenance; that file is deleted, so it's not linked).
+    updates: z.string().optional(),
+    supersedes: z.string().optional(),
     trust: z.object({
       score: z.number().int().min(1).max(5),
       reasoning: z.string(),
