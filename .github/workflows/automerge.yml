@@ -48,10 +48,37 @@ jobs:
     if: startsWith(github.head_ref, 'agent/')
     runs-on: ubuntu-latest
     steps:
-      - name: Squash-merge the agent PR
+      - name: Squash-merge the agent PR (retry on merge-race)
+        # When one agent run opens several PRs, they merge concurrently and a
+        # losing PR sees "base branch was modified" -> `gh pr merge` exits 1.
+        # The old single-shot step left that PR stranded OPEN with a red check,
+        # because the workflow only re-triggers on opened/synchronize/reopened.
+        # Retry a few times: once the racing merge lands, GitHub recomputes this
+        # PR as mergeable again (content articles touch distinct paths -> no real
+        # conflict) and the next attempt succeeds. A genuine conflict exhausts
+        # the retries and leaves the PR OPEN for manual review, as before.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --squash --delete-branch
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          merged() { [ "$(gh pr view "$PR" --repo "$REPO" --json state -q .state)" = "MERGED" ]; }
+          for attempt in 1 2 3 4 5 6; do
+            # Out-of-band merge (manual, or a prior attempt that merged but then
+            # errored on branch-delete) -> already done; let deploy fire.
+            if merged; then echo "PR #$PR already merged"; exit 0; fi
+            if gh pr merge "$PR" --repo "$REPO" --squash --delete-branch; then
+              echo "merged on attempt $attempt"
+              exit 0
+            fi
+            # A non-zero exit can still mean the squash landed but --delete-branch
+            # failed; re-check before treating it as a race to retry.
+            if merged; then echo "PR #$PR merged (branch cleanup non-fatal)"; exit 0; fi
+            echo "merge attempt $attempt failed (likely base moved under a concurrent agent PR); retrying in 15s"
+            sleep 15
+          done
+          echo "::error::auto-merge failed after 6 attempts for PR #$PR — left open for manual review"
+          exit 1
       - name: Trigger Pages deploy
         # A GITHUB_TOKEN merge does NOT fire the push-triggered deploy workflow
         # (loop guard), so dispatch it explicitly against the freshly-merged main.
