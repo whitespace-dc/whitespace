@@ -8,9 +8,11 @@ module.exports = {
     extend: {
       colors: {
         // Old-money accent system: deep navy for interactive, gold for the masthead/brand
-        // metallic. Replaces the cool indigo that clashed with the warm cream/serif palette.
+        // metallic, cream paper for the page ground. See DESIGN.md — these three are the
+        // whole palette; never hardcode their hex values in components.
         accent: '#1e3a5f',
         gold: '#b08d57',
+        paper: '#faf7f0',
       },
       fontFamily: {
         sans: [

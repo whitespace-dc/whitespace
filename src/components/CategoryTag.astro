@@ -19,6 +19,9 @@ const { slug, secondary = false } = Astro.props;
 const cat = CATEGORIES.find((c) => c.slug === slug);
 const en = cat?.en ?? slug;
 const zh = cat?.zh ?? slug;
-const tone = secondary ? 'text-stone-400' : 'text-stone-500';
+// Secondary tags differ by WEIGHT, not lightness: stone-400 at 11px measured 2.52:1
+// on white — below WCAG 4.5:1. stone-500 measures 4.80:1; weight carries the hierarchy.
+const enWeight = secondary ? 'font-normal' : 'font-semibold';
+const zhWeight = secondary ? 'font-normal' : 'font-medium';
 ---
-<span data-en lang="en" class:list={['font-mono text-[11px] font-semibold uppercase tracking-wider', tone]}>{en}</span><span data-zh lang="zh-Hant" class:list={['text-xs font-medium', tone]}>{zh}</span>
+<span data-en lang="en" class:list={['font-mono text-[11px] uppercase tracking-wider text-stone-500', enWeight]}>{en}</span><span data-zh lang="zh-Hant" class:list={['text-xs text-stone-500', zhWeight]}>{zh}</span>

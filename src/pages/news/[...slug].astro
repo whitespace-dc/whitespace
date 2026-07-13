@@ -48,9 +48,23 @@ const sourcing =
 const bodyEnHtml = post.data.body_en ? renderArticleBody(post.data.body_en) : null;
 const bodyZhHtml = post.data.body_zh ? renderArticleBody(post.data.body_zh) : null;
 const base = import.meta.env.BASE_URL;
+
+// Publisher domain is the strongest at-a-glance trust cue per source; the URL is
+// already a link but WHO published shouldn't require a click-through to learn.
+const sourceHost = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return null;
+  }
+};
 ---
 
-<BaseLayout title={post.data.title_en}>
+<BaseLayout
+  title={`${post.data.title_en}｜${post.data.title_zh}`}
+  description={post.data.summary_en}
+  ogType="article"
+>
   <article class="bg-white border border-stone-200 rounded-lg p-6 sm:p-8" data-pagefind-meta={`title:${post.data.title_en}`}>
     <header class="mb-6 pb-4 border-b border-stone-100">
       <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-500 mb-3">
@@ -116,11 +130,19 @@ const base = import.meta.env.BASE_URL;
               {src.title}
               <span class="sr-only"><Bi en="(opens in new tab)" zh="(在新分頁開啟)" /></span>
             </a>
+            {sourceHost(src.url) && (
+              <span class="font-mono text-[11px] text-stone-500 ml-2">{sourceHost(src.url)}</span>
+            )}
             <span class="text-xs text-stone-500 ml-2">
               {src.type === 'primary'
                 ? <Bi en="primary source" zh="主要來源" />
                 : <Bi en="corroborating source" zh="佐證來源" />}
             </span>
+            {src.published_at && (
+              <span class="font-mono text-[11px] tabular-nums text-stone-500 ml-2">
+                {src.published_at.toISOString().slice(0, 10)}
+              </span>
+            )}
           </li>
         ))}
       </ul>

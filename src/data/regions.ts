@@ -11,9 +11,6 @@ export interface RegionGroup {
   /** Country tokens (as they appear in region[]) that belong to this group. Empty for
    *  'others' — it is the catch-all for any token mapping to no named group. */
   countries: string[];
-  /** Tailwind dot colour — the group's hue as a small marker, not a filled pill. Full
-   *  string so the JIT compiler keeps it — never interpolate. cf. data/categories.ts. */
-  dot: string;
 }
 
 // HK grouped under China per Tantyo (2026-06-14). Korea/India/Australia/NZ/"global" and
@@ -24,12 +21,11 @@ export const REGION_GROUPS: RegionGroup[] = [
     en: 'South East Asia',
     zh: '東南亞',
     countries: ['Indonesia', 'Malaysia', 'Singapore', 'Thailand', 'Philippines', 'Vietnam'],
-    dot: 'bg-emerald-500',
   },
-  { slug: 'taiwan', en: 'Taiwan', zh: '台灣', countries: ['Taiwan'], dot: 'bg-red-500' },
-  { slug: 'japan', en: 'Japan', zh: '日本', countries: ['Japan'], dot: 'bg-pink-500' },
-  { slug: 'china', en: 'China', zh: '中國', countries: ['China', 'Hong Kong'], dot: 'bg-amber-500' },
-  { slug: 'america', en: 'America', zh: '美洲', countries: ['United States', 'Canada', 'Brazil'], dot: 'bg-blue-500' },
+  { slug: 'taiwan', en: 'Taiwan', zh: '台灣', countries: ['Taiwan'] },
+  { slug: 'japan', en: 'Japan', zh: '日本', countries: ['Japan'] },
+  { slug: 'china', en: 'China', zh: '中國', countries: ['China', 'Hong Kong'] },
+  { slug: 'america', en: 'America', zh: '美洲', countries: ['United States', 'Canada', 'Brazil'] },
   {
     slug: 'europe',
     en: 'Europe',
@@ -38,9 +34,8 @@ export const REGION_GROUPS: RegionGroup[] = [
       'United Kingdom', 'Ireland', 'Germany', 'France', 'Netherlands', 'Spain', 'Italy',
       'Sweden', 'Norway', 'Finland', 'Denmark', 'Poland', 'Switzerland', 'Belgium', 'Austria', 'Portugal',
     ],
-    dot: 'bg-violet-500',
   },
-  { slug: 'others', en: 'Others', zh: '其他', countries: [], dot: 'bg-stone-400' },
+  { slug: 'others', en: 'Others', zh: '其他', countries: [] },
 ];
 
 // country token (lowercased) -> named group slug. Tokens absent here resolve to 'others'.
