@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { chainIndex } from '../lib/chains';
+
+// The "Developing File" marks, shared by every card surface so the treatment lives in
+// ONE place (2026-07-13 audit B1 + revamp brainstorm §2.4/§2.8):
+// - Corroboration count — shown only at >=2 sources; a single-source story shows
+//   NOTHING (absence is the signal — no numeric trust scores in the UI).
+// - Update-chain marker — an article carrying `updates` is the Nth report of a
+//   developing story ("Update · No.2" / 「更新 · 第2報」).
+// Same EN-mono / zh-plain split as CategoryTag: mono has no CJK glyphs and
+// uppercase/tracking do not read on CJK, so the spans are emitted directly, not via <Bi>.
+interface Props {
+  post: CollectionEntry<'news'>;
+}
+const { post } = Astro.props;
+const corroborated = post.data.sources.length >= 2 ? post.data.sources.length : 0;
+const chainNo = post.data.updates ? await chainIndex(post.id) : 0;
+---
+{
+  corroborated > 0 && (
+    <span class="whitespace-nowrap">
+      <span data-en lang="en" class="font-mono text-[11px] font-semibold uppercase tracking-wider text-stone-500">
+        Corroborated · {corroborated}
+      </span>
+      <span data-zh lang="zh-Hant" class="text-xs font-medium text-stone-500">
+        多方佐證 · {corroborated}
+      </span>
+    </span>
+  )
+}
+{
+  chainNo > 1 && (
+    <span class="whitespace-nowrap">
+      <span data-en lang="en" class="font-mono text-[11px] font-semibold uppercase tracking-wider text-stone-500">
+        Update · No.{chainNo}
+      </span>
+      <span data-zh lang="zh-Hant" class="text-xs font-medium text-stone-500">
+        更新 · 第{chainNo}報
+      </span>
+    </span>
+  )
+}

@@ -4,6 +4,7 @@ import Bi from '../components/Bi.astro';
 import CategoryTag from '../components/CategoryTag.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import RegionLens from '../components/RegionLens.astro';
+import StoryMarks from '../components/StoryMarks.astro';
 import { getCollection } from 'astro:content';
 
 const base = import.meta.env.BASE_URL;
@@ -16,23 +17,6 @@ const LATEST_VISIBLE_CAP = 24; // home "Latest" shows this many; "Load more" rev
 const byDateDesc = (a: typeof allPosts[number], b: typeof allPosts[number]) =>
   b.data.date.valueOf() - a.data.date.valueOf();
 const chronological = [...allPosts].sort(byDateDesc);
-
-// "Top Stories" = most SIGNIFICANT recent (trust + multi-source corroboration), gated to a
-// recency window, NOT merely newest. Tie-break by date.
-const cutoff = Date.now() - RECENCY_WINDOW_DAYS * 86_400_000;
-const importance = (p: typeof allPosts[number]) =>
-  (p.data.trust?.score ?? 0) + Math.min((p.data.sources?.length ?? 1) - 1, 3);
-const ranked = chronological
-  .filter((p) => p.data.date.valueOf() >= cutoff)
-  .sort((a, b) => importance(b) - importance(a) || byDateDesc(a, b));
-
-const featured = ranked.slice(0, FEATURED_COUNT);
-const have = new Set(featured);
-for (const p of chronological) {
-  if (featured.length >= FEATURED_COUNT) break;
-  if (!have.has(p)) { featured.push(p); have.add(p); }
-}
-const featuredIds = new Set(featured.map((p) => p.id));
 
 const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 const today = new Date().toISOString().slice(0, 10);
@@ -47,9 +31,79 @@ for (const post of chronological) {
   if (last && last.date === ds) last.posts.push(post);
   else dateGroups.push({ date: ds, posts: [post] });
 }
+
+// ---- The Daily Edition (revamp Direction B) ------------------------------------------
+// The newest publishing day is composed as an EDITION: dateline header, one lead story
+// (best-corroborated of the day), the rest as a briefs column. All labels are anchored to
+// the edition's own date — never the word "today" alone — so a build that outlives its
+// day (or a pipeline that misses one) can't lie to the reader. Thin days degrade honestly
+// to briefs-only: a lead needs >=3 stories that day AND a multi-source best story.
+const editionGroup = dateGroups[0];
+const editionPosts = editionGroup?.posts ?? [];
+const editionDate = editionGroup ? new Date(`${editionGroup.date}T00:00:00Z`) : null;
+// Issue number = how many editions have ever been published (distinct publishing days).
+const editionNo = dateGroups.length;
+
+const corrob = (p: typeof allPosts[number]) => p.data.sources?.length ?? 1;
+const editionRanked = [...editionPosts].sort(
+  (a, b) =>
+    corrob(b) - corrob(a) ||
+    (b.data.trust?.score ?? 0) - (a.data.trust?.score ?? 0) ||
+    (b.data.updates ? 1 : 0) - (a.data.updates ? 1 : 0),
+);
+const lead = editionPosts.length >= 3 && corrob(editionRanked[0]) >= 2 ? editionRanked[0] : null;
+const briefs = lead ? editionRanked.slice(1) : editionRanked;
+const editionIds = new Set(editionPosts.map((p) => p.id));
+
+// Article dates are UTC days, so every date the reader sees formats in UTC — local-zone
+// formatting would shift them by a day for most of Asia.
+const fmtEditionEn = new Intl.DateTimeFormat('en-GB', {
+  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+});
+const fmtEditionZh = new Intl.DateTimeFormat('zh-TW', {
+  year: 'numeric', month: 'long', day: 'numeric', weekday: 'long', timeZone: 'UTC',
+});
+const fmtDividerEn = new Intl.DateTimeFormat('en-GB', {
+  weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC',
+});
+const fmtDividerZh = new Intl.DateTimeFormat('zh-TW', {
+  month: 'long', day: 'numeric', weekday: 'long', timeZone: 'UTC',
+});
+const fmtShortEn = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+const fmtShortZh = new Intl.DateTimeFormat('zh-TW', { month: 'long', day: 'numeric', timeZone: 'UTC' });
+
+// Masthead today-line (revamp §2.1), date-anchored: "14 Jul: 7 stories · 62 this week".
+// "This week" = the 7 days ending on the edition date, computed at build.
+const weekCount = editionDate
+  ? chronological.filter((p) => p.data.date.valueOf() >= editionDate.valueOf() - 6 * 86_400_000).length
+  : 0;
+const statLine = editionDate
+  ? {
+      en: `${fmtShortEn.format(editionDate)}: ${editionPosts.length} ${editionPosts.length === 1 ? 'story' : 'stories'} · ${weekCount} this week`,
+      zh: `${fmtShortZh.format(editionDate)}：${editionPosts.length}則 · 本週${weekCount}則`,
+    }
+  : undefined;
+
+// "Top Stories" = most SIGNIFICANT recent (trust + multi-source corroboration), gated to a
+// recency window, NOT merely newest. Tie-break by date. The edition's own stories are
+// excluded — the edition block already leads the page with them.
+const cutoff = Date.now() - RECENCY_WINDOW_DAYS * 86_400_000;
+const importance = (p: typeof allPosts[number]) =>
+  (p.data.trust?.score ?? 0) + Math.min((p.data.sources?.length ?? 1) - 1, 3);
+const ranked = chronological
+  .filter((p) => p.data.date.valueOf() >= cutoff && !editionIds.has(p.id))
+  .sort((a, b) => importance(b) - importance(a) || byDateDesc(a, b));
+
+const featured = ranked.slice(0, FEATURED_COUNT);
+const have = new Set(featured);
+for (const p of chronological) {
+  if (featured.length >= FEATURED_COUNT) break;
+  if (!have.has(p) && !editionIds.has(p.id)) { featured.push(p); have.add(p); }
+}
+const featuredIds = new Set(featured.map((p) => p.id));
 ---
 
-<BaseLayout title="Whitespace — DC Intel">
+<BaseLayout title="Whitespace — DC Intel" statLine={statLine}>
   <div class="flex items-center justify-between gap-3 mb-6">
     {/* Pagefind replaces this in built/preview/prod; the placeholder keeps the layout intact
         in `astro dev` (where the bundle doesn't exist) and is cleared before init in prod. */}
@@ -68,13 +122,76 @@ for (const post of chronological) {
   </div>
 
   {
+    editionGroup && editionDate && (
+      <section id="edition" class="mb-12">
+        <h2 class="mb-2">
+          <span class="eyebrow" data-en lang="en">Latest Edition</span>
+          <span class="text-xs font-semibold text-stone-600" data-zh lang="zh-Hant">最新一期</span>
+        </h2>
+        <header class="border-t-2 border-t-stone-900 border-b border-b-stone-300 py-2.5 mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <p class="font-serif text-lg text-stone-900">
+            <span data-en lang="en">{fmtEditionEn.format(editionDate)}</span>
+            <span data-zh lang="zh-Hant">{fmtEditionZh.format(editionDate)}</span>
+          </p>
+          <p>
+            <span data-en lang="en" class="font-mono text-[11px] uppercase tracking-wider text-stone-600 tabular-nums">
+              No. {editionNo} · {editionPosts.length} {editionPosts.length === 1 ? 'story' : 'stories'}
+            </span>
+            <span data-zh lang="zh-Hant" class="text-xs text-stone-600 tabular-nums">
+              第{editionNo}期 · {editionPosts.length}則
+            </span>
+          </p>
+        </header>
+
+        {lead && (
+          <a
+            href={`${base}/news/${lead.id}`}
+            class="group block bg-white border border-stone-200 rounded-xl p-6 sm:p-8 mb-4 hover:border-stone-300 hover:shadow-md transition"
+          >
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold leading-tight mb-2 group-hover:text-accent transition">
+              <Bi en={lead.data.title_en} zh={lead.data.title_zh} />
+            </h3>
+            <p class="text-stone-700 leading-relaxed line-clamp-3">
+              <Bi en={lead.data.summary_en} zh={lead.data.summary_zh} />
+            </p>
+            <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-4">
+              <CategoryTag slug={lead.data.category} />
+              <StoryMarks post={lead} />
+            </footer>
+          </a>
+        )}
+
+        {/* Briefs sit on a white card surface: CategoryTag/StoryMarks are stone-500, which
+            passes the 4.5:1 floor on white only — bare paper ground puts them at 4.48:1. */}
+        {briefs.length > 0 && (
+          <div class="bg-white border border-stone-200 rounded-xl px-5 divide-y divide-stone-200">
+            {briefs.map((post) => (
+              <a
+                href={`${base}/news/${post.id}`}
+                class="group flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4 py-3"
+              >
+                <h3 class="font-serif font-semibold leading-snug group-hover:text-accent transition">
+                  <Bi en={post.data.title_en} zh={post.data.title_zh} />
+                </h3>
+                <span class="shrink-0 flex items-center gap-x-3 text-xs">
+                  <CategoryTag slug={post.data.category} />
+                  <StoryMarks post={post} />
+                </span>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+    )
+  }
+
+  {
     featured.length > 0 && (
       <section id="top-stories" class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <h2 class="eyebrow">
-            <Bi en="Top Stories · most significant" zh="今日要聞 · 最具份量" />
+            <Bi en="Top Stories · corroborated first" zh="近日要聞 · 多方佐證優先" />
           </h2>
-          <span class="text-sm text-stone-600 tabular-nums">{today}</span>
         </div>
 
         {featured[0] && (() => {
@@ -92,6 +209,7 @@ for (const post of chronological) {
               </p>
               <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-4">
                 <CategoryTag slug={post.data.category} />
+                <StoryMarks post={post} />
                 <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
               </footer>
             </a>
@@ -114,6 +232,7 @@ for (const post of chronological) {
                   </p>
                   <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-3">
                     <CategoryTag slug={post.data.category} />
+                    <StoryMarks post={post} />
                     <span class="font-mono tabular-nums text-stone-500">{isoDate(post.data.date)}</span>
                   </footer>
                 </a>
@@ -133,19 +252,43 @@ for (const post of chronological) {
         </p>
       ) : (
         <>
+          {/* "Since your last visit" rule (revamp §2.3): one calm inked line, positioned by
+              the script below at the reader's own last-visit boundary. localStorage-private,
+              no counts, no red — and absent entirely on a first visit or when nothing is new. */}
+          <div data-visit-marker hidden class="flex items-center gap-3 my-5" role="note">
+            <span aria-hidden="true" class="flex-1 border-t border-stone-400"></span>
+            <span data-en lang="en" class="font-mono text-[11px] uppercase tracking-wider text-stone-600">
+              You've read to here
+            </span>
+            <span data-zh lang="zh-Hant" class="text-xs text-stone-600">上次讀到這裡</span>
+            <span aria-hidden="true" class="flex-1 border-t border-stone-400"></span>
+          </div>
           <div data-latest-list>
             {dateGroups.map((g) => (
-              <div data-date-group class="mb-3">
+              <div data-date-group data-date={g.date} class="mb-3">
                 <div
                   data-date-divider
                   style="top: var(--header-h, 6.75rem)"
                   class="sticky z-20 -mx-1 mb-3 px-1 py-1.5 bg-paper/90 backdrop-blur border-b border-stone-200"
                 >
-                  <span class="eyebrow">{g.date}</span>
+                  {/* Dateline divider (revamp §2.2): weekday + per-day count — thin days say so
+                      honestly. EN keeps the mono eyebrow voice; zh gets the plain CJK treatment. */}
+                  <span class="eyebrow" data-en lang="en">
+                    {fmtDividerEn.format(new Date(`${g.date}T00:00:00Z`))} — {g.posts.length}{' '}
+                    {g.posts.length === 1 ? 'story' : 'stories'}
+                  </span>
+                  <span class="text-xs font-medium text-stone-600" data-zh lang="zh-Hant">
+                    {fmtDividerZh.format(new Date(`${g.date}T00:00:00Z`))} — {g.posts.length}則
+                  </span>
                 </div>
                 <div class="space-y-3">
                   {g.posts.map((post) => (
-                    <ArticleCard post={post} base={base} featured={featuredIds.has(post.id)} showDate={false} />
+                    <ArticleCard
+                      post={post}
+                      base={base}
+                      featured={featuredIds.has(post.id) || editionIds.has(post.id)}
+                      showDate={false}
+                    />
                   ))}
                 </div>
               </div>
@@ -233,6 +376,52 @@ for (const post of chronological) {
       // First fold waits for RegionLens's deferred script to apply any ?region= deep-link.
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
       else apply();
+    })();
+  </script>
+
+  {/* "Since your last visit" rule: reads the previous visit's timestamp, draws the marker
+      above the first date group the reader had already seen, then records this visit.
+      Day-granular by design — article dates are UTC days, so the boundary is too. Skips
+      entirely when nothing visible is newer (the edition block already owns "new today"). */}
+  <script>
+    (() => {
+      const KEY = 'ws-last-visit';
+      const marker = document.querySelector<HTMLElement>('[data-visit-marker]');
+      if (!marker) return;
+      let last: string | null = null;
+      try {
+        last = localStorage.getItem(KEY);
+        localStorage.setItem(KEY, new Date().toISOString());
+      } catch {
+        return; // storage unavailable: no marker, nothing recorded
+      }
+      if (!last) return; // first visit: nothing to point at
+      const lastDay = last.slice(0, 10);
+
+      // Boundary detection is deliberately independent of runtime visibility (region
+      // filter / load-more fold): a group counts as "new to the reader" when it has any
+      // non-featured card (featured/edition cards don't show in the default feed). The
+      // fold can't hide these — newer-than-last-visit cards are the newest and sit inside
+      // the fold cap. Placement always happens when a boundary exists (data-placed lets
+      // RegionLens restore the marker after a filter clears); only INITIAL visibility
+      // consults the lens, so a ?region= deep-link load starts with the marker hidden.
+      const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-date-group]'));
+      let target: HTMLElement | null = null;
+      let newer = false;
+      for (const g of groups) {
+        const day = g.dataset.date ?? '';
+        if (day > lastDay) {
+          newer ||= !!g.querySelector('[data-article]:not([data-featured])');
+          continue;
+        }
+        if (newer) target = g;
+        break;
+      }
+      if (!target || !target.parentElement) return;
+      target.parentElement.insertBefore(marker, target);
+      marker.setAttribute('data-placed', '1');
+      const regionActive = document.getElementById('region-lens-trigger')?.hasAttribute('data-active');
+      marker.hidden = !!regionActive;
     })();
   </script>
 

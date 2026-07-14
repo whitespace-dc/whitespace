@@ -9,12 +9,16 @@ interface Props {
   description?: string;
   /** OpenGraph type: 'article' on article pages, defaults to 'website'. */
   ogType?: 'website' | 'article';
+  /** Masthead today-line (revamp §2.1) — build-time stat rendered beside the language
+   *  toggle. Date-anchored by the caller so a stale build never claims "today". */
+  statLine?: { en: string; zh: string };
 }
 
 const {
   title = 'Whitespace',
   description = 'Whitespace — independent data-center intelligence. Corroborated, multi-source, bilingual (EN / 繁中).',
   ogType = 'website',
+  statLine,
 } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : null;
@@ -122,14 +126,28 @@ const isActiveCat = (slug: string) => path === catHref(slug);
             <span class="font-mono text-[11px] uppercase tracking-wider text-stone-500" data-en lang="en">DC Intel</span>
             <span class="text-xs text-stone-500" data-zh lang="zh-Hant">資料中心情報</span>
           </a>
-          <button
-            id="lang-toggle"
-            class="px-3 py-1.5 text-xs font-medium border border-stone-300 rounded-md hover:bg-stone-100 transition min-h-[44px]"
-            aria-label="Switch to Chinese"
-          >
-            <span data-en lang="en">中文</span>
-            <span data-zh lang="zh-Hant">EN</span>
-          </button>
+          <div class="flex items-center gap-4">
+            {
+              statLine && (
+                <span class="hidden md:inline">
+                  <span data-en lang="en" class="font-mono text-[11px] uppercase tracking-wider text-stone-500">
+                    {statLine.en}
+                  </span>
+                  <span data-zh lang="zh-Hant" class="text-xs text-stone-500">
+                    {statLine.zh}
+                  </span>
+                </span>
+              )
+            }
+            <button
+              id="lang-toggle"
+              class="px-3 py-1.5 text-xs font-medium border border-stone-300 rounded-md hover:bg-stone-100 transition min-h-[44px]"
+              aria-label="Switch to Chinese"
+            >
+              <span data-en lang="en">中文</span>
+              <span data-zh lang="zh-Hant">EN</span>
+            </button>
+          </div>
         </div>
         <nav aria-label="Categories" class="overflow-x-auto -mx-4 px-4 pb-2">
           <ul class="flex gap-2 text-sm whitespace-nowrap">
