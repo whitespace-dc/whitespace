@@ -47,7 +47,7 @@ date: "2026-06-20"
 source_published: "2026-06-19T08:36:45.000Z"
 category: "market"
 secondary_categories: ["mep"]
-region: ["Malaysia", "Singapore", "United States"]
+region: ["Malaysia"]
 vendor: []
 trust:
   score: 3

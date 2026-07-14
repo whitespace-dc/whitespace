@@ -89,7 +89,7 @@ date: "2026-06-25"
 source_published: "2026-06-24T06:35:00.000Z"
 category: "software-ops"
 secondary_categories: ["market"]
-region: ["India", "Singapore"]
+region: []
 vendor: []
 trust:
   score: 3

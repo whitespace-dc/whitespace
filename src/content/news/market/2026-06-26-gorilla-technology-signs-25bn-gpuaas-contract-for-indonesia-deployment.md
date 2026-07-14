@@ -72,7 +72,7 @@ source_published: "2026-06-25T16:30:27.000Z"
 category: "market"
 secondary_categories: []
 updates: "market/2026-06-08-telkoms-neutradc-batam-first-building-sells-out-before-opening-plans-second-faci"
-region: ["India", "Indonesia", "Singapore", "Thailand"]
+region: ["Indonesia"]
 vendor: ["NeutraDC", "Yotta"]
 trust:
   score: 3

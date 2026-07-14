@@ -68,7 +68,7 @@ source_published: "2026-06-25T20:00:00.000Z"
 category: "market"
 secondary_categories: ["compute"]
 updates: "market/2026-06-23-chevron-signs-20-year-deal-to-power-microsofts-2-gw-texas-data-center-campus"
-region: ["Japan", "Taiwan"]
+region: ["Taiwan", "United States"]
 vendor: ["Nvidia"]
 trust:
   score: 3

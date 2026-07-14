@@ -67,7 +67,7 @@ date: "2026-06-20"
 source_published: "2026-06-18T19:00:00.000Z"
 category: "cooling"
 secondary_categories: []
-region: ["Thailand"]
+region: ["Taiwan", "Thailand"]
 vendor: ["AMD", "Nvidia"]
 trust:
   score: 3

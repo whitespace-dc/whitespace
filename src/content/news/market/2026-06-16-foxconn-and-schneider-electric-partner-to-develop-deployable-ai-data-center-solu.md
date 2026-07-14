@@ -59,7 +59,7 @@ date: "2026-06-16"
 source_published: "2026-06-15T17:51:21.000Z"
 category: "market"
 secondary_categories: ["power", "cooling"]
-region: []
+region: ["France", "Taiwan"]
 vendor: ["Foxconn", "Mitsubishi Electric", "Schneider Electric"]
 trust:
   score: 3

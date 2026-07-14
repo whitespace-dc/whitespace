@@ -51,7 +51,7 @@ date: "2026-06-09T18:16:37.498Z"
 source_published: "2026-06-08T14:22:57.000Z"
 category: "networking"
 secondary_categories: ["market"]
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 3

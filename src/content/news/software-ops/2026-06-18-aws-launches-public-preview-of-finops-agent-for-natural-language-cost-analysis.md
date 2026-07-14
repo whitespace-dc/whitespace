@@ -51,7 +51,7 @@ date: "2026-06-18"
 source_published: "2026-06-17T15:49:03.000Z"
 category: "software-ops"
 secondary_categories: []
-region: []
+region: ["United States"]
 vendor: ["AWS"]
 trust:
   score: 3

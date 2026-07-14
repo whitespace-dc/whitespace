@@ -75,7 +75,7 @@ date: "2026-07-13"
 source_published: "2026-07-09T00:41:00.000Z"
 category: "regulatory"
 secondary_categories: ["compute"]
-region: ["China", "United States"]
+region: ["China"]
 vendor: ["ByteDance", "Nvidia"]
 trust:
   score: 3

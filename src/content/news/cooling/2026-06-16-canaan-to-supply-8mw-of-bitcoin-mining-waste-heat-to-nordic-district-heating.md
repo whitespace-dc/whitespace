@@ -55,7 +55,7 @@ date: "2026-06-16"
 source_published: "2026-06-15T16:30:29.000Z"
 category: "cooling"
 secondary_categories: ["power"]
-region: ["Canada", "Singapore"]
+region: []
 vendor: []
 trust:
   score: 3

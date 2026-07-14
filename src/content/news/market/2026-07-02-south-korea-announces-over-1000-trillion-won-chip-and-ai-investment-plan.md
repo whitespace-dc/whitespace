@@ -82,7 +82,7 @@ source_published: "2026-06-29T12:45:01.000Z"
 category: "market"
 secondary_categories: ["compute"]
 supersedes: "market/2026-06-29-samsung-plans-648-billion-south-korea-investment-over-10-years-targeting-ai-chip"
-region: ["China", "Korea"]
+region: ["Korea"]
 vendor: ["SK Hynix"]
 trust:
   score: 3

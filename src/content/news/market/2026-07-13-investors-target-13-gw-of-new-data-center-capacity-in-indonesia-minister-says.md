@@ -63,7 +63,7 @@ date: "2026-07-13"
 source_published: "2026-07-11T11:22:02.000Z"
 category: "market"
 secondary_categories: []
-region: ["Indonesia", "United Kingdom"]
+region: ["Indonesia"]
 vendor: ["Nvidia", "Telkom"]
 trust:
   score: 3

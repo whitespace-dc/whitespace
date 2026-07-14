@@ -17,7 +17,7 @@ summary_zh: |
   最高 1,000 倍的 AI 效能。
 date: 2026-01-08
 category: compute
-region: ["global", "United States"]
+region: ["global"]
 vendor: [AMD]
 trust:
   score: 5

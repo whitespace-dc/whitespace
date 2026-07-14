@@ -64,7 +64,7 @@ source_published: "2026-07-02T00:28:00.000Z"
 category: "market"
 secondary_categories: ["compute"]
 updates: "market/2026-06-15-microsoft-and-meta-report-record-ai-infrastructure-spending-drawing-split-invest"
-region: ["Taiwan"]
+region: []
 vendor: ["Wistron"]
 trust:
   score: 3

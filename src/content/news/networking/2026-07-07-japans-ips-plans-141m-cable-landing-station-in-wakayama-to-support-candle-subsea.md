@@ -47,7 +47,7 @@ date: "2026-07-07"
 source_published: "2026-07-06T16:16:29.000Z"
 category: "networking"
 secondary_categories: ["market"]
-region: ["Indonesia", "Japan", "Malaysia", "Philippines", "Singapore", "Taiwan"]
+region: ["Japan"]
 vendor: ["Telkom"]
 trust:
   score: 3

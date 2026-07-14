@@ -103,7 +103,7 @@ date: "2026-06-11"
 source_published: "2026-06-10T09:00:00.000Z"
 category: "market"
 secondary_categories: []
-region: ["Canada", "China"]
+region: []
 vendor: []
 trust:
   score: 3

@@ -71,7 +71,7 @@ date: "2026-06-23"
 source_published: "2026-06-18T12:57:58.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: ["Malaysia", "Singapore"]
+region: ["Malaysia"]
 vendor: ["Tenaga Nasional"]
 trust:
   score: 3

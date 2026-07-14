@@ -100,7 +100,7 @@ source_published: "2026-07-01T14:31:53.849Z"
 category: "networking"
 secondary_categories: []
 updates: "networking/2026-06-03-marvell-and-nvidia-bet-2bn-on-optics-as-copper-hits-its-limits-in-ai-data-centre"
-region: []
+region: ["United States"]
 vendor: ["Corning", "Nvidia", "Wiwynn"]
 trust:
   score: 3

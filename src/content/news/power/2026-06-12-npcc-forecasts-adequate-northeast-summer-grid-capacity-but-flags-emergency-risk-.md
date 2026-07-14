@@ -51,7 +51,7 @@ date: "2026-06-12"
 source_published: "2026-06-11T13:22:52.000Z"
 category: "power"
 secondary_categories: []
-region: []
+region: ["Canada", "United States"]
 vendor: []
 trust:
   score: 3

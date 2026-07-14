@@ -51,7 +51,7 @@ date: "2026-07-12"
 source_published: "2026-07-10T07:23:45.000Z"
 category: "market"
 secondary_categories: []
-region: ["Australia", "China", "Finland", "Germany", "India", "Japan", "Korea", "Netherlands", "Norway", "Philippines", "Singapore", "Sweden", "United Kingdom", "United States"]
+region: ["Philippines", "United States"]
 vendor: []
 trust:
   score: 3

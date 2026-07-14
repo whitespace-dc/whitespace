@@ -17,7 +17,7 @@ summary_zh: |
   藍圖的 800 V DC 生態系。
 date: 2025-04-15
 category: power
-region: ["global", "United States"]
+region: ["global"]
 vendor: [Schneider Electric, NVIDIA]
 trust:
   score: 5

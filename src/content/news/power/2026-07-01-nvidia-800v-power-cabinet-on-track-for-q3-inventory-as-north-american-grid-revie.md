@@ -50,7 +50,7 @@ source_published: "2026-06-25T08:45:12.000Z"
 category: "power"
 secondary_categories: ["compute"]
 updates: "power/2026-06-09-delta-lite-on-vertiv-show-800vdc-power-cabinets-at-computex-2026-as-ai-data-cent"
-region: ["Taiwan"]
+region: []
 vendor: ["Nvidia"]
 trust:
   score: 3

@@ -16,7 +16,7 @@ summary_zh: |
   有力挑戰者。
 date: 2025-10-15
 category: networking
-region: ["global", "United States"]
+region: ["global"]
 vendor: [Broadcom]
 trust:
   score: 5

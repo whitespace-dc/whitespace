@@ -75,7 +75,7 @@ date: "2026-07-01"
 source_published: "2026-06-30T02:16:00.000Z"
 category: "compute"
 secondary_categories: ["software-ops"]
-region: ["China", "Japan"]
+region: []
 vendor: []
 trust:
   score: 3

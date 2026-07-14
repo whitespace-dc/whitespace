@@ -55,7 +55,7 @@ date: "2026-06-11"
 source_published: "2026-06-10T15:00:00.000Z"
 category: "compute"
 secondary_categories: ["market"]
-region: ["Japan"]
+region: []
 vendor: []
 trust:
   score: 3

@@ -43,7 +43,7 @@ date: "2026-06-06T18:15:21.193Z"
 source_published: "2026-06-06T14:55:04.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["Germany"]
 vendor: []
 trust:
   score: 3

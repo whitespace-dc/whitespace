@@ -121,7 +121,7 @@ body_zh: |
   熱的物理定律從未改變。正在改變的，是面對它所需投入的工程精密度，以及為此動員的供應鏈與製造流程的成熟度。
 date: "2026-06-04T12:38:01.412Z"
 category: "cooling"
-region: ["Taiwan", "Vietnam"]
+region: []
 vendor: []
 trust:
   score: 3

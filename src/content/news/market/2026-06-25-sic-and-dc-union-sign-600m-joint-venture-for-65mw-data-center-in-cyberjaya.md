@@ -69,7 +69,7 @@ date: "2026-06-25"
 source_published: "2026-06-24T12:11:08.000Z"
 category: "market"
 secondary_categories: []
-region: ["Malaysia", "Singapore"]
+region: ["Malaysia"]
 vendor: ["AWS", "Azure", "Google Cloud"]
 trust:
   score: 2

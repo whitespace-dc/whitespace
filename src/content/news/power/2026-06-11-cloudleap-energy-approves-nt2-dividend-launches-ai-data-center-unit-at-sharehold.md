@@ -49,7 +49,7 @@ date: "2026-06-11"
 source_published: "2026-06-10T10:30:11.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: ["Japan", "Taiwan"]
+region: ["Taiwan"]
 vendor: []
 trust:
   score: 3

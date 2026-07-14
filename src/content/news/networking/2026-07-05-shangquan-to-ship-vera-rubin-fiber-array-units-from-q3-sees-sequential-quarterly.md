@@ -73,7 +73,7 @@ date: "2026-07-05"
 source_published: "2026-07-02T19:00:00.000Z"
 category: "networking"
 secondary_categories: ["compute"]
-region: []
+region: ["Taiwan"]
 vendor: ["Foxconn", "Nvidia", "TSMC"]
 trust:
   score: 4

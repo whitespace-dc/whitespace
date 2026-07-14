@@ -102,7 +102,7 @@ source_published: "2026-07-02T14:04:39.000Z"
 category: "power"
 secondary_categories: ["market"]
 updates: "power/2026-06-26-doe-emergency-orders-keeping-fossil-plants-alive-cost-549m-a-year-benefits-dispu"
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 3

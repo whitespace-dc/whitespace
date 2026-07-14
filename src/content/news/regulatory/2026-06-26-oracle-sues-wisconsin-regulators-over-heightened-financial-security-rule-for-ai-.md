@@ -95,7 +95,7 @@ date: "2026-06-26"
 source_published: "2026-06-25T16:14:10.000Z"
 category: "regulatory"
 secondary_categories: ["power", "market"]
-region: []
+region: ["United States"]
 vendor: ["Vantage Data Centers"]
 trust:
   score: 3

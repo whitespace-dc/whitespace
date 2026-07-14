@@ -81,7 +81,7 @@ date: "2026-06-25"
 source_published: "2026-06-24T16:30:29.000Z"
 category: "regulatory"
 secondary_categories: ["market"]
-region: ["France", "Malaysia", "United States"]
+region: []
 vendor: []
 trust:
   score: 4

@@ -77,7 +77,7 @@ date: "2026-06-19"
 source_published: "2026-06-18T04:01:00.000Z"
 category: "regulatory"
 secondary_categories: ["market"]
-region: ["Australia", "Brazil", "Canada", "France", "Germany", "India", "Indonesia", "Italy", "Korea", "Spain", "United States"]
+region: ["Canada", "France", "United States"]
 vendor: []
 trust:
   score: 3

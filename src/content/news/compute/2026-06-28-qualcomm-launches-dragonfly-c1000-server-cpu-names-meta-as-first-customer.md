@@ -67,7 +67,7 @@ date: "2026-06-28"
 source_published: "2026-06-25T02:27:00.000Z"
 category: "compute"
 secondary_categories: ["market"]
-region: []
+region: ["United States"]
 vendor: ["ByteDance", "Nvidia"]
 trust:
   score: 3

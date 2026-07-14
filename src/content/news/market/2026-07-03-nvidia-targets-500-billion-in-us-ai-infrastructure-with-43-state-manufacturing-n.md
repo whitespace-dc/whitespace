@@ -107,7 +107,7 @@ date: "2026-07-03"
 source_published: "2026-07-02T17:01:41.000Z"
 category: "market"
 secondary_categories: ["compute"]
-region: ["Australia", "United States"]
+region: ["United States"]
 vendor: ["Caterpillar", "Coherent", "Corning", "Digital Realty", "Eaton", "Firmus", "Foxconn", "Lumentum", "Nvidia", "Schneider Electric", "Siemens", "TSMC", "Vertiv", "Wistron"]
 trust:
   score: 3

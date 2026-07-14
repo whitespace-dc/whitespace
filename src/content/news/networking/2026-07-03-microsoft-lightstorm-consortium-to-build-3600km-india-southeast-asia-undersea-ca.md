@@ -63,7 +63,7 @@ date: "2026-07-03"
 source_published: "2026-07-02T08:26:31.000Z"
 category: "networking"
 secondary_categories: ["market"]
-region: ["India", "Japan", "Malaysia", "Singapore"]
+region: ["India", "Malaysia", "Singapore"]
 vendor: []
 trust:
   score: 3

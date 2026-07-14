@@ -63,7 +63,7 @@ date: "2026-07-04"
 source_published: "2026-07-03T12:03:54.000Z"
 category: "market"
 secondary_categories: ["cooling", "compute"]
-region: ["Australia", "Malaysia", "New Zealand", "Singapore"]
+region: ["Malaysia"]
 vendor: ["Vertiv"]
 trust:
   score: 3

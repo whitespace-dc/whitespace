@@ -115,7 +115,7 @@ date: "2026-07-03"
 source_published: "2026-07-02T05:28:00.000Z"
 category: "networking"
 secondary_categories: []
-region: ["China", "Thailand"]
+region: ["China"]
 vendor: []
 trust:
   score: 3

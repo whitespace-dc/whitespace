@@ -51,7 +51,7 @@ date: "2026-06-15"
 source_published: "2026-06-14T13:00:04.000Z"
 category: "regulatory"
 secondary_categories: ["compute"]
-region: ["United States"]
+region: []
 vendor: []
 trust:
   score: 3

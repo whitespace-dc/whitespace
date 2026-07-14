@@ -97,7 +97,7 @@ date: "2026-06-08T18:50:23.268Z"
 source_published: "2026-06-08T16:14:54.000Z"
 category: "regulatory"
 secondary_categories: ["power"]
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 4

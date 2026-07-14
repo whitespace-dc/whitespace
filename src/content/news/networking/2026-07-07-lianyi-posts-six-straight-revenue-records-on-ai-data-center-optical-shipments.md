@@ -71,7 +71,7 @@ date: "2026-07-07"
 source_published: "2026-07-03T19:00:00.000Z"
 category: "networking"
 secondary_categories: ["compute"]
-region: ["Japan", "Taiwan"]
+region: ["Taiwan"]
 vendor: ["AWS", "Nvidia"]
 trust:
   score: 3

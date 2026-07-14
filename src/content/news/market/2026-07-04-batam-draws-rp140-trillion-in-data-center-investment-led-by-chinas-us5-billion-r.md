@@ -84,7 +84,7 @@ source_published: "2026-07-01T16:45:45.000Z"
 category: "market"
 secondary_categories: ["power"]
 supersedes: "market/2026-06-12-chinas-rangeidc-to-invest-5b-in-ai-data-center-campus-in-batam-indonesia"
-region: ["China", "Hong Kong", "Indonesia", "Malaysia", "Singapore", "United States"]
+region: ["China", "Indonesia", "Singapore"]
 vendor: ["NeutraDC", "Nxera"]
 trust:
   score: 3

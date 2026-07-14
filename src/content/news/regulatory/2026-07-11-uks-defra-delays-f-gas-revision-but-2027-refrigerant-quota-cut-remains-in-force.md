@@ -87,7 +87,7 @@ date: "2026-07-11"
 source_published: "2026-07-10T09:25:35.000Z"
 category: "regulatory"
 secondary_categories: []
-region: ["Ireland", "United Kingdom"]
+region: ["United Kingdom"]
 vendor: []
 trust:
   score: 3

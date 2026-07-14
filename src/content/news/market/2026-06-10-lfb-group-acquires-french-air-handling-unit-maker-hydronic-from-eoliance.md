@@ -35,7 +35,7 @@ date: "2026-06-09T18:40:10.506Z"
 source_published: "2026-06-09T11:01:21.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["France"]
 vendor: []
 trust:
   score: 3

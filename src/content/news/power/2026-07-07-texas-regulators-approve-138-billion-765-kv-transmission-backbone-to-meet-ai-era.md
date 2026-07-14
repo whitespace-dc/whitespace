@@ -87,7 +87,7 @@ date: "2026-07-07"
 source_published: "2026-07-06T16:12:14.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 3

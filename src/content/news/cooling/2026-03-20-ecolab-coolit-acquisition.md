@@ -16,7 +16,7 @@ summary_zh: |
   浪潮已啟動。
 date: 2026-03-20
 category: cooling
-region: ["global", "United States"]
+region: ["global"]
 vendor: [Ecolab, CoolIT Systems]
 trust:
   score: 5

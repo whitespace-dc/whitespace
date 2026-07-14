@@ -71,7 +71,7 @@ date: "2026-06-18"
 source_published: "2026-06-17T08:11:44.000Z"
 category: "regulatory"
 secondary_categories: []
-region: ["China", "Poland"]
+region: ["China"]
 vendor: ["Nvidia"]
 trust:
   score: 3
