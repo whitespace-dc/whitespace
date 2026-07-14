@@ -87,7 +87,7 @@ date: "2026-07-11"
 source_published: "2026-07-10T02:14:03.000Z"
 category: "compute"
 secondary_categories: ["market", "power"]
-region: ["Canada", "Japan", "Taiwan"]
+region: ["Canada"]
 vendor: ["AMD", "Broadcom", "Nvidia", "TSMC"]
 trust:
   score: 3

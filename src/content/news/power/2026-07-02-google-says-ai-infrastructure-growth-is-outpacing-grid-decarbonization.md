@@ -99,7 +99,7 @@ date: "2026-07-02"
 source_published: "2026-07-01T11:49:55.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: ["United States"]
+region: []
 vendor: []
 trust:
   score: 3

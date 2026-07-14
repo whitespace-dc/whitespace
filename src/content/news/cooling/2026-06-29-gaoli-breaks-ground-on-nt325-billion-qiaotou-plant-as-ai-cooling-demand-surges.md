@@ -79,7 +79,7 @@ date: "2026-06-29"
 source_published: "2026-06-23T19:00:00.000Z"
 category: "cooling"
 secondary_categories: ["market", "power"]
-region: ["Taiwan", "Thailand"]
+region: ["Taiwan"]
 vendor: []
 trust:
   score: 3

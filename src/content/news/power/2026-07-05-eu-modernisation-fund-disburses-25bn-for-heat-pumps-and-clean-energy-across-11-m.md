@@ -91,7 +91,7 @@ date: "2026-07-05"
 source_published: "2026-07-04T10:54:49.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: ["Poland", "Portugal"]
+region: []
 vendor: []
 trust:
   score: 3

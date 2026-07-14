@@ -95,7 +95,7 @@ date: "2026-06-08T18:28:46.051Z"
 source_published: "2026-06-07T16:00:00.000Z"
 category: "power"
 secondary_categories: ["regulatory"]
-region: ["Indonesia", "Japan", "Malaysia", "Philippines", "Singapore", "Thailand", "United Kingdom", "Vietnam"]
+region: ["Malaysia", "Singapore", "United Kingdom"]
 vendor: []
 trust:
   score: 3

@@ -18,7 +18,7 @@ summary_zh: |
   德州、維吉尼亞州與北歐地區）回應此挑戰。
 date: 2026-04-25
 category: market
-region: ["global", "United States"]
+region: ["global"]
 vendor: [Microsoft]
 trust:
   score: 5

@@ -57,7 +57,7 @@ date: "2026-07-12"
 source_published: "2026-07-10T04:13:12.000Z"
 category: "market"
 secondary_categories: ["software-ops"]
-region: ["Japan", "Korea", "Malaysia", "Taiwan"]
+region: ["Malaysia", "Taiwan"]
 vendor: ["AMD", "Nvidia"]
 trust:
   score: 3

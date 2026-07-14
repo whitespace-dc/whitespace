@@ -75,7 +75,7 @@ date: "2026-06-09T18:32:56.376Z"
 source_published: "2026-06-09T16:30:00.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 3

@@ -83,7 +83,7 @@ date: "2026-06-09T18:35:29.976Z"
 source_published: "2026-06-08T22:45:00.000Z"
 category: "market"
 secondary_categories: []
-region: ["Australia", "Indonesia", "Japan", "Korea", "Singapore"]
+region: ["Australia"]
 vendor: []
 trust:
   score: 3

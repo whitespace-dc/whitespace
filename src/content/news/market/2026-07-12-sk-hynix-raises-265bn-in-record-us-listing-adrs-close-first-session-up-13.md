@@ -100,7 +100,7 @@ source_published: "2026-07-10T18:53:09.000Z"
 category: "market"
 secondary_categories: ["compute"]
 updates: "market/2026-07-02-south-korea-announces-over-1000-trillion-won-chip-and-ai-investment-plan"
-region: ["Japan", "Korea", "Malaysia"]
+region: ["Korea"]
 vendor: ["Micron", "Nvidia", "SK Hynix"]
 trust:
   score: 4

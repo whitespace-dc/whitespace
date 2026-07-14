@@ -91,7 +91,7 @@ date: "2026-07-04"
 source_published: "2026-07-02T16:00:00.000Z"
 category: "regulatory"
 secondary_categories: ["power"]
-region: []
+region: ["United States"]
 vendor: ["Crusoe"]
 trust:
   score: 3

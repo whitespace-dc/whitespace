@@ -81,7 +81,7 @@ date: "2026-07-01"
 source_published: "2026-06-24T16:00:00.000Z"
 category: "market"
 secondary_categories: []
-region: ["Malaysia", "Thailand", "United States", "Vietnam"]
+region: ["Malaysia"]
 vendor: []
 trust:
   score: 3

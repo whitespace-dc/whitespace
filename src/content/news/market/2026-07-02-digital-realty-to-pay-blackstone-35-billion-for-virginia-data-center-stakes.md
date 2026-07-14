@@ -69,7 +69,7 @@ date: "2026-07-02"
 source_published: "2026-06-29T23:38:00.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["United States"]
 vendor: ["Digital Realty"]
 trust:
   score: 3

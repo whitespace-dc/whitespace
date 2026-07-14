@@ -73,7 +73,7 @@ date: "2026-06-28"
 source_published: "2026-06-26T00:00:00.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: ["Japan", "Korea", "Taiwan"]
+region: ["Taiwan"]
 vendor: ["Taipower"]
 trust:
   score: 3

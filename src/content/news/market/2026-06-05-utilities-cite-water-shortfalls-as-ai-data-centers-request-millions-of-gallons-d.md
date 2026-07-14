@@ -95,7 +95,7 @@ date: "2026-06-04T18:17:04.742Z"
 source_published: "2026-05-29T13:00:00.000Z"
 category: "market"
 secondary_categories: ["cooling"]
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 3

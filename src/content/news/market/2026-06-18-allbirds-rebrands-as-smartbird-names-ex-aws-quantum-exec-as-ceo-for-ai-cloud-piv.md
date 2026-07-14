@@ -51,7 +51,7 @@ date: "2026-06-18"
 source_published: "2026-06-17T16:41:00.000Z"
 category: "market"
 secondary_categories: []
-region: ["Denmark"]
+region: []
 vendor: ["AWS", "Nvidia"]
 trust:
   score: 3

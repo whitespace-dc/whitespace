@@ -67,7 +67,7 @@ date: "2026-06-25"
 source_published: "2026-06-24T16:00:00.000Z"
 category: "power"
 secondary_categories: ["mep"]
-region: ["United States"]
+region: []
 vendor: []
 trust:
   score: 3

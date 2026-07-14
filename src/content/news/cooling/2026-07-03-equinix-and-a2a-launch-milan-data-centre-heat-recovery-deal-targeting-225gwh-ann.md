@@ -57,7 +57,7 @@ date: "2026-07-03"
 source_published: "2026-07-02T10:53:29.000Z"
 category: "cooling"
 secondary_categories: ["market"]
-region: ["Italy"]
+region: []
 vendor: ["Equinix"]
 trust:
   score: 3

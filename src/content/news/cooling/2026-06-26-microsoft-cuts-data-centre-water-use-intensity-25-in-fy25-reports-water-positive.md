@@ -91,7 +91,7 @@ date: "2026-06-26"
 source_published: "2026-06-25T06:48:00.000Z"
 category: "cooling"
 secondary_categories: ["software-ops"]
-region: ["Austria", "Canada", "Finland", "Ireland", "Italy", "Netherlands", "Singapore", "Sweden", "United Kingdom", "United States"]
+region: ["United States"]
 vendor: []
 trust:
   score: 3

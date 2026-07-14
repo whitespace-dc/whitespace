@@ -69,7 +69,7 @@ date: "2026-06-18"
 source_published: "2026-06-16T00:25:00.000Z"
 category: "cooling"
 secondary_categories: []
-region: ["China", "Malaysia", "Singapore"]
+region: ["China", "Malaysia"]
 vendor: []
 trust:
   score: 3

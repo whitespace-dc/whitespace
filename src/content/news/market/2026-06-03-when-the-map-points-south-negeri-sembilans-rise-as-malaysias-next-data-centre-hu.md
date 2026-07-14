@@ -125,7 +125,7 @@ body_zh: |
   對於當前正在評估馬來西亞選項的選址團隊而言，森美蘭的綜合優勢——緊鄰核心市場的區位、電力備用容量、預先分區的土地，以及已在推進中的私人公用事業基礎設施——恰恰正是一個亟需擴張空間的市場所尋找的一切。這個州並未等待外界來發現它。就多方說法來看，它已然在動工興建了。
 date: "2026-06-03T15:36:23.733Z"
 category: "market"
-region: ["Australia", "Malaysia", "Singapore"]
+region: ["Australia", "Malaysia"]
 vendor: []
 trust:
   score: 3

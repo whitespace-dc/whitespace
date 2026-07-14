@@ -16,7 +16,7 @@ summary_zh: |
   系列與 HyperPort 技術為此部署的核心。
 date: 2025-09-15
 category: networking
-region: ["global", "United States"]
+region: ["global"]
 vendor: [Meta, Arista]
 trust:
   score: 4

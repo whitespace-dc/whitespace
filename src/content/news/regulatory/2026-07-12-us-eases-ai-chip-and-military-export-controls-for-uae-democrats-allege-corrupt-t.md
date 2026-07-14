@@ -47,7 +47,7 @@ date: "2026-07-12"
 source_published: "2026-07-11T10:00:08.000Z"
 category: "regulatory"
 secondary_categories: ["market"]
-region: ["China", "United States"]
+region: []
 vendor: ["Nvidia"]
 trust:
   score: 3

@@ -66,7 +66,7 @@ source_published: "2026-07-09T04:20:13.000Z"
 category: "market"
 secondary_categories: []
 updates: "market/2026-07-01-sp-projects-malaysia-gdp-growth-at-49-in-2026-driven-by-ai-exports-and-data-cent"
-region: ["Korea", "Malaysia", "Taiwan", "Thailand"]
+region: ["Malaysia"]
 vendor: []
 trust:
   score: 3

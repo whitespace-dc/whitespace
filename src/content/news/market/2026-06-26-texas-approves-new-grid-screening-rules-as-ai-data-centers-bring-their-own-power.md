@@ -98,7 +98,7 @@ source_published: "2026-06-25T17:53:59.000Z"
 category: "market"
 secondary_categories: ["power", "regulatory"]
 updates: "market/2026-06-23-chevron-signs-20-year-deal-to-power-microsofts-2-gw-texas-data-center-campus"
-region: []
+region: ["United States"]
 vendor: ["Crusoe", "Nvidia"]
 trust:
   score: 3

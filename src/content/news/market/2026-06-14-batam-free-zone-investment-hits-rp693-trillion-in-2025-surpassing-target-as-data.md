@@ -81,7 +81,7 @@ date: "2026-06-14"
 source_published: "2026-06-12T02:45:38.000Z"
 category: "market"
 secondary_categories: []
-region: ["Hong Kong", "Indonesia", "Malaysia", "Singapore", "United States"]
+region: ["Indonesia", "Malaysia", "Singapore"]
 vendor: []
 trust:
   score: 3

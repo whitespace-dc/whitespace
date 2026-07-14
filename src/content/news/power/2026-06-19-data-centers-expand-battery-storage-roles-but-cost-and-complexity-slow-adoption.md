@@ -83,7 +83,7 @@ date: "2026-06-19"
 source_published: "2026-06-18T08:55:00.000Z"
 category: "power"
 secondary_categories: ["software-ops"]
-region: ["United States"]
+region: []
 vendor: ["Crusoe"]
 trust:
   score: 3

@@ -53,7 +53,7 @@ date: "2026-07-04"
 source_published: "2026-07-03T14:35:54.000Z"
 category: "cooling"
 secondary_categories: ["software-ops"]
-region: ["Japan"]
+region: []
 vendor: []
 trust:
   score: 3

@@ -83,7 +83,7 @@ date: "2026-06-28"
 source_published: "2026-06-26T18:57:00.000Z"
 category: "software-ops"
 secondary_categories: []
-region: ["Singapore"]
+region: []
 vendor: []
 trust:
   score: 3

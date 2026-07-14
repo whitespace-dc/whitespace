@@ -63,7 +63,7 @@ date: "2026-07-07"
 source_published: "2026-07-06T14:00:45.000Z"
 category: "regulatory"
 secondary_categories: ["power"]
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 4

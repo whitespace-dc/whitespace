@@ -45,7 +45,7 @@ date: "2026-07-09"
 source_published: "2026-07-08T16:10:29.000Z"
 category: "regulatory"
 secondary_categories: ["market"]
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 3

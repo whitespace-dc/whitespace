@@ -77,7 +77,7 @@ date: "2026-06-11"
 source_published: "2026-06-10T05:50:03.000Z"
 category: "market"
 secondary_categories: []
-region: ["Korea", "Singapore"]
+region: ["Korea"]
 vendor: []
 trust:
   score: 3

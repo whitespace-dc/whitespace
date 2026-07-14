@@ -108,7 +108,7 @@ source_published: "2026-06-26T10:07:44.000Z"
 category: "regulatory"
 secondary_categories: ["market"]
 supersedes: "regulatory/2026-06-25-40-city-mayors-launch-pact-to-govern-data-center-growth-amid-grid-and-water-stra"
-region: ["Australia", "Canada", "Germany", "India", "Indonesia", "Italy", "Malaysia", "Norway", "Philippines", "Singapore", "Spain", "Thailand", "United Kingdom", "United States", "Vietnam"]
+region: ["Australia"]
 vendor: []
 trust:
   score: 3

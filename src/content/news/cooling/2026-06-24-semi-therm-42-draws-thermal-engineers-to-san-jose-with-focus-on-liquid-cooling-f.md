@@ -109,7 +109,7 @@ date: "2026-06-24"
 source_published: "2026-06-22T19:05:12.000Z"
 category: "cooling"
 secondary_categories: []
-region: ["Germany"]
+region: ["United States"]
 vendor: ["Intel", "Siemens"]
 trust:
   score: 3

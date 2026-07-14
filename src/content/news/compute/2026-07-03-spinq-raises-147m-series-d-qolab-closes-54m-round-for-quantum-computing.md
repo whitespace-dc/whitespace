@@ -67,7 +67,7 @@ date: "2026-07-03"
 source_published: "2026-07-02T16:20:30.000Z"
 category: "compute"
 secondary_categories: ["market"]
-region: ["China", "Japan"]
+region: ["China", "United States"]
 vendor: ["Coherent"]
 trust:
   score: 3

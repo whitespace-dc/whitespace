@@ -12,7 +12,7 @@ summary_zh: |
   AI 工作負載調度以及直流供電 Grid 方案。LG 表示該方案將初始電力損耗降至約 15%。
 date: 2026-04-23
 category: cooling
-region: ["global", "United States"]
+region: ["global"]
 vendor: [LG Electronics]
 trust:
   score: 5

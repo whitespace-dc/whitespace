@@ -15,7 +15,7 @@ summary_zh: |
   首次對 AMD 晶片做出跨世代、多 GW 等級的承諾。
 date: 2026-02-24
 category: compute
-region: ["global", "United States"]
+region: ["global"]
 vendor: [AMD, Meta]
 trust:
   score: 5

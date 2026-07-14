@@ -103,7 +103,7 @@ date: "2026-06-25"
 source_published: "2026-06-24T03:46:35.000Z"
 category: "compute"
 secondary_categories: []
-region: ["China", "Germany", "Italy", "Japan"]
+region: ["China"]
 vendor: ["AMD", "Intel", "Nvidia"]
 trust:
   score: 3

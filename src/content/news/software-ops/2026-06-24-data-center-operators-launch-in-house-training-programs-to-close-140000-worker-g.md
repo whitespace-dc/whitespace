@@ -97,7 +97,7 @@ date: "2026-06-24"
 source_published: "2026-06-23T09:00:00.000Z"
 category: "software-ops"
 secondary_categories: []
-region: ["United Kingdom"]
+region: []
 vendor: ["Digital Realty", "Yondr"]
 trust:
   score: 3

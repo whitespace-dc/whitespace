@@ -43,7 +43,7 @@ date: "2026-06-27"
 source_published: "2026-06-26T10:49:07.000Z"
 category: "market"
 secondary_categories: []
-region: ["Japan", "Malaysia"]
+region: ["Malaysia"]
 vendor: ["Aims Data"]
 trust:
   score: 2

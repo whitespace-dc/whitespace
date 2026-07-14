@@ -103,7 +103,7 @@ date: "2026-06-26"
 source_published: "2026-06-25T15:46:02.000Z"
 category: "power"
 secondary_categories: ["regulatory"]
-region: ["Canada", "United States"]
+region: ["United States"]
 vendor: []
 trust:
   score: 3

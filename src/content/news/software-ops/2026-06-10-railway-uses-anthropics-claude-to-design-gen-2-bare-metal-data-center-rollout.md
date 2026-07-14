@@ -75,7 +75,7 @@ date: "2026-06-09T18:38:10.899Z"
 source_published: "2026-06-09T17:00:27.000Z"
 category: "software-ops"
 secondary_categories: ["mep"]
-region: ["Netherlands", "Singapore"]
+region: []
 vendor: []
 trust:
   score: 3

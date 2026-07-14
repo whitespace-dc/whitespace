@@ -61,7 +61,7 @@ date: "2026-06-15"
 source_published: "2026-06-14T06:00:52.000Z"
 category: "compute"
 secondary_categories: []
-region: ["Netherlands", "Taiwan", "United States"]
+region: []
 vendor: ["Intel", "Supermicro"]
 trust:
   score: 3

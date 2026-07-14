@@ -31,7 +31,7 @@ date: "2026-07-12"
 source_published: "2026-07-10T00:37:00.000Z"
 category: "market"
 secondary_categories: []
-region: []
+region: ["Australia"]
 vendor: ["Nextdc"]
 trust:
   score: 3

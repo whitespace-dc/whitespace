@@ -69,7 +69,7 @@ date: "2026-07-12"
 source_published: "2026-07-11T03:34:40.000Z"
 category: "power"
 secondary_categories: ["market"]
-region: ["Taiwan", "United States"]
+region: ["Taiwan"]
 vendor: ["Nvidia", "Taipower"]
 trust:
   score: 3

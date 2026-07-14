@@ -65,7 +65,7 @@ body_zh: |
   TeraWulf在Lake Mariner整體建設過程中，已向施耐德電氣與Motivair合計支出2.9億美元。
 date: "2026-06-02T17:04:41.036Z"
 category: "mep"
-region: []
+region: ["United States"]
 vendor: []
 trust:
   score: 4
