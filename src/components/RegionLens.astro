@@ -120,12 +120,6 @@ for (const p of posts) {
         if (visible) shown++;
       }
       if (topStories) topStories.style.display = slug ? 'none' : '';
-      // The edition block and the last-visit rule describe the UNFILTERED feed — hide both
-      // while a place is active. The marker returns only if its script placed it.
-      const edition = document.getElementById('edition');
-      if (edition) edition.style.display = slug ? 'none' : '';
-      const visitMarker = document.querySelector<HTMLElement>('[data-visit-marker]');
-      if (visitMarker) visitMarker.hidden = !!slug || visitMarker.dataset.placed !== '1';
       if (emptyMsg) emptyMsg.hidden = shown !== 0;
       if (countEl) countEl.textContent = slug ? String(shown) : totalCount;
       setLabel(pick);

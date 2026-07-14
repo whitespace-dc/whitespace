@@ -3,7 +3,6 @@ import type { CollectionEntry } from 'astro:content';
 import { regionGroupsFor } from '../data/regions';
 import Bi from './Bi.astro';
 import CategoryTag from './CategoryTag.astro';
-import StoryMarks from './StoryMarks.astro';
 
 // The list/feed card, shared by home (Latest), category, and region pages so the design
 // lives in ONE place. Carries data-category + data-region (group slugs) so the Region
@@ -43,7 +42,6 @@ const dateStr = d.date.toISOString().slice(0, 10);
   </p>
   <footer class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-3">
     <CategoryTag slug={d.category} />
-    <StoryMarks post={post} />
     {showDate && <span class="font-mono tabular-nums text-stone-500">{dateStr}</span>}
   </footer>
 </article>
